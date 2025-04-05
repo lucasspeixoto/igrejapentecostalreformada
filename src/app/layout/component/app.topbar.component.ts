@@ -7,7 +7,6 @@ import { LayoutService } from '../service/layout.service';
 
 @Component({
   selector: 'app-topbar',
-  standalone: true,
   imports: [RouterModule, CommonModule, StyleClassModule],
   template: ` <div class="layout-topbar">
     <div class="layout-topbar-logo-container">
@@ -17,7 +16,7 @@ import { LayoutService } from '../service/layout.service';
         <i class="pi pi-bars"></i>
       </button>
       <a class="layout-topbar-logo" routerLink="/">
-        <img alt="Logo" width="90" height="auto" src="assets/images/logo.png" />
+        <img alt="Logo" src="assets/images/logo.png" />
       </a>
     </div>
 

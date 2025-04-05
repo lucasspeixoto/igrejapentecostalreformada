@@ -9,6 +9,8 @@ import {
   FormGroupDirective,
 } from '@angular/forms';
 import { CustomValidationMessageComponent } from './custom-validation-message';
+import { MessageModule } from 'primeng/message';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CustomValidationMessageComponent', () => {
   let component: CustomValidationMessageComponent;
@@ -25,7 +27,13 @@ describe('CustomValidationMessageComponent', () => {
     formGroupDirective.form = testForm;
 
     TestBed.configureTestingModule({
-      imports: [CustomValidationMessageComponent, FormsModule, ReactiveFormsModule],
+      imports: [
+        CustomValidationMessageComponent,
+        BrowserAnimationsModule,
+        MessageModule,
+        FormsModule,
+        ReactiveFormsModule,
+      ],
       providers: [{ provide: ControlContainer, useValue: formGroupDirective }],
     }).compileComponents();
 

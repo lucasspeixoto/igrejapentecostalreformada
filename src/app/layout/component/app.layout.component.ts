@@ -3,14 +3,13 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 
-import { AppSidebarComponent } from './app.sidebar';
+import { AppSidebarComponent } from './app.sidebar.component';
 import { AppFooterComponent } from './app.footer.component';
 import { LayoutService } from '../service/layout.service';
-import { AppTopbarComponent } from './app.topbar';
+import { AppTopbarComponent } from './app.topbar.component';
 
 @Component({
   selector: 'app-layout',
-  standalone: true,
   imports: [
     CommonModule,
     AppTopbarComponent,

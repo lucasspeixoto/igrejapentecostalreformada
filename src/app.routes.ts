@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AppLayoutComponent } from './app/layout/component/app.layout';
+import { AppLayoutComponent } from './app/layout/component/app.layout.component';
 
 import { isLoggedGuard } from './app/auth/guards/is-logged.guard';
 import { NotfoundComponent } from './app/pages/notfound/notfound';
@@ -9,7 +9,21 @@ export const appRoutes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./app/auth/components/login.component').then(c => c.LoginComponent),
+      import('./app/auth/components/login/login.component').then(c => c.LoginComponent),
+  },
+  {
+    path: 'lembrar-senha',
+    loadComponent: () =>
+      import('./app/auth/components/forgot-password/forgot-password.component').then(
+        c => c.ForgotPasswordComponent
+      ),
+  },
+  {
+    path: 'resetar-senha',
+    loadComponent: () =>
+      import('./app/auth/components/reset-password/reset-password.component').then(
+        c => c.ResetPasswordComponent
+      ),
   },
   {
     path: '',
