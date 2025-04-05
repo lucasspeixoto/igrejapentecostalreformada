@@ -14,4 +14,4 @@ import { Component } from '@angular/core';
     >
   </div>`,
 })
-export class AppFooter {}
+export class AppFooterComponent {}

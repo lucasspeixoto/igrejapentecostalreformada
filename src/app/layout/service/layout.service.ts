@@ -225,6 +225,7 @@ export class LayoutService {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getThemeSemantic(): any {
     return {
       semantic: {

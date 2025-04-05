@@ -120,7 +120,7 @@ import { MenuModule } from 'primeng/menu';
     </ul>
   </div>`,
 })
-export class BestSellingWidget {
+export class BestSellingWidgetComponent {
   menu = null;
 
   items = [
