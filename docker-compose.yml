@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: igrejapentecostalreformada:v1
+    container_name: igrejapentecostalreformada
+    restart: on-failure
+    ports:
+      - 8080:80
