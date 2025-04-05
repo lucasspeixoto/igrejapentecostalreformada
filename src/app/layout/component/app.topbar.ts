@@ -17,7 +17,7 @@ import { LayoutService } from '../service/layout.service';
         <i class="pi pi-bars"></i>
       </button>
       <a class="layout-topbar-logo" routerLink="/">
-        <img width="90" height="auto" src="assets/images/logo.png" />
+        <img alt="Logo" width="90" height="auto" src="assets/images/logo.png" />
       </a>
     </div>
 
@@ -50,7 +50,7 @@ import { LayoutService } from '../service/layout.service';
             <i class="pi pi-user"></i>
             <span>Perfil</span>
           </button>
-          <button routerLink="/" type="button" class="layout-topbar-action">
+          <button routerLink="/login" type="button" class="layout-topbar-action">
             <i class="pi pi-sign-out"></i>
             <span>Sair</span>
           </button>
@@ -59,12 +59,12 @@ import { LayoutService } from '../service/layout.service';
     </div>
   </div>`,
 })
-export class AppTopbar {
+export class AppTopbarComponent {
   public items!: MenuItem[];
 
   constructor(public layoutService: LayoutService) {}
 
-  public toggleDarkMode() {
+  public toggleDarkMode(): void {
     this.layoutService.layoutConfig.update(state => ({ ...state, darkTheme: !state.darkTheme }));
   }
 }

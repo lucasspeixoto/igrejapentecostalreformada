@@ -21,7 +21,7 @@ import { ButtonModule } from 'primeng/button';
             Requested resource is not available.
           </div>
           <a
-            routerLink="/"
+            routerLink="/login"
             class="w-full flex items-center py-8 border-surface-300 dark:border-surface-500 border-b">
             <span
               class="flex justify-center items-center border-2 border-primary text-primary rounded-border"
@@ -38,7 +38,7 @@ import { ButtonModule } from 'primeng/button';
             </span>
           </a>
           <a
-            routerLink="/"
+            routerLink="/login"
             class="w-full flex items-center py-8 border-surface-300 dark:border-surface-500 border-b">
             <span
               class="flex justify-center items-center border-2 border-primary text-primary rounded-border"
@@ -55,7 +55,7 @@ import { ButtonModule } from 'primeng/button';
             </span>
           </a>
           <a
-            routerLink="/"
+            routerLink="/login"
             class="w-full flex items-center mb-8 py-8 border-surface-300 dark:border-surface-500 border-b">
             <span
               class="flex justify-center items-center border-2 border-primary text-primary rounded-border"
@@ -71,10 +71,10 @@ import { ButtonModule } from 'primeng/button';
               >
             </span>
           </a>
-          <p-button label="Voltar" routerLink="/plataformaipr" />
+          <p-button label="Voltar" routerLink="/login" />
         </div>
       </div>
     </div>
   </div>`,
 })
-export class Notfound {}
+export class NotfoundComponent {}

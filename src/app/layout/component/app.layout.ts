@@ -1,16 +1,17 @@
-import { Component, Renderer2, ViewChild } from '@angular/core';
+import { Component, Renderer2, ViewChild, type OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { AppTopbar } from './app.topbar';
-import { AppSidebar } from './app.sidebar';
+
+import { AppSidebarComponent } from './app.sidebar';
 import { AppFooter } from './app.footer';
 import { LayoutService } from '../service/layout.service';
+import { AppTopbarComponent } from './app.topbar';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppFooter],
+  imports: [CommonModule, AppTopbarComponent, AppSidebarComponent, RouterModule, AppFooter],
   template: `<div class="layout-wrapper" [ngClass]="containerClass">
     <app-topbar></app-topbar>
     <app-sidebar></app-sidebar>
@@ -23,14 +24,15 @@ import { LayoutService } from '../service/layout.service';
     <div class="layout-mask animate-fadein"></div>
   </div> `,
 })
-export class AppLayout {
-  overlayMenuOpenSubscription: Subscription;
+export class AppLayoutComponent implements OnDestroy {
+  public overlayMenuOpenSubscription: Subscription;
 
-  menuOutsideClickListener: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public menuOutsideClickListener!: any;
 
-  @ViewChild(AppSidebar) appSidebar!: AppSidebar;
+  @ViewChild(AppSidebarComponent) appSidebar!: AppSidebarComponent;
 
-  @ViewChild(AppTopbar) appTopBar!: AppTopbar;
+  @ViewChild(AppTopbarComponent) appTopBar!: AppTopbarComponent;
 
   constructor(
     public layoutService: LayoutService,
@@ -56,7 +58,7 @@ export class AppLayout {
     });
   }
 
-  isOutsideClicked(event: MouseEvent) {
+  public isOutsideClicked(event: MouseEvent): boolean {
     const sidebarEl = document.querySelector('.layout-sidebar');
     const topbarEl = document.querySelector('.layout-menu-button');
     const eventTarget = event.target as Node;
@@ -69,7 +71,7 @@ export class AppLayout {
     );
   }
 
-  hideMenu() {
+  public hideMenu(): void {
     this.layoutService.layoutState.update(prev => ({
       ...prev,
       overlayMenuActive: false,
@@ -102,7 +104,7 @@ export class AppLayout {
     }
   }
 
-  get containerClass() {
+  get containerClass(): object {
     return {
       'layout-overlay': this.layoutService.layoutConfig().menuMode === 'overlay',
       'layout-static': this.layoutService.layoutConfig().menuMode === 'static',
@@ -114,7 +116,7 @@ export class AppLayout {
     };
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.overlayMenuOpenSubscription) {
       this.overlayMenuOpenSubscription.unsubscribe();
     }
