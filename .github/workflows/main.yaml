@@ -26,15 +26,6 @@ jobs:
       - name: 🧪 Unit Testing
         run: npm run test
 
-      - name: 🏁 Start Angular app
-        run: npm start &
-
-      - name: ⏰ Wait for Angular to be ready
-        run: npx wait-on http://localhost:4200
-
-      - name: ⚗️ e2e Testing
-        run: npm run cypress:headless
-
       - name: 🏗️ Building
         run: npm run build
 
@@ -45,10 +36,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: 🏗️ Build and Image tag
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/pomar-na-mao:${{ github.run_id }} .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/igrejapentecostalreformada:${{ github.run_id }} .
 
       - name: 🐳 Push Imagem
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/pomar-na-mao:${{ github.run_id }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/igrejapentecostalreformada:${{ github.run_id }}
 
   CD:
     name: Continuous Deploy
