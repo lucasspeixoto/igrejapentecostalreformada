@@ -1,5 +1,15 @@
 import { Injectable } from '@angular/core';
 
+interface Order {
+  id: string;
+  productCode: string;
+  date: string;
+  amount: number;
+  quantity: number;
+  customer: string;
+  status: string;
+}
+
 export interface Product {
   id?: string;
   code?: string;
@@ -11,6 +21,7 @@ export interface Product {
   category?: string;
   image?: string;
   rating?: number;
+  orders?: Order[];
 }
 
 @Injectable()
