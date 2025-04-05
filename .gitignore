@@ -1,10 +1,19 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# Envs
+.env
+src/assets/env.js
+
+#cache
+./angular
+.angular
+
 # Compiled output
 /dist
 /tmp
 /out-tsc
 /bazel-out
+
 
 # Node
 /node_modules
@@ -36,7 +45,6 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-.vscode
 
 # System files
 .DS_Store
