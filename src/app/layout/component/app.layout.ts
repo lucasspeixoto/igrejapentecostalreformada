@@ -4,14 +4,20 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 
 import { AppSidebarComponent } from './app.sidebar';
-import { AppFooter } from './app.footer';
+import { AppFooterComponent } from './app.footer.component';
 import { LayoutService } from '../service/layout.service';
 import { AppTopbarComponent } from './app.topbar';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, AppTopbarComponent, AppSidebarComponent, RouterModule, AppFooter],
+  imports: [
+    CommonModule,
+    AppTopbarComponent,
+    AppSidebarComponent,
+    RouterModule,
+    AppFooterComponent,
+  ],
   template: `<div class="layout-wrapper" [ngClass]="containerClass">
     <app-topbar></app-topbar>
     <app-sidebar></app-sidebar>

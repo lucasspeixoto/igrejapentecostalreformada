@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Component, type OnDestroy, type OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../layout/service/layout.service';
@@ -12,7 +13,7 @@ import { LayoutService } from '../../../layout/service/layout.service';
     <p-chart type="bar" [data]="chartData" [options]="chartOptions" class="h-80" />
   </div>`,
 })
-export class RevenueStreamWidget {
+export class RevenueStreamWidgetComponent implements OnInit, OnDestroy {
   chartData: any;
 
   chartOptions: any;
@@ -25,11 +26,11 @@ export class RevenueStreamWidget {
     });
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.initChart();
   }
 
-  initChart() {
+  public initChart(): void {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const borderColor = documentStyle.getPropertyValue('--surface-border');
@@ -105,7 +106,7 @@ export class RevenueStreamWidget {
     };
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
