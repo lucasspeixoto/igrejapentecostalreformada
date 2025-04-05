@@ -92,4 +92,6 @@ export class LoginComponent {
   password: string = '';
 
   checked: boolean = false;
+
+  public test() {}
 }

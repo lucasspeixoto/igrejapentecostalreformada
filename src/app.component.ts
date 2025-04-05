@@ -10,11 +10,11 @@ import { isPlatformBrowser } from '@angular/common';
   template: `<router-outlet></router-outlet>`,
 })
 export class AppComponent implements OnInit {
-  private layoutService = inject(LayoutService);
+  public layoutService = inject(LayoutService);
 
   private platformId = inject(PLATFORM_ID);
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.layoutService.startAppConfig();
     }

@@ -110,7 +110,7 @@ export class LayoutService {
 
   private configUpdate = new Subject<layoutConfig>();
 
-  private overlayOpen = new Subject<any>();
+  private overlayOpen = new Subject();
 
   private menuSource = new Subject<MenuChangeEvent>();
 
@@ -160,7 +160,7 @@ export class LayoutService {
   }
 
   private handleDarkModeTransition(config: layoutConfig): void {
-    if ((document as any).startViewTransition) {
+    if ((document as Document).startViewTransition) {
       this.startViewTransition(config);
     } else {
       this.toggleDarkMode(config);
@@ -169,7 +169,7 @@ export class LayoutService {
   }
 
   private startViewTransition(config: layoutConfig): void {
-    const transition = (document as any).startViewTransition(() => {
+    const transition = (document as Document).startViewTransition(() => {
       this.toggleDarkMode(config);
     });
 
@@ -189,14 +189,14 @@ export class LayoutService {
     }
   }
 
-  private onTransitionEnd() {
+  private onTransitionEnd(): void {
     this.transitionComplete.set(true);
     setTimeout(() => {
       this.transitionComplete.set(false);
     });
   }
 
-  public onMenuToggle() {
+  public onMenuToggle(): void {
     if (this.isOverlay()) {
       this.layoutState.update(prev => ({
         ...prev,
@@ -225,7 +225,7 @@ export class LayoutService {
     }
   }
 
-  public getThemeSemantic() {
+  public getThemeSemantic(): any {
     return {
       semantic: {
         primary: this.amberSurfaceType.palette,
@@ -263,7 +263,7 @@ export class LayoutService {
     };
   }
 
-  public startAppConfig() {
+  public startAppConfig(): void {
     this.layoutConfig.update(state => ({ ...state, preset: 'Lara' }));
 
     $t()
@@ -273,24 +273,24 @@ export class LayoutService {
       .use({ useDefaultOptions: true });
   }
 
-  public isDesktop() {
+  public isDesktop(): boolean {
     return window.innerWidth > 991;
   }
 
-  public isMobile() {
+  public isMobile(): boolean {
     return !this.isDesktop();
   }
 
-  public onConfigUpdate() {
+  public onConfigUpdate(): void {
     this._config = { ...this.layoutConfig() };
     this.configUpdate.next(this.layoutConfig());
   }
 
-  public onMenuStateChange(event: MenuChangeEvent) {
+  public onMenuStateChange(event: MenuChangeEvent): void {
     this.menuSource.next(event);
   }
 
-  public reset() {
+  public reset(): void {
     this.resetSource.next(true);
   }
 }
