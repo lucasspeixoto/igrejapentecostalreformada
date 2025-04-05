@@ -1,29 +1,53 @@
 import { Component, Input, inject } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup } from '@angular/forms';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-custom-validation-message',
+  imports: [MessageModule],
   template: `
     @if (control && control.invalid && control.dirty) {
       <ul id="messages">
         @if (control.hasError('required')) {
-          <li id="required" class="error-message">&#9888; Este Campo é obrigatório!</li>
+          <p-message
+            severity="error"
+            variant="simple"
+            id="required"
+            class="mt-[3px] flex items-start">
+            Este Campo é obrigatório!
+          </p-message>
         }
         @if (control.hasError('email')) {
-          <li id="email" class="error-message">&#9888; Endereço de E-mail inválido!</li>
+          <p-message severity="error" variant="simple" id="email" class="mt-[3px] flex items-start">
+            Endereço de E-mail inválido!
+          </p-message>
         }
         @if (control.hasError('minlength') && minLength) {
-          <li id="minLength" class="error-message">
-            &#9888; Este campo deve ter ao menos {{ minLength }} caracteres!
-          </li>
+          <p-message
+            severity="error"
+            variant="simple"
+            id="minLength"
+            class="mt-[3px] flex items-start">
+            Este campo deve ter ao menos {{ minLength }} caracteres!
+          </p-message>
         }
         @if (control.hasError('maxlength') && maxLength) {
-          <li id="maxLength" class="error-message">
-            &#9888; Este campo deve ter no máximo {{ maxLength }} caracteres!
-          </li>
+          <p-message
+            severity="error"
+            variant="simple"
+            id="maxLength"
+            class="mt-[3px] flex items-start">
+            Este campo deve ter no máximo {{ maxLength }} caracteres!
+          </p-message>
         }
         @if (control.hasError('pattern')) {
-          <li id="pattern" class="error-message">&#9888; Padrão inválido!</li>
+          <p-message
+            severity="error"
+            variant="simple"
+            id="pattern"
+            class="mt-[3px] flex items-start">
+            Padrão inválido!
+          </p-message>
         }
       </ul>
     }
@@ -33,14 +57,6 @@ import { ControlContainer, FormControl, FormGroup } from '@angular/forms';
       ul {
         padding: 0;
         margin: 0;
-      }
-
-      .error-message {
-        color: red;
-        font-size: 14px;
-        margin-top: 3px;
-        display: flex;
-        align-items: start;
       }
     `,
   ],

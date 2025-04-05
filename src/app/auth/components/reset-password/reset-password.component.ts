@@ -6,16 +6,19 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { messages } from 'src/app/utils/messages';
-import { createLoginForm, type LoginFormValue } from '../constants/login-form';
-import { AuthenticationService } from '../services/authentication.service';
-import { LoadingService } from 'src/app/services/loading/loading.service';
+import { messages } from '../../../utils/messages';
+import { AuthenticationService } from '../../services/authentication.service';
+import { LoadingService } from '../../../services/loading/loading.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { CustomValidationMessageComponent } from 'src/app/components/custom-validation-message/custom-validation-message';
+import { CustomValidationMessageComponent } from '../../../components/custom-validation-message/custom-validation-message';
+import {
+  createResetPasswordForm,
+  ResetPasswordFormValue,
+} from '../../constants/reset-password-form';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-reset-password',
   imports: [
     ToastModule,
     ButtonModule,
@@ -31,38 +34,21 @@ import { CustomValidationMessageComponent } from 'src/app/components/custom-vali
   template: `
     <p-toast />
     <div
-      class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
+      class="container bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
       <div class="flex flex-col items-center justify-center">
         <div
           style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
           <div
-            class="w-full bg-surface-0 dark:bg-surface-900 py-20 px-8 sm:px-20"
+            class="w-full sm:min-w-[450px] bg-surface-0 dark:bg-surface-900 py-20 px-4 sm:px-20"
             style="border-radius: 53px">
             <div class="text-center mb-8">
               <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">
                 Bem vindo a IPR
               </div>
-              <span class="text-muted-color font-medium">Faça login para continuar</span>
+              <span class="text-muted-color font-medium">Gerar nova Senha</span>
             </div>
 
-            <form [formGroup]="loginForm">
-              <div class="my-4">
-                <label
-                  for="emailField"
-                  class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2"
-                  >Email</label
-                >
-                <input
-                  pInputText
-                  id="emailField"
-                  type="text"
-                  placeholder="Endereço de Email"
-                  class="w-full md:w-[30rem] mb-2"
-                  formControlName="email" />
-
-                <app-custom-validation-message id="emailErrorMessage" controlName="email" />
-              </div>
-
+            <form [formGroup]="resetPasswordForm">
               <!-- Password -->
               <div class="my-4">
                 <label
@@ -85,21 +71,17 @@ import { CustomValidationMessageComponent } from 'src/app/components/custom-vali
                   [minLength]="3" />
               </div>
 
-              <div class="flex items-center justify-between mt-2 mb-8 gap-8">
-                <div class="flex items-center">
-                  <p-checkbox id="remembermeId" binary class="mr-2"></p-checkbox>
-                  <label for="remembermeId">Lembrar</label>
-                </div>
+              <div class="flex items-center justify-end mt-2 mb-8 gap-8">
                 <span
-                  routerLink="/auth/lembrar-senha"
-                  class="font-medium no-underline ml-2 text-right cursor-pointer text-primary"
-                  >Esqueceu a senha?</span
+                  routerLink="/login"
+                  class="font-medium hover:underline no-underline ml-2 text-right cursor-pointer text-primary"
+                  >Login</span
                 >
               </div>
               <p-button
-                (click)="loginHandler()"
-                id="loginButton"
-                label="Entrar"
+                (click)="resetPasswordHandler()"
+                id="resetPasswordButton"
+                label="Gerar"
                 styleClass="w-full"></p-button>
             </form>
           </div>
@@ -107,8 +89,9 @@ import { CustomValidationMessageComponent } from 'src/app/components/custom-vali
       </div>
     </div>
   `,
+  styleUrls: ['./reset-password.component.scss'],
 })
-export class LoginComponent {
+export class ResetPasswordComponent {
   public router = inject(Router);
 
   public authenticationService = inject(AuthenticationService);
@@ -117,14 +100,12 @@ export class LoginComponent {
 
   public messageService = inject(MessageService);
 
-  public loginForm = createLoginForm();
+  public resetPasswordForm = createResetPasswordForm();
 
   public messages = messages;
 
-  public async loginHandler(): Promise<void> {
-    this.loadingService.isLoading.set(true);
-
-    if (!this.loginForm.valid) {
+  public async resetPasswordHandler(): Promise<void> {
+    if (!this.resetPasswordForm.valid) {
       this.messageService.add({
         severity: 'info',
         summary: 'Info',
@@ -132,17 +113,13 @@ export class LoginComponent {
         life: 3000,
       });
 
-      this.loadingService.isLoading.set(false);
-
       return;
     }
 
-    const { email, password } = this.loginForm.value as LoginFormValue;
+    const { password } = this.resetPasswordForm.value as ResetPasswordFormValue;
 
-    this.authenticationService.loginUserHandler(email, password);
+    this.authenticationService.resetPasswordHandler(password);
 
-    this.loginForm.reset();
-
-    this.loadingService.isLoading.set(false);
+    this.resetPasswordForm.reset();
   }
 }

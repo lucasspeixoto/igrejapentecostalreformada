@@ -4,13 +4,16 @@ import { LayoutService } from './app/layout/service/layout.service';
 import { isPlatformBrowser } from '@angular/common';
 import { LoadingComponent } from './app/pages/loading/loading.component';
 import { LoadingService } from './app/services/loading/loading.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterModule, LoadingComponent],
-  template: `<router-outlet></router-outlet>
-    <app-loading [isLoading]="loadingService.isLoading()" />`,
+  imports: [RouterModule, LoadingComponent, ToastModule],
+  template: `<div>
+    <p-toast />
+    <router-outlet />
+    <app-loading [isLoading]="loadingService.isLoading()" />
+  </div>`,
 })
 export class AppComponent implements OnInit {
   public layoutService = inject(LayoutService);

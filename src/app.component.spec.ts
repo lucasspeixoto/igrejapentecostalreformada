@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { LayoutService } from './app/layout/service/layout.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -18,6 +20,8 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
+        ToastModule,
+        MessageService,
         provideAnimationsAsync(),
         providePrimeNG(),
         { provide: LayoutService, useValue: layoutServiceMock },
