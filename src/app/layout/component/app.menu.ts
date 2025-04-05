@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
@@ -15,41 +15,90 @@ import { AppMenuitem } from './app.menuitem';
     </ng-container>
   </ul> `,
 })
-export class AppMenu {
-  model: MenuItem[] = [];
+export class AppMenu implements OnInit {
+  public model: MenuItem[] = [];
 
-  ngOnInit() {
+  public ngOnInit() {
     this.model = [
       {
         label: 'Home',
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }],
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/plataformaipr'] }],
       },
       {
         label: 'UI Components',
         items: [
-          { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
-          { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
+          {
+            label: 'Crud',
+            icon: 'pi pi-fw pi-pencil',
+            routerLink: ['/plataformaipr/servicos/crud'],
+          },
+          {
+            label: 'Form Layout',
+            icon: 'pi pi-fw pi-id-card',
+            routerLink: ['/plataformaipr/servicos/formlayout'],
+          },
+          {
+            label: 'Input',
+            icon: 'pi pi-fw pi-check-square',
+            routerLink: ['/plataformaipr/servicos/input'],
+          },
           {
             label: 'Button',
             icon: 'pi pi-fw pi-mobile',
             class: 'rotated-icon',
-            routerLink: ['/uikit/button'],
+            routerLink: ['/plataformaipr/servicos/button'],
           },
-          { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table'] },
-          { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/uikit/list'] },
-          { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/uikit/tree'] },
-          { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/uikit/panel'] },
-          { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/uikit/overlay'] },
-          { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/uikit/media'] },
-          { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/uikit/menu'] },
-          { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
-          { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file'] },
-          { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
-          { label: 'Timeline', icon: 'pi pi-fw pi-calendar', routerLink: ['/uikit/timeline'] },
-          { label: 'Misc', icon: 'pi pi-fw pi-circle', routerLink: ['/uikit/misc'] },
+          {
+            label: 'Table',
+            icon: 'pi pi-fw pi-table',
+            routerLink: ['/plataformaipr/servicos/table'],
+          },
+          { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/plataformaipr/servicos/list'] },
+          {
+            label: 'Tree',
+            icon: 'pi pi-fw pi-share-alt',
+            routerLink: ['/plataformaipr/servicos/tree'],
+          },
+          {
+            label: 'Panel',
+            icon: 'pi pi-fw pi-tablet',
+            routerLink: ['/plataformaipr/servicos/panel'],
+          },
+          {
+            label: 'Overlay',
+            icon: 'pi pi-fw pi-clone',
+            routerLink: ['/plataformaipr/servicos/overlay'],
+          },
+          {
+            label: 'Media',
+            icon: 'pi pi-fw pi-image',
+            routerLink: ['/plataformaipr/servicos/media'],
+          },
+          { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/plataformaipr/servicos/menu'] },
+          {
+            label: 'Message',
+            icon: 'pi pi-fw pi-comment',
+            routerLink: ['/plataformaipr/servicos/message'],
+          },
+          { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/plataformaipr/servicos/file'] },
+          {
+            label: 'Chart',
+            icon: 'pi pi-fw pi-chart-bar',
+            routerLink: ['/plataformaipr/servicos/charts'],
+          },
+          {
+            label: 'Timeline',
+            icon: 'pi pi-fw pi-calendar',
+            routerLink: ['/plataformaipr/servicos/timeline'],
+          },
+          {
+            label: 'Misc',
+            icon: 'pi pi-fw pi-circle',
+            routerLink: ['/plataformaipr/servicos/misc'],
+          },
         ],
       },
-      {
+      /* {
         label: 'Pages',
         icon: 'pi pi-fw pi-briefcase',
         routerLink: ['/pages'],
@@ -156,7 +205,7 @@ export class AppMenu {
             target: '_blank',
           },
         ],
-      },
+      }, */
     ];
   }
 }

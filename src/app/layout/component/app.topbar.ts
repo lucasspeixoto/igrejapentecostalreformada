@@ -3,13 +3,12 @@ import { MenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
-import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator],
+  imports: [RouterModule, CommonModule, StyleClassModule],
   template: ` <div class="layout-topbar">
     <div class="layout-topbar-logo-container">
       <button
@@ -32,19 +31,6 @@ import { LayoutService } from '../service/layout.service';
               'pi-sun': !layoutService.isDarkTheme(),
             }"></i>
         </button>
-        <div class="relative">
-          <button
-            class="layout-topbar-action layout-topbar-action-highlight"
-            pStyleClass="@next"
-            enterFromClass="hidden"
-            enterActiveClass="animate-scalein"
-            leaveToClass="hidden"
-            leaveActiveClass="animate-fadeout"
-            [hideOnOutsideClick]="true">
-            <i class="pi pi-palette"></i>
-          </button>
-          <app-configurator />
-        </div>
       </div>
 
       <button
@@ -64,17 +50,21 @@ import { LayoutService } from '../service/layout.service';
             <i class="pi pi-user"></i>
             <span>Perfil</span>
           </button>
+          <button routerLink="/" type="button" class="layout-topbar-action">
+            <i class="pi pi-sign-out"></i>
+            <span>Sair</span>
+          </button>
         </div>
       </div>
     </div>
   </div>`,
 })
 export class AppTopbar {
-  items!: MenuItem[];
+  public items!: MenuItem[];
 
   constructor(public layoutService: LayoutService) {}
 
-  toggleDarkMode() {
+  public toggleDarkMode() {
     this.layoutService.layoutConfig.update(state => ({ ...state, darkTheme: !state.darkTheme }));
   }
 }
