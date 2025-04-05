@@ -143,8 +143,6 @@ export class LoginComponent {
 
     this.loginForm.reset();
 
-    setTimeout(() => {
-      this.loadingService.isLoading.set(false);
-    }, 4000);
+    this.loadingService.isLoading.set(false);
   }
 }

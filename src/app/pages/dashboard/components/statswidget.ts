@@ -74,4 +74,4 @@ import { CommonModule } from '@angular/common';
       </div>
     </div>`,
 })
-export class StatsWidget {}
+export class StatsWidgetComponent {}

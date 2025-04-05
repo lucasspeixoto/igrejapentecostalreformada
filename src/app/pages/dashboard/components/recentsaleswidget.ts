@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -45,12 +45,12 @@ import { Product, ProductService } from '../../service/product.service';
   </div>`,
   providers: [ProductService],
 })
-export class RecentSalesWidget {
+export class RecentSalesWidgetComponent implements OnInit {
   products!: Product[];
 
   constructor(private productService: ProductService) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.productService.getProductsSmall().then(data => (this.products = data));
   }
 }

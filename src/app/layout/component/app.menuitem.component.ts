@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, type OnDestroy, type OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
@@ -89,7 +89,7 @@ import { LayoutService } from '../service/layout.service';
   ],
   providers: [LayoutService],
 })
-export class AppMenuitem {
+export class AppMenuitemComponent implements OnInit, OnDestroy {
   @Input() item!: MenuItem;
 
   @Input() index!: number;
@@ -127,14 +127,14 @@ export class AppMenuitem {
       this.active = false;
     });
 
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(params => {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       if (this.item.routerLink) {
         this.updateActiveStateFromRoute();
       }
     });
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.key = this.parentKey ? this.parentKey + '-' + this.index : String(this.index);
 
     if (this.item.routerLink) {
@@ -142,8 +142,8 @@ export class AppMenuitem {
     }
   }
 
-  updateActiveStateFromRoute() {
-    let activeRoute = this.router.isActive(this.item.routerLink[0], {
+  public updateActiveStateFromRoute(): void {
+    const activeRoute = this.router.isActive(this.item.routerLink[0], {
       paths: 'exact',
       queryParams: 'ignored',
       matrixParams: 'ignored',
@@ -155,7 +155,7 @@ export class AppMenuitem {
     }
   }
 
-  itemClick(event: Event) {
+  public itemClick(event: Event): void {
     // avoid processing disabled items
     if (this.item.disabled) {
       event.preventDefault();
@@ -175,16 +175,16 @@ export class AppMenuitem {
     this.layoutService.onMenuStateChange({ key: this.key });
   }
 
-  get submenuAnimation() {
+  get submenuAnimation(): string {
     return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
   }
 
   @HostBinding('class.active-menuitem')
-  get activeClass() {
+  get activeClass(): boolean {
     return this.active && !this.root;
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.menuSourceSubscription) {
       this.menuSourceSubscription.unsubscribe();
     }
