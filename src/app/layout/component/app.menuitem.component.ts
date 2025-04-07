@@ -1,5 +1,5 @@
 import { Component, HostBinding, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -92,6 +92,8 @@ import { LayoutService } from '../service/layout.service';
 export class AppMenuitemComponent implements OnInit, OnDestroy {
   public router = inject(Router);
 
+  public route = inject(ActivatedRoute);
+
   private layoutService = inject(LayoutService);
 
   @Input() item!: MenuItem;
@@ -136,6 +138,8 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.active = this.checkRouterHasChildren() ? true : false;
+
     this.key = this.parentKey ? this.parentKey + '-' + this.index : String(this.index);
 
     if (this.item.routerLink) {
@@ -193,5 +197,9 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     if (this.menuResetSubscription) {
       this.menuResetSubscription.unsubscribe();
     }
+  }
+
+  public checkRouterHasChildren(): boolean {
+    return this.router.url.split('/').length >= 4 ? true : false;
   }
 }
