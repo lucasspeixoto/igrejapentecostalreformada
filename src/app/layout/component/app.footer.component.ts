@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-footer',
   template: `<div class="layout-footer">
-    Igreja Pentecostal Reformada
+    <span class="light:text-black">Igreja Pentecostal Reformada</span>
     <a
       href="https://www.igrejapentecostalreformada.com.br/"
       target="_blank"

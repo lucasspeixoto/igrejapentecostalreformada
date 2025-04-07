@@ -35,8 +35,9 @@ import {
     <p-toast />
     <div
       class="container bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
-      <div class="flex flex-col items-center justify-center">
+      <div class="w-full flex flex-col items-center justify-center">
         <div
+          class="w-[90%] sm:w-[400px]"
           style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
           <div
             class="w-full sm:min-w-[450px] bg-surface-0 dark:bg-surface-900 py-20 px-4 sm:px-20"
