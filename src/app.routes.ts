@@ -29,7 +29,7 @@ export const appRoutes: Routes = [
     path: '',
     component: AppLayoutComponent,
     canActivate: [isLoggedGuard],
-    children: [{ path: 'modules', loadChildren: () => import('./app/features/features.routes') }],
+    children: [{ path: 'inicio', loadChildren: () => import('./app/features/features.routes') }],
   },
   { path: 'notfound', component: NotfoundComponent },
   { path: '**', redirectTo: '/notfound' },

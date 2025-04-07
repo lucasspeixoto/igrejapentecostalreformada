@@ -93,7 +93,7 @@ describe('AuthenticationService', () => {
       // Assert
       expect(loadUserDataSpy).toHaveBeenCalled();
       //expect(service.isLoading()).toBe(false);
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/modules/dashboard');
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/inicio/resumos');
     });
 
     it('should set loading state during login process', async () => {

@@ -1,0 +1,267 @@
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button
+      label="Novo"
+      icon="pi pi-plus"
+      severity="primary"
+      class="mr-2"
+      (onClick)="openInsertMember()" />
+    <p-button
+      severity="danger"
+      label="Excluir"
+      icon="pi pi-trash"
+      (onClick)="deleteSelectedMembers()"
+      [disabled]="!selectedMembers || !selectedMembers.length" />
+  </ng-template>
+
+  <ng-template #end>
+    <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="exportCSV()" />
+  </ng-template>
+</p-toolbar>
+
+<p-table
+  #dt
+  [value]="membersService.members()"
+  [rows]="10"
+  [columns]="columns"
+  [paginator]="true"
+  [globalFilterFields]="['number', 'name']"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  [(selection)]="selectedMembers"
+  [scrollable]="true"
+  [rowHover]="true"
+  dataKey="number"
+  currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} membros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 50, 100]">
+  <ng-template #caption>
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <h5 class="m-0">Notas ({{ membersService.totalOfMembers() }})</h5>
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          class="w-full sm:w-auto"
+          pInputText
+          type="text"
+          (input)="onGlobalFilter(dt, $event)"
+          placeholder="Pesquisar..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox />
+      </th>
+      <th pSortableColumn="number" style="min-width: 10rem">
+        Número
+        <p-sortIcon field="number" />
+      </th>
+      <th pSortableColumn="name" pFrozenColumn style="min-width: 16rem">
+        Name
+        <p-sortIcon field="name" />
+      </th>
+      <th style="min-width: 8rem">Aniversário</th>
+      <th style="min-width: 10rem">RG</th>
+      <th style="min-width: 12rem">CPF</th>
+      <th style="min-width: 36rem">Endereço</th>
+      <th style="min-width: 12rem">Última igreja</th>
+      <th style="min-width: 12rem">Data Batismo</th>
+      <th style="min-width: 12rem">Igreja Batismo</th>
+      <th style="min-width: 12rem">Naturalidade</th>
+      <th style="min-width: 12rem">Celular</th>
+      <th style="min-width: 12rem">Telefone</th>
+      <th style="min-width: 8rem">Estado Civil</th>
+      <th style="min-width: 14rem">Email</th>
+      <th style="min-width: 12rem"></th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-member>
+    <tr>
+      <td style="width: 3rem">
+        <p-tableCheckbox [value]="member" />
+      </td>
+      <td>{{ member.number }}</td>
+      <td pFrozenColumn style="min-width: 18rem">{{ member.name }}</td>
+      <td>{{ member.birthday }}</td>
+      <td>{{ member.rg }}</td>
+      <td>{{ member.cpf }}</td>
+      <td style="min-width: 22rem">{{ member.address }}</td>
+      <td>{{ member.previous_church }}</td>
+      <td>{{ member.baptism_date }}</td>
+      <td>{{ member.baptism_church }}</td>
+      <td>{{ member.naturality }}</td>
+      <td>{{ member.cellphone }}</td>
+      <td>{{ member.tellphone }}</td>
+      <td>{{ member.marital_status }}</td>
+      <td>{{ member.email }}</td>
+      <td>
+        <p-button
+          icon="pi pi-pencil"
+          class="mr-2"
+          [rounded]="true"
+          [outlined]="true"
+          (click)="openUpdateMember(member)" />
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          [rounded]="true"
+          [outlined]="true"
+          (click)="openDeleteMember(member)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog
+  [(visible)]="memberDialog"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  [maximizable]="true"
+  [header]="modalTitle()"
+  [modal]="true">
+  <ng-template #content>
+    <p-toast />
+    <form [formGroup]="memberForm">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="my-2">
+          <label for="name" class="block font-bold mb-3">Nome</label>
+          <input
+            class="w-full"
+            type="text"
+            formControlName="name"
+            pInputText
+            id="name"
+            required
+            fluid />
+          <app-custom-validation-message id="nameErrorMessage" controlName="name" [minLength]="3" />
+        </div>
+
+        <div class="my-2">
+          <label for="birthday" class="font-bold block mb-3">Aniversário</label>
+          <p-datepicker
+            appendTo="body"
+            formControlName="birthday"
+            [showIcon]="true"
+            inputId="birthday"
+            dateFormat="yy-mm-dd"
+            [showOnFocus]="false" />
+        </div>
+
+        <div class="my-2">
+          <label for="rg" class="block font-bold mb-3">RG</label>
+          <input class="w-full" type="text" formControlName="rg" pInputText id="rg" fluid />
+          <app-custom-validation-message id="rgErrorMessage" controlName="rg" />
+        </div>
+
+        <div class="my-2">
+          <label for="cpf" class="block font-bold mb-3">CPF</label>
+          <input class="w-full" type="text" formControlName="cpf" pInputText id="cpf" fluid />
+          <app-custom-validation-message id="cpfErrorMessage" controlName="cpf" [minLength]="3" />
+        </div>
+
+        <div class="my-2">
+          <label for="address" class="block font-bold mb-3">Endereço</label>
+          <input
+            class="w-full"
+            type="text"
+            formControlName="address"
+            pInputText
+            id="address"
+            fluid />
+          <app-custom-validation-message
+            id="addressErrorMessage"
+            controlName="address"
+            [minLength]="3" />
+        </div>
+
+        <div class="my-2">
+          <label for="baptismDate" class="block font-bold mb-3">Data batismo</label>
+          <p-datepicker
+            appendTo="body"
+            formControlName="baptismDate"
+            [showIcon]="true"
+            inputId="baptismDate"
+            dateFormat="yy-mm-dd"
+            [showOnFocus]="false" />
+        </div>
+
+        <div class="my-2 w-full">
+          <label for="previousChurch" class="font-bold block mb-3">Última igreja</label>
+          <input
+            class="w-full"
+            type="text"
+            formControlName="previousChurch"
+            pInputText
+            id="previousChurch" />
+        </div>
+
+        <div class="my-2">
+          <label for="baptismChurch" class="block font-bold mb-3">Igreja batismo</label>
+          <input
+            class="w-full"
+            type="text"
+            formControlName="baptismChurch"
+            pInputText
+            id="baptismChurch" />
+        </div>
+
+        <div class="my-2">
+          <label for="naturality" class="font-bold block mb-3"> Naturalidade </label>
+          <input
+            class="w-full"
+            type="text"
+            formControlName="naturality"
+            pInputText
+            id="naturality" />
+        </div>
+
+        <div class="my-2">
+          <label for="cellphone" class="block font-bold mb-3">Celular</label>
+          <p-inputmask
+            class="w-full"
+            mask="(99) 9 9999-9999"
+            formControlName="cellphone"
+            placeholder="(99) 9 9999-9999" />
+        </div>
+
+        <div class="my-2">
+          <label for="tellphone" class="block font-bold mb-3">Telefone</label>
+          <p-inputmask
+            class="w-full"
+            mask="(99) 9999-9999"
+            formControlName="tellphone"
+            placeholder="(99) 9999-9999" />
+        </div>
+
+        <div class="my-2">
+          <label for="maritalStatus" class="block font-bold mb-3">Estado Civil</label>
+          <p-select
+            scrollHeight="300px"
+            class="w-full"
+            formControlName="maritalStatus"
+            [options]="maritalStatus"
+            placeholder="Selecione Estado civil" />
+          <app-custom-validation-message
+            id="maritalStatusErrorMessage"
+            controlName="maritalStatus" />
+        </div>
+
+        <div class="my-2">
+          <label for="email" class="block font-bold mb-3">Email</label>
+          <input class="w-full" type="text" formControlName="email" pInputText id="email" />
+          <app-custom-validation-message id="emailErrorMessage" controlName="email" />
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+    <p-button label="Salvar" icon="pi pi-check" (click)="saveMemberHandler()" />
+  </ng-template>
+</p-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />
