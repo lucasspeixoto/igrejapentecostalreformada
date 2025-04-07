@@ -177,7 +177,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
   }
 
   get submenuAnimation(): string {
-    return 'expanded'; //this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
+    return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
   }
 
   @HostBinding('class.active-menuitem')
