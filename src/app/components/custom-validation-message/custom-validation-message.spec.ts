@@ -71,20 +71,20 @@ describe('CustomValidationMessageComponent', () => {
   it('should show required error message', () => {
     component.control.setValidators([Validators.required]);
     component.control.updateValueAndValidity();
-    component.control.markAsDirty();
+    component.control.markAsTouched();
     fixture.detectChanges();
 
     const errorMessages = fixture.nativeElement.querySelectorAll('#messages');
-    const requiredLiElement = fixture.nativeElement.querySelector('#required');
+    const requiredElement = fixture.nativeElement.querySelector('#required');
     expect(errorMessages.length).toBe(1);
-    expect(requiredLiElement.textContent).toContain('Este Campo é obrigatório!');
+    expect(requiredElement.textContent).toContain('Este Campo é obrigatório!');
   });
 
   it('should show email error message', () => {
     component.control.setValidators([Validators.email]);
     component.control.updateValueAndValidity();
     component.control.setValue('invalid-email');
-    component.control.markAsDirty();
+    component.control.markAsTouched();
     fixture.detectChanges();
 
     const errorMessages = fixture.nativeElement.querySelectorAll('#messages');
@@ -97,40 +97,38 @@ describe('CustomValidationMessageComponent', () => {
     component.control.setValidators([Validators.minLength(3)]);
     component.control.updateValueAndValidity();
     component.control.setValue('ab');
-    component.control.markAsDirty();
+    component.control.markAsTouched();
     fixture.detectChanges();
 
     const errorMessages = fixture.nativeElement.querySelectorAll('#messages');
-    const minLengthLiElement = fixture.nativeElement.querySelector('#minLength');
+    const minLengthElement = fixture.nativeElement.querySelector('#minLength');
     expect(errorMessages.length).toBe(1);
-    expect(minLengthLiElement.textContent).toContain('Este campo deve ter ao menos 3 caracteres!');
+    expect(minLengthElement.textContent).toContain('Este campo deve ter ao menos 3 caracteres!');
   });
 
   it('should show maxlength error message', () => {
     component.control.setValidators([Validators.maxLength(10)]);
     component.control.updateValueAndValidity();
     component.control.setValue('toolongvalue');
-    component.control.markAsDirty();
+    component.control.markAsTouched();
     fixture.detectChanges();
 
     const errorMessages = fixture.nativeElement.querySelectorAll('#messages');
-    const maxLengthLiElement = fixture.nativeElement.querySelector('#maxLength');
+    const maxLengthElement = fixture.nativeElement.querySelector('#maxLength');
     expect(errorMessages.length).toBe(1);
-    expect(maxLengthLiElement.textContent).toContain(
-      'Este campo deve ter no máximo 10 caracteres!'
-    );
+    expect(maxLengthElement.textContent).toContain('Este campo deve ter no máximo 10 caracteres!');
   });
 
   it('should show pattern error message', () => {
     component.control.setValidators([Validators.pattern('^[a-z]+$')]);
     component.control.updateValueAndValidity();
     component.control.setValue('INVALID FIELD');
-    component.control.markAsDirty();
+    component.control.markAsTouched();
     fixture.detectChanges();
 
     const errorMessages = fixture.nativeElement.querySelectorAll('#messages');
-    const patternLengthLiElement = fixture.nativeElement.querySelector('#pattern');
+    const patternLengthElement = fixture.nativeElement.querySelector('#pattern');
     expect(errorMessages.length).toBe(1);
-    expect(patternLengthLiElement.textContent).toContain('Padrão inválido!');
+    expect(patternLengthElement.textContent).toContain('Padrão inválido!');
   });
 });

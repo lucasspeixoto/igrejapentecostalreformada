@@ -182,7 +182,8 @@ export class AuthenticationService {
   }
 
   public async logoutAndRedirect(): Promise<void> {
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
+
     await this.supabase.auth.signOut();
   }
 }

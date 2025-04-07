@@ -57,7 +57,6 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
                   placeholder="Endereço de Email"
                   class="w-full md:w-[30rem] mb-2"
                   formControlName="email" />
-
                 <app-custom-validation-message id="emailErrorMessage" controlName="email" />
               </div>
 
@@ -66,8 +65,8 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
                 <label
                   for="passwordField"
                   class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2"
-                  >Senha</label
-                >
+                  >Senha
+                </label>
                 <p-password
                   id="passwordField"
                   formControlName="password"
@@ -75,7 +74,8 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
                   [toggleMask]="true"
                   styleClass="mb-2"
                   [fluid]="true"
-                  [feedback]="false"></p-password>
+                  [feedback]="false">
+                </p-password>
 
                 <app-custom-validation-message
                   id="passwordErrorMessage"

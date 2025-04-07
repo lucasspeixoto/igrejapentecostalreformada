@@ -1,8 +1,8 @@
-import { Component, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table, TableModule } from 'primeng/table';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
@@ -17,8 +17,17 @@ import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
+import { FluidModule } from 'primeng/fluid';
+import { InputMaskModule } from 'primeng/inputmask';
+import { MessageModule } from 'primeng/message';
+import { DatePickerModule } from 'primeng/datepicker';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ProductService, Product } from 'src/app/pages/service/product.service';
+import { MembersService } from '../services/members.service';
+import { Member } from '../models/member.model';
+import { createMemberForm, MemberFormValue } from '../constants/member-form';
+import { CustomValidationMessageComponent } from 'src/app/components/custom-validation-message/custom-validation-message';
+import { MARITAL_STATUS } from '../constants/options';
+import { ExcelService } from 'src/app/services/excel/excel.service';
 
 interface Column {
   field: string;
@@ -31,431 +40,217 @@ interface ExportColumn {
   dataKey: string;
 }
 
+const PRIMENG = [
+  InputMaskModule,
+  DatePickerModule,
+  TableModule,
+  ButtonModule,
+  RippleModule,
+  ToastModule,
+  ToolbarModule,
+  RatingModule,
+  InputTextModule,
+  TextareaModule,
+  SelectModule,
+  RadioButtonModule,
+  InputNumberModule,
+  DialogModule,
+  TagModule,
+  InputIconModule,
+  IconFieldModule,
+  ConfirmDialogModule,
+  FluidModule,
+  MessageModule,
+];
+
+const COMMON = [FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
+
+const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
+
 @Component({
   selector: 'app-members-list',
-  imports: [
-    CommonModule,
-    TableModule,
-    FormsModule,
-    ButtonModule,
-    RippleModule,
-    ToastModule,
-    ToolbarModule,
-    RatingModule,
-    InputTextModule,
-    TextareaModule,
-    SelectModule,
-    RadioButtonModule,
-    InputNumberModule,
-    DialogModule,
-    TagModule,
-    InputIconModule,
-    IconFieldModule,
-    ConfirmDialogModule,
+  imports: [...PRIMENG, ...COMMON],
+  templateUrl: './members-list.component.html',
+  providers: [...PROVIDERS],
+  styles: [
+    `
+      :host ::ng-deep .p-frozen-column {
+        font-weight: bold;
+      }
+
+      :host ::ng-deep .p-datatable-frozen-tbody {
+        font-weight: bold;
+      }
+
+      ::ng-deep {
+        .p-inputmask,
+        .p-datepicker {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 450px) {
+        .p-iconfield {
+          width: 100%;
+        }
+      }
+    `,
   ],
-  template: `
-    <p-toolbar styleClass="mb-6">
-      <ng-template #start>
-        <p-button
-          label="Novo"
-          icon="pi pi-plus"
-          severity="secondary"
-          class="mr-2"
-          (onClick)="openNew()" />
-        <p-button
-          severity="secondary"
-          label="Excluir"
-          icon="pi pi-trash"
-          outlined
-          (onClick)="deleteSelectedProducts()"
-          [disabled]="!selectedProducts || !selectedProducts.length" />
-      </ng-template>
-
-      <ng-template #end>
-        <p-button
-          label="Exportar"
-          icon="pi pi-upload"
-          severity="secondary"
-          (onClick)="exportCSV()" />
-      </ng-template>
-    </p-toolbar>
-
-    <p-table
-      #dt
-      [value]="products()"
-      [rows]="10"
-      [columns]="cols"
-      [paginator]="true"
-      [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-      [tableStyle]="{ 'min-width': '75rem' }"
-      [(selection)]="selectedProducts"
-      [rowHover]="true"
-      dataKey="id"
-      currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} membros"
-      [showCurrentPageReport]="true"
-      [rowsPerPageOptions]="[10, 20, 30]">
-      <ng-template #caption>
-        <div class="flex items-center justify-between">
-          <h5 class="m-0">Membros</h5>
-          <p-iconfield>
-            <p-inputicon styleClass="pi pi-search" />
-            <input
-              pInputText
-              type="text"
-              (input)="onGlobalFilter(dt, $event)"
-              placeholder="Pesquisar..." />
-          </p-iconfield>
-        </div>
-      </ng-template>
-      <ng-template #header>
-        <tr>
-          <th style="width: 3rem">
-            <p-tableHeaderCheckbox />
-          </th>
-          <th style="min-width: 16rem">Número</th>
-          <th pSortableColumn="name" style="min-width:16rem">
-            Nome
-            <p-sortIcon field="name" />
-          </th>
-
-          <th pSortableColumn="price" style="min-width: 8rem">
-            Price
-            <p-sortIcon field="price" />
-          </th>
-          <th pSortableColumn="category" style="min-width:10rem">
-            Category
-            <p-sortIcon field="category" />
-          </th>
-          <th pSortableColumn="rating" style="min-width: 12rem">
-            Reviews
-            <p-sortIcon field="rating" />
-          </th>
-          <th pSortableColumn="inventoryStatus" style="min-width: 12rem">
-            Status
-            <p-sortIcon field="inventoryStatus" />
-          </th>
-          <th style="min-width: 12rem"></th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-product>
-        <tr>
-          <td style="width: 3rem">
-            <p-tableCheckbox [value]="product" />
-          </td>
-          <td style="min-width: 12rem">{{ product.code }}</td>
-          <td style="min-width: 16rem">{{ product.name }}</td>
-          <td>{{ product.price | currency: 'USD' }}</td>
-          <td>{{ product.category }}</td>
-          <td>
-            <p-rating [(ngModel)]="product.rating" [readonly]="true" />
-          </td>
-          <td>
-            <p-tag
-              [value]="product.inventoryStatus"
-              [severity]="getSeverity(product.inventoryStatus)" />
-          </td>
-          <td>
-            <p-button
-              icon="pi pi-pencil"
-              class="mr-2"
-              [rounded]="true"
-              [outlined]="true"
-              (click)="editProduct(product)" />
-            <p-button
-              icon="pi pi-trash"
-              severity="danger"
-              [rounded]="true"
-              [outlined]="true"
-              (click)="deleteProduct(product)" />
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-
-    <p-dialog
-      [(visible)]="productDialog"
-      [style]="{ width: '450px' }"
-      header="Detalhe de membro"
-      [modal]="true">
-      <ng-template #content>
-        <div class="flex flex-col gap-6">
-          <img
-            [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image"
-            [alt]="product.image"
-            class="block m-auto pb-4"
-            *ngIf="product.image" />
-          <div>
-            <label for="name" class="block font-bold mb-3">Name</label>
-            <input type="text" pInputText id="name" [(ngModel)]="product.name" required fluid />
-            <small class="text-red-500" *ngIf="submitted && !product.name">Name is required.</small>
-          </div>
-          <div>
-            <label for="description" class="block font-bold mb-3">Description</label>
-            <textarea
-              id="description"
-              pTextarea
-              [(ngModel)]="product.description"
-              required
-              rows="3"
-              cols="20"
-              fluid></textarea>
-          </div>
-
-          <div>
-            <label for="inventoryStatus" class="block font-bold mb-3">Inventory Status</label>
-            <p-select
-              [(ngModel)]="product.inventoryStatus"
-              inputId="inventoryStatus"
-              [options]="statuses"
-              optionLabel="label"
-              optionValue="label"
-              placeholder="Select a Status"
-              fluid />
-          </div>
-
-          <div>
-            <span class="block font-bold mb-4">Category</span>
-            <div class="grid grid-cols-12 gap-4">
-              <div class="flex items-center gap-2 col-span-6">
-                <p-radiobutton
-                  id="category1"
-                  name="category"
-                  value="Accessories"
-                  [(ngModel)]="product.category" />
-                <label for="category1">Accessories</label>
-              </div>
-              <div class="flex items-center gap-2 col-span-6">
-                <p-radiobutton
-                  id="category2"
-                  name="category"
-                  value="Clothing"
-                  [(ngModel)]="product.category" />
-                <label for="category2">Clothing</label>
-              </div>
-              <div class="flex items-center gap-2 col-span-6">
-                <p-radiobutton
-                  id="category3"
-                  name="category"
-                  value="Electronics"
-                  [(ngModel)]="product.category" />
-                <label for="category3">Electronics</label>
-              </div>
-              <div class="flex items-center gap-2 col-span-6">
-                <p-radiobutton
-                  id="category4"
-                  name="category"
-                  value="Fitness"
-                  [(ngModel)]="product.category" />
-                <label for="category4">Fitness</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-6">
-              <label for="price" class="block font-bold mb-3">Price</label>
-              <p-inputnumber
-                id="price"
-                [(ngModel)]="product.price"
-                mode="currency"
-                currency="BRL"
-                locale="pt-BR"
-                fluid />
-            </div>
-            <div class="col-span-6">
-              <label for="quantity" class="block font-bold mb-3">Quantity</label>
-              <p-inputnumber id="quantity" [(ngModel)]="product.quantity" fluid />
-            </div>
-          </div>
-        </div>
-      </ng-template>
-
-      <ng-template #footer>
-        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
-        <p-button label="Save" icon="pi pi-check" (click)="saveProduct()" />
-      </ng-template>
-    </p-dialog>
-
-    <p-confirmdialog [style]="{ width: '450px' }" />
-  `,
-  providers: [MessageService, ProductService, ConfirmationService],
 })
 export class MembersListComponent implements OnInit {
-  productDialog: boolean = false;
+  public membersService = inject(MembersService);
 
-  products = signal<Product[]>([]);
+  private messageService = inject(MessageService);
 
-  product!: Product;
+  private confirmationService = inject(ConfirmationService);
 
-  selectedProducts!: Product[] | null;
+  private excelService = inject(ExcelService<Member>);
 
-  submitted: boolean = false;
+  private datePipe = inject(DatePipe);
 
-  statuses!: { label: string; value: string }[];
+  public selectedMembers!: Member[] | null;
 
-  @ViewChild('dt') dt!: Table;
+  public memberDialog: boolean = false;
 
-  exportColumns!: ExportColumn[];
+  public mode = signal<'add' | 'edit'>('add');
 
-  cols!: Column[];
+  public modalTitle = computed(() =>
+    this.mode() === 'add' ? 'Adicionar Membro' : 'Editar Membro'
+  );
 
-  constructor(
-    private productService: ProductService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
-  ) {}
+  public exportColumns!: ExportColumn[];
 
-  exportCSV(): void {
-    this.dt.exportCSV();
+  public columns!: Column[];
+
+  public memberForm = createMemberForm();
+
+  public maritalStatus = MARITAL_STATUS;
+
+  public filteredvalues!: Member[];
+
+  public exportCSV(): void {
+    this.excelService.exportToExcel(this.membersService.members(), 'Listagem Irmãos');
   }
 
-  ngOnInit(): void {
-    this.loadDemoData();
+  public ngOnInit(): void {
+    this.membersService.getAllMembersDataHandler();
   }
 
-  loadDemoData(): void {
-    this.productService.getProducts().then(data => {
-      this.products.set(data);
-    });
-
-    this.statuses = [
-      { label: 'INSTOCK', value: 'instock' },
-      { label: 'LOWSTOCK', value: 'lowstock' },
-      { label: 'OUTOFSTOCK', value: 'outofstock' },
-    ];
-
-    this.cols = [
-      { field: 'code', header: 'Code', customExportHeader: 'Product Code' },
-      { field: 'name', header: 'Name' },
-      { field: 'image', header: 'Image' },
-      { field: 'price', header: 'Price' },
-      { field: 'category', header: 'Category' },
-    ];
-
-    this.exportColumns = this.cols.map(col => ({ title: col.header, dataKey: col.field }));
-  }
-
-  onGlobalFilter(table: Table, event: Event): void {
+  public onGlobalFilter(table: Table, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
-  openNew(): void {
-    this.product = {};
-    this.submitted = false;
-    this.productDialog = true;
+  public openInsertMember(): void {
+    this.mode.set('add');
+    this.memberForm.reset();
+    this.memberDialog = true;
   }
 
-  editProduct(product: Product): void {
-    this.product = { ...product };
-    this.productDialog = true;
+  public openUpdateMember(member: Member): void {
+    this.mode.set('edit');
+
+    const {
+      number,
+      name,
+      birthday,
+      rg,
+      cpf,
+      address,
+      baptism_date,
+      previous_church,
+      baptism_church,
+      naturality,
+      cellphone,
+      tellphone,
+      marital_status,
+      email,
+    } = member;
+
+    this.memberForm.setValue({
+      number,
+      name,
+      birthday,
+      rg: rg!,
+      cpf: cpf!,
+      address,
+      baptismDate: baptism_date!,
+      previousChurch: previous_church!,
+      baptismChurch: baptism_church!,
+      naturality: naturality!,
+      cellphone: cellphone!,
+      tellphone: tellphone!,
+      maritalStatus: marital_status,
+      email: email!,
+    });
+
+    this.memberDialog = true;
   }
 
-  deleteSelectedProducts(): void {
+  public deleteSelectedMembers(): void {
     this.confirmationService.confirm({
       message: 'Tem certeza que deseja excluir os membros selecionados?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
+      acceptButtonProps: {
+        label: 'Sim',
+        severity: 'danger',
+      },
       accept: () => {
-        this.products.set(this.products().filter(val => !this.selectedProducts?.includes(val)));
-        this.selectedProducts = null;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Products Deleted',
-          life: 3000,
-        });
+        if (this.selectedMembers) {
+          const memberNumbers = this.selectedMembers.map(member => +member.number);
+
+          this.membersService.deleteMembersHandler(memberNumbers);
+
+          this.selectedMembers = [];
+        }
       },
     });
   }
 
-  hideDialog(): void {
-    this.productDialog = false;
-    this.submitted = false;
+  public hideDialog(): void {
+    this.memberForm.reset();
+    this.memberDialog = false;
   }
 
-  deleteProduct(product: Product): void {
+  public openDeleteMember(member: Member): void {
     this.confirmationService.confirm({
-      message: 'Tem certeza que deseja excluir ' + product.name + '?',
+      message: 'Tem certeza que deseja excluir o membro ' + member.name + '?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
+      acceptButtonProps: {
+        label: 'Sim',
+        severity: 'danger',
+      },
       accept: () => {
-        this.products.set(this.products().filter(val => val.id !== product.id));
-        this.product = {};
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Membro excluído',
-          life: 3000,
-        });
+        this.membersService.deleteMemberHandler(+member.number);
       },
     });
   }
 
-  findIndexById(id: string): number {
-    let index = -1;
-    for (let i = 0; i < this.products().length; i++) {
-      if (this.products()[i].id === id) {
-        index = i;
-        break;
-      }
+  public saveMemberHandler(): void {
+    if (this.memberForm.invalid) {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Formulário Inválido',
+        detail: 'Preencha todos os campos obrigatórios!',
+      });
+
+      return;
     }
 
-    return index;
-  }
+    const memberFormData = this.memberForm.value;
 
-  createId(): string {
-    let id = '';
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const transformedMemberData = {
+      ...memberFormData,
+      birthday: this.datePipe.transform(memberFormData.birthday, 'yyyy-MM-dd'),
+    } as MemberFormValue;
 
-    for (let i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    if (this.mode() === 'add') {
+      this.membersService.insertMembersDataHandler(transformedMemberData);
+    } else {
+      this.membersService.updateMembersDataHandler(transformedMemberData);
     }
-    return id;
-  }
 
-  getSeverity(
-    status: string
-  ): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | undefined {
-    switch (status) {
-      case 'INSTOCK':
-        return 'success';
-      case 'LOWSTOCK':
-        return 'warn';
-      case 'OUTOFSTOCK':
-        return 'danger';
-      default:
-        return 'info';
-    }
-  }
-
-  saveProduct(): void {
-    this.submitted = true;
-    const _products = this.products();
-
-    if (this.product.name?.trim()) {
-      if (this.product.id) {
-        _products[this.findIndexById(this.product.id)] = this.product;
-        this.products.set([..._products]);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Membro atualizado',
-          life: 3000,
-        });
-      } else {
-        this.product.id = this.createId();
-        this.product.image = 'product-placeholder.svg';
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Membro incluído',
-          life: 3000,
-        });
-        this.products.set([..._products, this.product]);
-      }
-
-      this.productDialog = false;
-      this.product = {};
-    }
+    this.hideDialog();
   }
 }

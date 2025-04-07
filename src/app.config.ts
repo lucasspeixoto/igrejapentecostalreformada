@@ -17,6 +17,7 @@ import { appRoutes } from './app.routes';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from './app/auth/services/authentication.service';
 import { MessageService } from 'primeng/api';
+import { ptBrTranslation } from './app/utils/pt-br';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
     importProvidersFrom(FormsModule),
-    providePrimeNG({ theme: { preset: Lara, options: { darkModeSelector: '.app-dark' } } }),
+    providePrimeNG({
+      translation: ptBrTranslation,
+      theme: { preset: Lara, options: { darkModeSelector: '.app-dark' } },
+    }),
   ],
 };

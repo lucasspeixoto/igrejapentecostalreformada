@@ -2,11 +2,12 @@
 
 import { TestBed, inject } from '@angular/core/testing';
 import { MembersService } from './members.service';
+import { MessageService } from 'primeng/api';
 
 describe('Service: Members', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MembersService],
+      providers: [MembersService, MessageService],
     });
   });
 
