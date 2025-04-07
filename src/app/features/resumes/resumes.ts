@@ -6,7 +6,7 @@ import { BestSellingWidgetComponent } from './components/bestsellingwidget';
 import { RevenueStreamWidgetComponent } from './components/revenuestreamwidget';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-resumes',
   imports: [
     StatsWidgetComponent,
     RecentSalesWidgetComponent,
@@ -28,4 +28,4 @@ import { RevenueStreamWidgetComponent } from './components/revenuestreamwidget';
     </div>
   `,
 })
-export class DashboardComponent {}
+export class ResumesComponent {}

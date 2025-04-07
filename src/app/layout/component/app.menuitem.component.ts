@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, type OnDestroy, type OnInit } from '@angular/core';
+import { Component, HostBinding, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { LayoutService } from '../service/layout.service';
   selector: '[app-menuitem]',
   imports: [CommonModule, RouterModule, RippleModule],
   template: `
-    <ng-container class="border border-red-600">
+    <ng-container>
       <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">
         {{ item.label }}
       </div>
@@ -90,6 +90,10 @@ import { LayoutService } from '../service/layout.service';
   providers: [LayoutService],
 })
 export class AppMenuitemComponent implements OnInit, OnDestroy {
+  public router = inject(Router);
+
+  private layoutService = inject(LayoutService);
+
   @Input() item!: MenuItem;
 
   @Input() index!: number;
@@ -98,18 +102,15 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
 
   @Input() parentKey!: string;
 
-  active = false;
+  public active = false;
 
-  menuSourceSubscription: Subscription;
+  public menuSourceSubscription: Subscription;
 
-  menuResetSubscription: Subscription;
+  public menuResetSubscription: Subscription;
 
-  key: string = '';
+  public key: string = '';
 
-  constructor(
-    public router: Router,
-    private layoutService: LayoutService
-  ) {
+  constructor() {
     this.menuSourceSubscription = this.layoutService.menuSource$.subscribe(value => {
       Promise.resolve(null).then(() => {
         if (value.routeEvent) {
@@ -176,7 +177,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
   }
 
   get submenuAnimation(): string {
-    return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
+    return 'expanded'; //this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
   }
 
   @HostBinding('class.active-menuitem')

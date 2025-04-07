@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AuthenticationService } from './../../auth/services/authentication.service';
+import { Component, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -49,7 +50,7 @@ import { LayoutService } from '../service/layout.service';
             <i class="pi pi-user"></i>
             <span>Perfil</span>
           </button>
-          <button routerLink="/login" type="button" class="layout-topbar-action">
+          <button (click)="logoutUserHandler()" type="button" class="layout-topbar-action">
             <i class="pi pi-sign-out"></i>
             <span>Sair</span>
           </button>
@@ -61,9 +62,15 @@ import { LayoutService } from '../service/layout.service';
 export class AppTopbarComponent {
   public items!: MenuItem[];
 
-  constructor(public layoutService: LayoutService) {}
+  public layoutService = inject(LayoutService);
+
+  public authenticationService = inject(AuthenticationService);
 
   public toggleDarkMode(): void {
     this.layoutService.layoutConfig.update(state => ({ ...state, darkTheme: !state.darkTheme }));
+  }
+
+  public logoutUserHandler(): void {
+    this.authenticationService.logoutAndRedirect();
   }
 }

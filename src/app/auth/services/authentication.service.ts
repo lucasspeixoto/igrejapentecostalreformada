@@ -47,12 +47,12 @@ export class AuthenticationService {
 
     this.loadingService.isLoading.set(false);
 
-    this.router.navigateByUrl('/modules/dashboard');
+    this.router.navigateByUrl('/inicio/resumos');
 
     this.messageService.add({
       severity: 'success',
-      summary: 'Sucesso',
-      detail: 'Login realizado com sucesso!',
+      summary: 'Graça e Paz',
+      detail: 'Bem-vindo!',
       life: 3000,
     });
   }
