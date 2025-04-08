@@ -160,14 +160,11 @@ export class AuthenticationService {
   }
 
   public restoreSessionFromStorage(): void {
-    this.loadingService.isLoading.set(true);
-
     const sessionData = localStorage.getItem('sb-xqsikzksebdtexargilq-auth-token');
 
     if (sessionData) {
       const parsedSession = JSON.parse(sessionData);
       this.session = parsedSession?.currentSession || parsedSession?.session || null;
-      this.loadingService.isLoading.set(false);
     }
   }
 
