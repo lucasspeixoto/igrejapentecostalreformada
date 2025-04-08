@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
-export const isLoggedGuard: CanActivateFn = (_route, _state) => {
+export const isAdminGuard: CanActivateFn = (_route, _state) => {
   const authenticationService = inject(AuthenticationService);
 
   const router = inject(Router);
 
-  if (!authenticationService.isLoggedCheckHandler()) {
-    router.navigateByUrl('/login');
+  if (authenticationService.isAdminCheckHandler()) {
+    return true;
+  } else {
+    router.navigateByUrl('/inicio/resumos');
     return false;
   }
-
-  return true;
 };

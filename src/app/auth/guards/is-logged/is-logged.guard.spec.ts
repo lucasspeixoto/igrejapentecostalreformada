@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { isLoggedGuard } from './is-logged.guard';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 /*
 TestBed.runInInjectionContext:

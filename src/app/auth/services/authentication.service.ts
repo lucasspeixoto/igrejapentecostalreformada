@@ -148,7 +148,20 @@ export class AuthenticationService {
         this.loadingService.isLoading.set(false);
       }
 
-      this.currentUser.set(data as unknown as iUser);
+      const { data: userRoleData } = await this.supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', this.session?.user.id)
+        .single();
+
+      const isAdmin = userRoleData?.role === 'admin' ? true : false;
+
+      const iUserData = {
+        ...data,
+        isAdmin,
+      };
+
+      this.currentUser.set(iUserData as unknown as iUser);
     }
   }
 
@@ -175,10 +188,16 @@ export class AuthenticationService {
       const parsedSession = JSON.parse(sessionData);
       this.session = parsedSession?.currentSession || parsedSession?.session || null;
 
+      console.log(this.session);
+
       return this.session !== null;
     }
 
     return false;
+  }
+
+  public isAdminCheckHandler(): boolean {
+    return this.currentUser()?.isAdmin ? true : false;
   }
 
   public async logoutAndRedirect(): Promise<void> {
