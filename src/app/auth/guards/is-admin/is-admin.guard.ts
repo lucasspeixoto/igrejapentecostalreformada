@@ -11,7 +11,7 @@ export const isAdminGuard: CanActivateFn = (_route, _state) => {
   if (authenticationService.isAdminCheckHandler()) {
     return true;
   } else {
-    router.navigateByUrl('/inicio/resumos');
+    router.navigateByUrl('/inicio/painel');
     return false;
   }
 };

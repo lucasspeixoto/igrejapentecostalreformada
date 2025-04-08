@@ -32,10 +32,10 @@ export class AppMenuComponent implements OnInit {
         visible: true,
         items: [
           {
-            label: 'Resumos',
+            label: 'Painel',
             visible: true,
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/inicio/resumos'],
+            routerLink: ['/inicio/painel'],
           },
           {
             label: 'Membros',

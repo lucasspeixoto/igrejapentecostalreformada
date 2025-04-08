@@ -138,7 +138,5 @@ export class LoginComponent {
     this.authenticationService.loginUserHandler(email, password);
 
     this.loginForm.reset();
-
-    this.loadingService.isLoading.set(false);
   }
 }

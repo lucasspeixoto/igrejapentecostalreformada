@@ -45,16 +45,18 @@ export class AuthenticationService {
 
     this.loadUserData();
 
-    this.loadingService.isLoading.set(false);
+    setTimeout(() => {
+      this.router.navigateByUrl('/inicio/painel');
 
-    this.router.navigateByUrl('/inicio/resumos');
+      this.loadingService.isLoading.set(false);
 
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Graça e Paz',
-      detail: 'Bem-vindo!',
-      life: 3000,
-    });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Graça e Paz',
+        detail: 'Bem-vindo!',
+        life: 3000,
+      });
+    }, 3000);
   }
 
   public async forgotPasswordHandler(email: string): Promise<void> {
@@ -122,8 +124,6 @@ export class AuthenticationService {
   }
 
   public async loadUserData(): Promise<void> {
-    this.loadingService.isLoading.set(true);
-
     const {
       data: { session },
       error: sessionError,
@@ -135,18 +135,12 @@ export class AuthenticationService {
 
     this.session = session;
 
-    this.loadingService.isLoading.set(false);
-
     if (session?.user.id) {
-      const { data, error: userDataError } = await this.supabase
+      const { data } = await this.supabase
         .from('users')
         .select('*')
         .eq('id', session?.user.id)
         .single();
-
-      if (userDataError) {
-        this.loadingService.isLoading.set(false);
-      }
 
       const { data: userRoleData } = await this.supabase
         .from('user_roles')
@@ -187,8 +181,6 @@ export class AuthenticationService {
     if (sessionData) {
       const parsedSession = JSON.parse(sessionData);
       this.session = parsedSession?.currentSession || parsedSession?.session || null;
-
-      console.log(this.session);
 
       return this.session !== null;
     }
