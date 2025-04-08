@@ -3,4 +3,5 @@ export interface iUser {
   full_name: string;
   avatar_url: string;
   email: string;
+  isAdmin: boolean;
 }

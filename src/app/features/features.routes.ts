@@ -3,15 +3,21 @@ import { Routes } from '@angular/router';
 import { MembersListComponent } from '../../app/features/members/views/members-list.component';
 import { ResumesComponent } from './resumes/resumes';
 import { FinanceComponent } from './finance/views/finance/finance.component';
+import { isAdminGuard } from '../auth/guards/is-admin/is-admin.guard';
 
 export default [
-  { path: 'resumos', data: { breadcrumb: 'Resumos' }, component: ResumesComponent },
-  { path: 'membros', data: { breadcrumb: 'Membros' }, component: MembersListComponent },
+  { path: 'painel', component: ResumesComponent },
+  { path: 'membros', component: MembersListComponent },
   {
     path: 'financeiro',
     component: FinanceComponent,
-    data: { breadcrumb: 'Financeiro' },
-    children: [{ path: '', loadChildren: () => import('./finance/finance.routes') }],
+    canActivate: [isAdminGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./finance/finance.routes'),
+      },
+    ],
   },
   { path: '**', redirectTo: '/notfound' },
 ] as Routes;
