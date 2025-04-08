@@ -13,41 +13,49 @@ TestBed.runInInjectionContext:
 
 describe('isAdminGuard', () => {
   let authService: jest.Mocked<AuthenticationService>;
+  let router: jest.Mocked<Router>;
   let mockRoute: ActivatedRouteSnapshot;
   let mockState: RouterStateSnapshot;
 
   beforeEach(() => {
     const authServiceMock = { isAdminCheckHandler: jest.fn() };
+    const routerMock = { navigateByUrl: jest.fn() };
 
     mockRoute = {} as ActivatedRouteSnapshot;
     mockState = {} as RouterStateSnapshot;
 
     TestBed.configureTestingModule({
-      providers: [Router, { provide: AuthenticationService, useValue: authServiceMock }],
+      providers: [
+        { provide: AuthenticationService, useValue: authServiceMock },
+        { provide: Router, useValue: routerMock },
+      ],
     });
 
     authService = TestBed.inject(AuthenticationService) as jest.Mocked<AuthenticationService>;
+    router = TestBed.inject(Router) as jest.Mocked<Router>;
   });
 
   it('should allow access when user is admin in', () => {
     // Arrange
-    authService.isAdminCheckHandler.mockReturnValue(Promise.resolve(true));
+    authService.isAdminCheckHandler.mockReturnValue(true);
 
     // Act
     const result = TestBed.runInInjectionContext(() => isAdminGuard(mockRoute, mockState));
 
     // Assert
     expect(result).toBe(true);
+    expect(router.navigateByUrl).not.toHaveBeenCalled();
   });
 
-  it('should redirect to login when user is not logged in', () => {
+  it('should redirect to login when user is not admin', () => {
     // Arrange
-    authService.isAdminCheckHandler.mockReturnValue(Promise.resolve(false));
+    authService.isAdminCheckHandler.mockReturnValue(false);
 
     // Act
     const result = TestBed.runInInjectionContext(() => isAdminGuard(mockRoute, mockState));
 
     // Assert
     expect(result).toBe(false);
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/inicio/painel');
   });
 });
