@@ -1,0 +1,2 @@
+NG_APP_SUPABASE_URL=https://mocked-key.supabase.co
+NG_APP_SUPABASE_KEY=mocked-key

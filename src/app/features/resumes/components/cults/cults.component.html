@@ -1,0 +1,43 @@
+<div class="card !mb-8">
+    <div
+        class="w-full flex items-center text-center gap-2 justify-between mb-8">
+        <span class="font-semibold text-xl mb-4">Sermões</span>
+        <form [formGroup]="formGroup">
+            <p-select (onChange)="onCultChangeHandler($event)"
+                optionLabel="title"
+                optionValue="id"
+                [options]="cultsService.cults()"
+                formControlName="selectedCult"
+                placeholder="Selecione o sermão"
+                class="w-auto md:w-[250px]" />
+        </form>
+    </div>
+    <div class="flex flex-wrap justify-start gap-2 mb-4">
+        <p
+            class="font-semibold text-lg leading-8">Data: <span
+                class="text-primary font-extrabold ">{{cultsService.selectedCult()?.date!
+                | primengDate}}</span></p>
+        <p
+            class="font-semibold text-lg leading-8">Pregador: <span
+                class="text-primary font-extrabold">{{cultsService.selectedCult()?.users?.full_name}}</span></p>
+        <p
+            class="font-semibold text-lg leading-8">Sermão: <span
+                class="text-primary font-extrabold">{{cultsService.selectedCult()?.title}}</span></p>
+    </div>
+    <div
+        class="flex flex-wrap justify-around sm:justify-end my-4 gap-2 items-center">
+        <a target="_blank"
+            class="w-[80px] text-center p-3 rounded-md bg-primary text-slate-900 font-semibold opacity-90 hover:opacity-100"
+            [href]="cultsService.selectedCult()?.video_url">Assistir</a>
+        <a target="_blank"
+            class="w-[80px] text-center p-3 rounded-md bg-primary text-slate-900 font-semibold opacity-90 hover:opacity-100"
+            [href]="cultsService.selectedCult()?.text_url">Ler</a>
+    </div>
+    <div class="flex flex-col justify-center w-full gap-2">
+        <iframe height="260"
+            [src]="cultsService.selectedVideoUrl()"
+            frameborder="0"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+    </div>
+</div>

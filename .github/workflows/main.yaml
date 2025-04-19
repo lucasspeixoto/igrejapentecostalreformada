@@ -1,0 +1,73 @@
+name: App Workflow
+
+on:
+  pull_request:
+    branches: ['master']
+
+jobs:
+  CI:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📑 Checkout Code
+        uses: actions/checkout@v4 # Clona o repostório para ter acesso a pasta do projeto no servidor
+
+      - name: 📩 Set up Node.js
+        uses: actions/setup-node@v4 # Instala o node na versão 20
+        with:
+          node-version: '20'
+
+      - name: 🗃️ Creation of .env file
+        run: |
+          touch .env
+          echo VERCEL_IPR_TOKEN=${{ secrets.VERCEL_IPR_TOKEN }} >> .env
+          echo VERCEL_PROJECT_ID=${{ secrets.VERCEL_PROJECT_ID }} >> .env
+          echo VERCEL_ORG_ID=${{ secrets.VERCEL_ORG_ID }} >> .env
+          echo NG_APP_SUPABASE_URL=${{ secrets.SUPABASE_URL }} >> .env
+          echo NG_APP_SUPABASE_KEY=${{ secrets.SUPABASE_KEY }} >> .env
+
+      - name: 📥 Install Dependencies
+        run: npm install
+
+      - name: 🧹 Linting
+        run: npm run lint
+
+      - name: 🧪 Unit Testing
+        run: npm run test:headless
+
+      - name: 🏗️ Building
+        run: npm run build
+
+      - name: 🐋 Login in Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 🏗️ Build and Image tag
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/igrejapentecostalreformada:${{ github.run_id }} .
+
+      - name: 🐳 Push Imagem
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/igrejapentecostalreformada:${{ github.run_id }}
+
+  CD:
+    name: Continuous Deploy
+    runs-on: ubuntu-latest
+    needs: CI
+    steps:
+      - uses: actions/checkout@v4
+      - name: 📂 Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: 📩 Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_IPR_TOKEN }}
+      - name: 🏗️ Build Project Artifacts
+        env:
+          NG_APP_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NG_APP_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: vercel build --prod --token=${{ secrets.VERCEL_IPR_TOKEN }}
+      - name: 🚀 Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_IPR_TOKEN }}
+      - name: Show Vercel Build Logs (on error)
+        if: failure()
+        run: |
+          echo "Check your Vercel dashboard for detailed build logs."

@@ -1,0 +1,93 @@
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2" (onClick)="openInsertMember()" />
+        <p-button severity="danger" label="Excluir" icon="pi pi-trash" (onClick)="deleteSelectedMembers()"
+            [disabled]="!selectedMembers || !selectedMembers.length" />
+    </ng-template>
+
+    <ng-template #end>
+        <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="exportCSV()" />
+    </ng-template>
+</p-toolbar>
+
+<p-table #dt [value]="membersService.members()" [rows]="10" [columns]="columns" [paginator]="true"
+    [globalFilterFields]="['number', 'name']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedMembers"
+    [scrollable]="true" [rowHover]="true" dataKey="number"
+    currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} membros" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
+    <ng-template #caption>
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <h5 class="m-0">Membros ({{ membersService.totalOfMembers() }})</h5>
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input class="w-full sm:w-auto" pInputText type="text" (input)="onGlobalFilter(dt, $event)"
+                    placeholder="Pesquisar..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox />
+            </th>
+            <th pSortableColumn="number" style="min-width: 10rem">
+                Número
+                <p-sortIcon field="number" />
+            </th>
+            <th pSortableColumn="name" style="min-width: 16rem">
+                Name
+                <p-sortIcon field="name" />
+            </th>
+            <th style="min-width: 8rem">Aniversário</th>
+            <th style="min-width: 10rem">RG</th>
+            <th style="min-width: 12rem">CPF</th>
+            <th style="min-width: 36rem">Endereço</th>
+            <th style="min-width: 12rem">Última igreja</th>
+            <th style="min-width: 12rem">Data Batismo</th>
+            <th style="min-width: 12rem">Igreja Batismo</th>
+            <th style="min-width: 12rem">Naturalidade</th>
+            <th style="min-width: 12rem">Celular</th>
+            <th style="min-width: 12rem">Telefone</th>
+            <th style="min-width: 8rem">Estado Civil</th>
+            <th style="min-width: 14rem">Email</th>
+            <th style="min-width: 12rem"></th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-member>
+        <tr>
+            <td style="width: 3rem">
+                <p-tableCheckbox [value]="member" />
+            </td>
+            <td>{{ member.number }}</td>
+            <td style="min-width: 18rem">{{ member.name | firstAndLastname }}</td>
+            <td>{{ member.birthday | primengDate }}</td>
+            <td>{{ member.rg }}</td>
+            <td>{{ member.cpf }}</td>
+            <td style="min-width: 22rem">{{ member.address }}</td>
+            <td>{{ member.previous_church }}</td>
+            <td>{{ member.baptism_date }}</td>
+            <td>{{ member.baptism_church }}</td>
+            <td>{{ member.naturality }}</td>
+            <td>{{ member.cellphone }}</td>
+            <td>{{ member.tellphone }}</td>
+            <td>{{ member.marital_status }}</td>
+            <td>{{ member.email }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" severity="info" [rounded]="true" [outlined]="true"
+                    (click)="openUpdateMember(member)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                    (click)="openDeleteMember(member)" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<app-update-member-dialog
+    [memberForm]="memberForm"
+    [memberDialog]="memberDialog"
+    [modalTitle]="modalTitle()"
+    (dialogClosed)="hideDialog()"
+    (memberSaved)="saveMemberHandler()">
+</app-update-member-dialog>
+
+<p-confirmdialog [style]="{ width: '450px' }" />

@@ -1,0 +1,86 @@
+<div class="col-span-12 sm:col-span-6 md:col-span-3">
+    <div class="card mb-0">
+        <div class="flex justify-between mb-4">
+            <div>
+                <span class="block text-muted-color font-medium mb-4">Caixa anterior</span>
+                <div class="text-green-600 dark:text-green-0 font-medium text-xl">
+                    R$ {{ financeReportsService.getLastMonthTotalBalance()?.toFixed(2) }}
+                </div>
+            </div>
+            <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border"
+                style="width: 2.5rem; height: 2.5rem">
+                <i class="pi pi-inbox text-blue-500 !text-xl"></i>
+            </div>
+        </div>
+        <span class="text-primary font-medium">R$ {{ financeReportsService.getLastMonthBalance()?.toFixed(2) }}</span>
+        <span class="text-muted-color"> de saldo</span>
+    </div>
+</div>
+<div class="col-span-12 sm:col-span-6 md:col-span-3">
+    <div class="card mb-0">
+        <div class="flex justify-between mb-4">
+            <div>
+                <span class="block text-muted-color font-medium mb-4">Balanço mês</span>
+                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                    R$ {{financeReportsService.getCurrentMonthTotalBalance()?.toFixed(2) }}
+
+                </div>
+            </div>
+            <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border"
+                style="width: 2.5rem; height: 2.5rem">
+                <i class="pi pi-arrow-right-arrow-left text-orange-500 !text-xl"></i>
+            </div>
+        </div>
+        <span class="text-primary font-medium">{{financeReportsService.getCurrentMonthBalance()?.toFixed(2)}} </span>
+        <span class="text-muted-color">de saldo</span>
+    </div>
+</div>
+<div class="col-span-12 sm:col-span-6 md:col-span-3">
+    <div class="card mb-0">
+        <div class="flex justify-between mb-4">
+            <div>
+                <span class="block text-muted-color font-medium mb-4">Mês</span>
+                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                    {{financeReportsService.selectedMonthAndYear()}}</div>
+            </div>
+            <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border"
+                style="width: 2.5rem; height: 2.5rem">
+                <i class="pi pi-calendar-clock text-cyan-500 !text-xl"></i>
+            </div>
+        </div>
+        @if(financeReportsService.getCurrentMonthState() === 'open') {
+        <span class="text-primary font-medium">Em aberto</span>
+        } @else {
+        <span class="text-primary font-medium">Auditado</span>
+        }
+    </div>
+</div>
+<div class="col-span-12 sm:col-span-6 md:col-span-3">
+    <div class="card mb-0">
+        <div class="flex justify-between mb-4">
+            <div>
+                <span class="block text-muted-color font-medium mb-4">Notas</span>
+                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                    {{financeNotesService.totalOfFinanceNotes()}}</div>
+            </div>
+            <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
+                style="width: 2.5rem; height: 2.5rem">
+                <i class="pi pi-clipboard text-purple-500 !text-xl"></i>
+            </div>
+        </div>
+        <div class="flex gap-1 w-full">
+            <div>
+                <i class="font-bold text-green-800 pi pi-arrow-up" style="font-size: 1rem"></i>
+                <span class="text-green-500 font-semibold text-sm">R$
+                    {{financeNotesService.totalOfCreditNotes().toFixed(2)}}
+                </span>
+            </div>
+            <div>
+                <i class="font-bold text-red-800 pi pi-arrow-down" style="font-size: 1rem"></i>
+                <span class="text-red-500 font-semibold text-sm">R$
+                    {{financeNotesService.totalOfDebitNotes().toFixed(2)}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
