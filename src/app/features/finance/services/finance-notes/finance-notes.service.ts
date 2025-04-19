@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { FinanceNote, type TopFinanceNoteByCategory } from '../../models/finance-note.model';
+import { FinanceNote, TopFinanceNoteByCategory } from '../../models/finance-note.model';
 import { injectSupabase } from '../../../../utils/inject-supabase';
 import { LoadingService } from '../../../../services/loading/loading.service';
 import { getActualDate, getFirstAndLastDayOfAMonth } from '../../../../utils/date';

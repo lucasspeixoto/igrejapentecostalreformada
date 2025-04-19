@@ -6,19 +6,25 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class SupabaseService {
+  private static instance: SupabaseService;
   public supabase!: SupabaseClient;
 
   constructor() {
-    if (typeof window !== 'undefined') {
+    if (SupabaseService.instance) {
+      return SupabaseService.instance;
+    }
+
+    if (typeof window !== 'undefined' && !this.supabase) {
       this.supabase = new SupabaseClient(environment.SUPABASE_URL, environment.SUPABASE_KEY, {
         auth: {
-          persistSession: true, // Garante que a sessão é salva localmente
-          autoRefreshToken: true, // Atualiza o token automaticamente
+          persistSession: true,
+          autoRefreshToken: true,
           detectSessionInUrl: true,
-          lock: undefined, // 👈 disables lock usage
         },
       });
     }
+
+    SupabaseService.instance = this;
   }
 
   public getClient(): SupabaseClient {
