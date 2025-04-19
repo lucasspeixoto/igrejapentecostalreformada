@@ -1,8 +1,8 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, inject } from '@angular/core/testing';
-import { FinanceNotesService } from './finance-notes.service';
 import { MessageService } from 'primeng/api';
+import { FinanceNotesService } from './finance-notes.service';
 
 describe('FinanceNotesService', () => {
   beforeEach(() => {

@@ -1,3 +1,3 @@
 export const messages: Record<string, string> = {
-  invalid_credentials: 'E-mail ou senha incorretos!',
+  400: 'E-mail ou senha incorretos!',
 };

@@ -34,7 +34,7 @@ export class AuthenticationService {
       this.messageService.add({
         severity: 'warn',
         summary: 'Erro',
-        detail: messages[error?.code!],
+        detail: messages[error.status!],
         life: 3000,
       });
 
@@ -70,7 +70,7 @@ export class AuthenticationService {
       this.messageService.add({
         severity: 'warn',
         summary: 'Erro',
-        detail: messages[error?.code!],
+        detail: messages[error.status!],
         life: 3000,
       });
 
@@ -102,7 +102,7 @@ export class AuthenticationService {
       this.messageService.add({
         severity: 'warn',
         summary: 'Erro',
-        detail: messages[error?.code!],
+        detail: messages[error.status!],
         life: 3000,
       });
 
