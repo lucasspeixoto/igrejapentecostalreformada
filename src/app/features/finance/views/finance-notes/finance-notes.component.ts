@@ -36,6 +36,8 @@ import { getFirstMonthDay, getLastMonthDay } from '../../../../utils/date';
 import { FirstAndLastnamePipe } from '../../../../pipes/first-and-lastname/first-and-lastname.pipe';
 import { PrimengDatePipe } from '../../../../pipes/primeng-date/primeng-date.pipe';
 import { AuditValidationWarningsComponent } from '../../components/audit-validation-warnings/audit-validation-warnings.component';
+import { FinanceDataHandleService } from '../../services/finance-data-handle/finance-data-handle.service';
+import type { FinanceNoteExcel } from '../../models/finance-note-excel.model';
 
 const PRIMENG = [
   TooltipModule,
@@ -120,9 +122,11 @@ export class FinanceNotesComponent implements OnInit {
 
   private confirmationService = inject(ConfirmationService);
 
-  private excelService = inject(ExcelService<FinanceNote>);
+  private excelService = inject(ExcelService<FinanceNoteExcel>);
 
   private authenticationService = inject(AuthenticationService);
+
+  private financeDataHandleService = inject(FinanceDataHandleService);
 
   private datePipe = inject(DatePipe);
 
@@ -182,8 +186,12 @@ export class FinanceNotesComponent implements OnInit {
     this.maxDate = getLastMonthDay(this.financeReportsService.currentOpenMonth()!);
   }
 
-  public exportCSV(): void {
-    this.excelService.exportToExcel(this.financeNotesService.financeNotes(), 'Notas Financeiras');
+  public downloadFinanceNoteExcel(): void {
+    const financeNotesExcel = this.financeDataHandleService.generateFinanceNotesForCSV(
+      this.financeNotesService.financeNotes()
+    );
+
+    this.excelService.exportToExcel(financeNotesExcel, 'Notas Financeiras');
   }
 
   public clearMember(): void {
