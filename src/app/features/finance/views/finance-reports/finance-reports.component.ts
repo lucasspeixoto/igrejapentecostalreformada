@@ -8,10 +8,17 @@ import { FinanceReportsService } from '../../services/finance-reports/finance-re
 import { InputsAndOutputsMontlhyComponent } from '../../components/inputs-and-outputs-montlhy/inputs-and-outputs-montlhy.component';
 import { ValuesByCategoryComponent } from '../../components/values-by-category/values-by-category.component';
 import { FinanceNotesService } from '../../services/finance-notes/finance-notes.service';
+import { AnualInputsAndOutputsBalanceComponent } from '../../components/anual-inputs-and-outputs-balance/anual-inputs-and-outputs-balance.component';
 
 @Component({
   selector: 'app-finance-reports',
-  imports: [ValuesByCategoryComponent, InputsAndOutputsMontlhyComponent, FormsModule, SelectModule],
+  imports: [
+    ValuesByCategoryComponent,
+    InputsAndOutputsMontlhyComponent,
+    FormsModule,
+    SelectModule,
+    AnualInputsAndOutputsBalanceComponent,
+  ],
   templateUrl: './finance-reports.component.html',
 })
 export class FinanceReportsComponent {

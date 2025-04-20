@@ -3,7 +3,6 @@ import {
   Component,
   effect,
   inject,
-  linkedSignal,
   OnInit,
   PLATFORM_ID,
   signal,
@@ -34,10 +33,6 @@ export class InputsAndOutputsMontlhyComponent implements OnInit {
   public financeNotesService = inject(FinanceNotesService);
 
   public financeReportsService = inject(FinanceReportsService);
-
-  public inputs = linkedSignal(() => this.computeTotalValues('C'));
-
-  public outputs = linkedSignal(() => this.computeTotalValues('D'));
 
   public platformId = inject(PLATFORM_ID);
 
@@ -72,7 +67,10 @@ export class InputsAndOutputsMontlhyComponent implements OnInit {
         labels: ['Entradas', 'Saídas'],
         datasets: [
           {
-            data: [this.inputs(), this.outputs()],
+            data: [
+              this.financeReportsService.totalOfCreditNotes(),
+              this.financeReportsService.totalOfDebitNotes(),
+            ],
             backgroundColor: [
               documentStyle.getPropertyValue('--p-green-500'),
               documentStyle.getPropertyValue('--p-red-500'),
@@ -98,14 +96,5 @@ export class InputsAndOutputsMontlhyComponent implements OnInit {
 
       this.cd.markForCheck();
     }
-  }
-
-  public computeTotalValues(type: 'C' | 'D'): number {
-    return this.financeNotesService
-      .financeNotes()
-      .filter(item => item.type === type)
-      .reduce((previous, accu) => {
-        return previous + accu.value;
-      }, 0.0);
   }
 }

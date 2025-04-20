@@ -19,10 +19,6 @@ export class FinanceNotesService {
 
   public totalOfFinanceNotes = computed(() => this.financeNotes().length);
 
-  public totalOfCreditNotes = computed(() => this.computeNoteTypeTotalValue('C'));
-
-  public totalOfDebitNotes = computed(() => this.computeNoteTypeTotalValue('D'));
-
   public async getAllFinanceNotesDataHandler(): Promise<void> {
     this.loadingService.isLoading.set(true);
 
@@ -129,13 +125,6 @@ export class FinanceNotesService {
       .order('created_at', { ascending: false });
 
     if (!error) this.financeNotes.set(data);
-  }
-
-  public computeNoteTypeTotalValue(type: string): number {
-    return this.financeNotes()
-      .filter(item => item.type === type)
-      .map(item => item.value)
-      .reduce((acc, curr) => acc + curr, 0);
   }
 
   public getFirstAndLastDayOfAMonth(): { firstDay: string; lastDay: string } {

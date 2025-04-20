@@ -6,6 +6,7 @@ import { FinanceReports } from '../../models/finance-reports.model';
 import { getActualDate, getNextMonthDate, getPreviousDate } from '../../../../utils/date';
 import { FinanceNotesService } from '../finance-notes/finance-notes.service';
 import { FinanceNote } from '../../models/finance-note.model';
+import { MONTH_LABELS } from 'src/app/utils/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -21,10 +22,34 @@ export class FinanceReportsService {
 
   public financeReports = signal<FinanceReports[]>([]);
 
+  public monthLabels = MONTH_LABELS;
+
   public availableMonths = computed(() =>
     this.financeReports()
       .filter(item => item.state !== 'start')
       .map(item => item.month)
+  );
+
+  public availabeMonthsLabels = computed(() => {
+    return this.availableMonths().map(item => this.monthLabels[item.split('/')[0]]);
+  });
+
+  public inputs = computed(() =>
+    this.financeReports()
+      .filter(item => item.state !== 'start')
+      .map(item => item.inputs)
+  );
+
+  public outputs = computed(() =>
+    this.financeReports()
+      .filter(item => item.state !== 'start')
+      .map(item => item.outputs)
+  );
+
+  public monthBalances = computed(() =>
+    this.financeReports()
+      .filter(item => item.state !== 'start')
+      .map(item => item.month_balance)
   );
 
   public selectedMonthAndYear = signal(this.getStorageActualDate());
@@ -34,8 +59,18 @@ export class FinanceReportsService {
   );
 
   public currentOpenMonth = computed(
-    () => this.financeReports().find(item => item.state === 'open')?.month!
+    () => this.financeReports().find(item => item.state === 'open')?.month
   );
+
+  public totalOfCreditNotes = computed(
+    () => this.financeReports().find(item => item.month === this.selectedMonthAndYear())?.inputs
+  );
+
+  public totalOfDebitNotes = computed(
+    () => this.financeReports().find(item => item.month === this.selectedMonthAndYear())?.outputs
+  );
+
+  public currentYear = computed(() => this.selectedMonthAndYear().split('/')[1]);
 
   public getStorageActualDate(): string {
     const currentActualDate = localStorage.getItem('IPR-SISTEMA-GESTAO:CURRENT-MONTH');
@@ -133,18 +168,26 @@ export class FinanceReportsService {
 
     let monthTotalBalace = openedMonthFinanceReport.balance;
 
+    let inputs = openedMonthFinanceReport.inputs;
+
+    let outputs = openedMonthFinanceReport.outputs;
+
     if (financeNote.type === 'C') {
       monthBalace += financeNote.value;
       monthTotalBalace += financeNote.value;
+      inputs += financeNote.value;
     } else {
       monthBalace -= financeNote.value;
       monthTotalBalace -= financeNote.value;
+      outputs += financeNote.value;
     }
 
     const updatedFinanceReport = {
       ...openedMonthFinanceReport,
       month_balance: monthBalace,
       balance: monthTotalBalace,
+      inputs,
+      outputs,
     };
 
     const { error } = await this.supabase
@@ -181,18 +224,26 @@ export class FinanceReportsService {
 
     let monthTotalBalace = openedMonthFinanceReport.balance;
 
+    let inputs = openedMonthFinanceReport.inputs;
+
+    let outputs = openedMonthFinanceReport.outputs;
+
     if (financeNote.type === 'C') {
       monthTotalBalace -= financeNote.value;
       monthBalace -= financeNote.value;
+      inputs -= financeNote.value;
     } else {
       monthBalace += financeNote.value;
       monthTotalBalace += financeNote.value;
+      outputs -= financeNote.value;
     }
 
     const updatedFinanceReport = {
       ...openedMonthFinanceReport,
       month_balance: monthBalace,
       balance: monthTotalBalace,
+      inputs,
+      outputs,
     };
 
     const { error } = await this.supabase
@@ -227,28 +278,38 @@ export class FinanceReportsService {
 
     let monthTotalBalace = openedMonthFinanceReport.balance;
 
+    let inputs = openedMonthFinanceReport.inputs;
+
+    let outputs = openedMonthFinanceReport.outputs;
+
     // --------- Process deleting the previous note
     if (initialType === 'C') {
       monthTotalBalace -= initialValue;
       monthBalace -= initialValue;
+      inputs -= initialValue;
     } else {
       monthBalace += initialValue;
       monthTotalBalace += initialValue;
+      outputs -= initialValue;
     }
 
     // --------- Process adding the new(edited) note
     if (financeNote.type === 'C') {
       monthBalace += financeNote.value;
       monthTotalBalace += financeNote.value;
+      inputs += financeNote.value;
     } else {
       monthBalace -= financeNote.value;
       monthTotalBalace -= financeNote.value;
+      outputs += financeNote.value;
     }
 
     const updatedFinanceReport = {
       ...openedMonthFinanceReport,
       month_balance: monthBalace,
       balance: monthTotalBalace,
+      inputs,
+      outputs,
     };
 
     const { error } = await this.supabase

@@ -5,4 +5,6 @@ export interface FinanceReports {
   month_balance: number;
   balance: number;
   state: 'open' | 'closed' | 'start';
+  inputs: number;
+  outputs: number;
 }
