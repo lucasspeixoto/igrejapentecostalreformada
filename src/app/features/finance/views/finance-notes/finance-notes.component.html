@@ -11,7 +11,7 @@
     <ng-template #end>
         <p-button [disabled]="isSelectedMonthClosed()" class="mr-2" label="Fechar" icon="pi pi-list-check"
             severity="info" (click)="closeCurrentMonth()" />
-        <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="exportCSV()" />
+        <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="downloadFinanceNoteExcel()" />
     </ng-template>
 </p-toolbar>
 
