@@ -1,3 +1,5 @@
+<app-audit-validation-warnings [isSelectedMonthClosed]="isSelectedMonthClosed()" />
+
 <p-toolbar styleClass="mb-6 flex flex-wrap justify-center md:justify-between gap-2">
     <ng-template #start>
         <p-button [disabled]="isSelectedMonthClosed()" label="Novo" icon="pi pi-plus" severity="primary" class="mr-2"
@@ -12,6 +14,10 @@
         <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="exportCSV()" />
     </ng-template>
 </p-toolbar>
+
+
+
+
 
 <p-table #dt [rows]="10" [value]="financeNotesService.financeNotes()" [columns]="columns" [paginator]="true"
     [globalFilterFields]="globalFilterFields" [tableStyle]="{ 'min-width': '75rem' }"
