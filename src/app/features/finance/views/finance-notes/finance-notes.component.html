@@ -15,10 +15,6 @@
     </ng-template>
 </p-toolbar>
 
-
-
-
-
 <p-table #dt [rows]="10" [value]="financeNotesService.financeNotes()" [columns]="columns" [paginator]="true"
     [globalFilterFields]="globalFilterFields" [tableStyle]="{ 'min-width': '75rem' }"
     [(selection)]="selectedFinanceNote" selectionMode="single" [metaKeySelection]="false" dataKey="id"

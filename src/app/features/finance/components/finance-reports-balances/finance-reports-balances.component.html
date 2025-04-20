@@ -72,13 +72,13 @@
             <div>
                 <i class="font-bold text-green-800 pi pi-arrow-up" style="font-size: 1rem"></i>
                 <span class="text-green-500 font-semibold text-sm">R$
-                    {{financeNotesService.totalOfCreditNotes().toFixed(2)}}
+                    {{financeReportsService.totalOfCreditNotes()?.toFixed(2)}}
                 </span>
             </div>
             <div>
                 <i class="font-bold text-red-800 pi pi-arrow-down" style="font-size: 1rem"></i>
                 <span class="text-red-500 font-semibold text-sm">R$
-                    {{financeNotesService.totalOfDebitNotes().toFixed(2)}}
+                    {{financeReportsService.totalOfDebitNotes()?.toFixed(2)}}
                 </span>
             </div>
         </div>
