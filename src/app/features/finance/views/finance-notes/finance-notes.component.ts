@@ -35,6 +35,7 @@ import { LoadingService } from '../../../../services/loading/loading.service';
 import { getFirstMonthDay, getLastMonthDay } from '../../../../utils/date';
 import { FirstAndLastnamePipe } from '../../../../pipes/first-and-lastname/first-and-lastname.pipe';
 import { PrimengDatePipe } from '../../../../pipes/primeng-date/primeng-date.pipe';
+import { AuditValidationWarningsComponent } from '../../components/audit-validation-warnings/audit-validation-warnings.component';
 
 const PRIMENG = [
   TooltipModule,
@@ -56,7 +57,12 @@ const PRIMENG = [
   ConfirmDialogModule,
 ];
 
-const COMMON = [FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
+const COMMON = [
+  FormsModule,
+  ReactiveFormsModule,
+  CustomValidationMessageComponent,
+  AuditValidationWarningsComponent,
+];
 
 const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
@@ -145,8 +151,6 @@ export class FinanceNotesComponent implements OnInit {
   public isSelectedMonthClosed = computed(
     () => this.financeReportsService.selectMonthAndYearState() === 'closed'
   );
-
-  public currentOpenMonth = this.financeReportsService.currentOpenMonth();
 
   public initialValue!: number;
 
