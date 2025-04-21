@@ -4,10 +4,11 @@ import { MembersListComponent } from '../../app/features/members/views/members-l
 import { ResumesComponent } from './resumes/resumes';
 import { FinanceComponent } from './finance/views/finance/finance.component';
 import { isAdminGuard } from '../auth/guards/is-admin/is-admin.guard';
+import { EdComponent } from './ed/views/ed/ed.component';
 
 export default [
   { path: 'painel', component: ResumesComponent },
-  { path: 'membros', component: MembersListComponent },
+  { path: 'membros', canActivate: [isAdminGuard], component: MembersListComponent },
   {
     path: 'financeiro',
     component: FinanceComponent,
@@ -16,6 +17,16 @@ export default [
       {
         path: '',
         loadChildren: () => import('./finance/finance.routes'),
+      },
+    ],
+  },
+  {
+    path: 'escola-de-discipulos',
+    component: EdComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./ed/ed.routes'),
       },
     ],
   },
