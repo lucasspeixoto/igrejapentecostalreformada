@@ -33,8 +33,8 @@ import { LayoutService } from '../service/layout.service';
           <i
             [ngClass]="{
               'pi ': true,
-              'pi-moon text-blue-500': layoutService.isDarkTheme(),
-              'pi-sun text-yellow-500': !layoutService.isDarkTheme(),
+              'pi-moon': layoutService.isDarkTheme(),
+              'pi-sun': !layoutService.isDarkTheme(),
             }"></i>
         </button>
       </div>

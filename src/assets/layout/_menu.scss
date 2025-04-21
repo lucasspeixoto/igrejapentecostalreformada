@@ -84,16 +84,20 @@
 
       &.active-route {
         font-weight: 700;
-        color: var(--primary-color);
+        /* color: var(--primary-color); */
+
+        /* border-left-color: var(--primary-color); */
+        background-color: var(--surface-hover);
+        border-left: 8px solid var(--primary-color);
       }
 
       &:hover {
         background-color: var(--surface-hover);
       }
 
-      &:focus {
+      /* &:focus {
         @include focused-inset();
-      }
+      } */
     }
 
     ul {
