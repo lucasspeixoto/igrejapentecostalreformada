@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EdCoursesComponent } from './ed-courses.component';
+import { UpdateEdCourseDialogComponent } from './update-ed-course-dialog.component';
 import { MessageService } from 'primeng/api';
 
-describe('EdCoursesComponent', () => {
-  let component: EdCoursesComponent;
-  let fixture: ComponentFixture<EdCoursesComponent>;
+describe('UpdateEdCourseDialogComponent', () => {
+  let component: UpdateEdCourseDialogComponent;
+  let fixture: ComponentFixture<UpdateEdCourseDialogComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [EdCoursesComponent],
+      imports: [UpdateEdCourseDialogComponent],
       providers: [MessageService],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EdCoursesComponent);
+    fixture = TestBed.createComponent(UpdateEdCourseDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -10,6 +10,8 @@ import { toTitleCase } from '../../../../app/utils/case';
   providedIn: 'root',
 })
 export class MembersService {
+  private supabase = injectSupabase();
+
   public loadingService = inject(LoadingService);
 
   public messageService = inject(MessageService);
@@ -17,8 +19,6 @@ export class MembersService {
   public members = signal<Member[]>([]);
 
   public totalOfMembers = computed(() => this.members().length);
-
-  private supabase = injectSupabase();
 
   public async getAllMembersDataHandler(): Promise<void> {
     this.loadingService.isLoading.set(true);

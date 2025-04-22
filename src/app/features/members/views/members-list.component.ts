@@ -54,8 +54,15 @@ const PIPES = [FirstAndLastnamePipe, PrimengDatePipe];
         font-weight: bold;
       }
 
+      :host ::ng-deep {
+        .p-button:disabled {
+          cursor: not-allowed;
+        }
+      }
+
       ::ng-deep {
         .p-inputmask,
+        .p-inputnumber,
         .p-datepicker {
           width: 100%;
         }
