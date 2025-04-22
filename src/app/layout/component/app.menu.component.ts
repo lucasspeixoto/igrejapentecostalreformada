@@ -21,10 +21,14 @@ export class AppMenuComponent implements OnInit {
 
   private authenticationService = inject(AuthenticationService);
 
-  public isVisible = false;
+  public isAdmin = false;
+
+  public isLogged = false;
 
   public ngOnInit(): void {
-    this.isVisible = this.checkIsAdmin();
+    this.isAdmin = this.authenticationService.isAdminCheckHandler();
+
+    this.isLogged = this.authenticationService.isLoggedCheckHandler();
 
     this.menuItems = [
       {
@@ -39,26 +43,57 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: 'Membros',
-            visible: true,
+            visible: this.isAdmin,
             icon: 'pi pi-fw pi-users',
             routerLink: ['/inicio/membros'],
           },
           {
             label: 'Financeiro',
-            visible: this.isVisible,
+            visible: this.isAdmin,
             icon: 'pi pi-fw pi-dollar',
             items: [
               {
                 label: 'Lançamentos',
-                visible: this.isVisible,
+                visible: this.isAdmin,
                 icon: 'pi pi-fw pi-file-arrow-up',
                 routerLink: ['/inicio/financeiro/notas'],
               },
               {
                 label: 'Relatórios',
-                visible: this.isVisible,
+                visible: this.isAdmin,
                 icon: 'pi pi-fw pi-chart-bar',
                 routerLink: ['/inicio/financeiro/relatorios'],
+              },
+            ],
+          },
+          {
+            label: 'Escola de Discípulos',
+            visible: this.isLogged,
+            icon: 'pi pi-fw pi-briefcase',
+            items: [
+              {
+                label: 'Cursos',
+                visible: this.isAdmin,
+                icon: 'pi pi-fw pi-book',
+                routerLink: ['/inicio/escola-de-discipulos/cursos'],
+              },
+              {
+                label: 'Aulas',
+                visible: this.isAdmin,
+                icon: 'pi pi-fw pi-file-pdf',
+                routerLink: ['/inicio/escola-de-discipulos/aulas'],
+              },
+              {
+                label: 'Matrículas',
+                visible: this.isAdmin,
+                icon: 'pi pi-fw pi-clipboard',
+                routerLink: ['/inicio/escola-de-discipulos/matriculas'],
+              },
+              {
+                label: 'Painel do Aluno',
+                visible: this.isLogged,
+                icon: 'pi pi-fw pi-desktop',
+                routerLink: ['/inicio/escola-de-discipulos/painel'],
               },
             ],
           },
