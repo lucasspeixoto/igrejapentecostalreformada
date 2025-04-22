@@ -1,5 +1,70 @@
-<div class="w-full flex flex-col items-center justify-center gap-4 p-4">
-    <h2 class="self-start">ED - Cursos</h2>
-    <img width="500" height="500" src="/assets/images/in-development.svg" alt="In development" />
-    <span class="text-xl font-extrabold">Em desenvolvimento</span>
-</div>
+
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2" (onClick)="openInsertCourse()"  />
+        <p-button [disabled]="!selectedCourses || !selectedCourses.length" severity="danger" label="Excluir" icon="pi pi-trash" (onClick)="openDeleteCourses()" />
+    </ng-template>
+
+    <ng-template #end>
+        <p-button [disabled]="!selectedCourses || !selectedCourses.length" label="Inserir Aula" icon="pi pi-upload" severity="info" />
+    </ng-template>
+</p-toolbar>
+
+<p-table #dt [value]="edCoursesService.courses()" [rows]="10" [columns]="columns" [paginator]="true"
+    [globalFilterFields]="['name', 'users.full_name']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedCourses"
+    [scrollable]="true" [rowHover]="true" dataKey="id"
+    currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} cursos" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
+    <ng-template #caption>
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input class="w-full sm:w-auto" pInputText type="text" (input)="onGlobalFilter(dt, $event)"
+                    placeholder="Pesquisar..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox />
+            </th>
+            <th pSortableColumn="name" style="min-width: 8rem">
+                Name
+                <p-sortIcon field="name" />
+            </th>
+            <th pSortableColumn="users.full_name" style="min-width: 8rem">Professor <p-sortIcon field="users.full_name" /></th>
+            <th style="min-width: 10rem">Descrição</th>
+            <th style="min-width: 2rem">Aulas</th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-course>
+        <tr>
+            <td style="width: 3rem">
+                <p-tableCheckbox [value]="course" />
+            </td>
+            <td style="min-width: 8rem">{{ course.name }}</td>
+            <td style="min-width: 8rem">{{ course.users.full_name | firstAndLastname }}</td>
+            <td style="min-width: 10rem">{{ course.description }}</td>
+            <td style="min-width: 2rem">{{ course.ed_lessons[0]?.count ?? 0 }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" severity="info" [rounded]="true" [outlined]="true"
+                    (click)="openUpdateCourse(course)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                    (click)="openDeleteCourse(course)" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<app-update-ed-course-dialog
+    [courseForm]="courseForm"
+    [courseDialog]="courseDialog"
+    [modalTitle]="modalTitle()"
+    (dialogClosed)="hideDialog()"
+    (courseSaved)="saveCourseHandler()">
+</app-update-ed-course-dialog>
+
+
+<p-confirmdialog [style]="{ width: '450px' }" />
