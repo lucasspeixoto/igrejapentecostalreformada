@@ -12,8 +12,12 @@ import { ToastModule } from 'primeng/toast';
 import { CustomValidationMessageComponent } from '../../../../components/custom-validation-message/custom-validation-message';
 import { EdCourseFormControl } from '../../constants/ed-course-form';
 import { UsersService } from '../../../../services/users/users.service';
+import { ChipModule } from 'primeng/chip';
+import { FileUploadComponent } from '../../../../components/file-upload/file-upload.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 const PRIMENG = [
+  FileUploadModule,
   InputMaskModule,
   DatePickerModule,
   ButtonModule,
@@ -22,15 +26,21 @@ const PRIMENG = [
   SelectModule,
   InputTextModule,
   DialogModule,
+  ChipModule,
 ];
 
-const COMMON = [FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
+const COMMON = [
+  FormsModule,
+  ReactiveFormsModule,
+  CustomValidationMessageComponent,
+  FileUploadComponent,
+];
 
 const PROVIDERS = [MessageService];
 
 @Component({
   selector: 'app-update-ed-course-dialog',
-  imports: [...PRIMENG, ...COMMON],
+  imports: [...PRIMENG, ...COMMON, FileUploadComponent],
   templateUrl: './update-ed-course-dialog.component.html',
   styles: [
     `

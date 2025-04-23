@@ -1,5 +1,5 @@
 <p-dialog [(visible)]="courseDialog" [breakpoints]="{'900px': '55vw', '575px': '90vw' }" [style]="{ width: '40vw' }"
-    [draggable]="false" [resizable]="false" [maximizable]="true" [header]="modalTitle()" [modal]="true">
+    [draggable]="true" [resizable]="false" [header]="modalTitle()" [modal]="true">
     <ng-template #content>
         <p-toast />
         <form [formGroup]="courseForm">
@@ -16,18 +16,24 @@
                         [options]="users()" placeholder="Selecione o instrutor" />
                     <app-custom-validation-message id="userIdErrorMessage" controlName="userId" />
                 </div>
-
             </div>
 
             <div class="grid grid-cols-12">
                 <div class="mb-6 mx-2 col-span-12">
                     <label for="description" class="block font-bold mb-2">Descrição</label>
-                    <textarea class="w-full" rows="5" pTextarea formControlName="description"
+                    <textarea class="w-full" rows="7" pTextarea formControlName="description"
                     id="description"></textarea>
                     <app-custom-validation-message id="descriptionErrorMessage" controlName="description" [minLength]="3" />
                 </div>
             </div>
         </form>
+
+        <div class="grid grid-cols-12">
+            <div class="mb-6 mx-2 col-span-12">
+                <label for="photo" class="block font-bold mb-2">Capa Curso</label>
+                <app-file-upload />
+            </div>
+        </div>
     </ng-template>
 
     <ng-template #footer>
