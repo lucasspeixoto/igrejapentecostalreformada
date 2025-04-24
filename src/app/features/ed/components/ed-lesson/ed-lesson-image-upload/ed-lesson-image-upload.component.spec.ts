@@ -2,20 +2,20 @@
 /* tslint:disable:no-unused-variable */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileUploadComponent } from './file-upload.component';
+import { EdLessonImageUploadComponent } from './ed-lesson-image-upload.component';
 import { provideHttpClient } from '@angular/common/http';
 
-describe('FileUploadComponent', () => {
-  let component: FileUploadComponent;
-  let fixture: ComponentFixture<FileUploadComponent>;
+describe('EdLessonImageUploadComponent', () => {
+  let component: EdLessonImageUploadComponent;
+  let fixture: ComponentFixture<EdLessonImageUploadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FileUploadComponent],
+      imports: [EdLessonImageUploadComponent],
       providers: [provideHttpClient()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FileUploadComponent);
+    fixture = TestBed.createComponent(EdLessonImageUploadComponent);
     component = fixture.componentInstance;
 
     fixture.detectChanges();

@@ -9,12 +9,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
-import { CustomValidationMessageComponent } from '../../../../components/custom-validation-message/custom-validation-message';
-import { EdCourseFormControl } from '../../constants/ed-course-form';
-import { UsersService } from '../../../../services/users/users.service';
+
 import { ChipModule } from 'primeng/chip';
-import { FileUploadComponent } from '../../../../components/file-upload/file-upload.component';
+import { EdCourseImageUploadComponent } from '../ed-course-image-upload/ed-course-image-upload.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { CustomValidationMessageComponent } from 'src/app/components/custom-validation-message/custom-validation-message';
+import { UsersService } from 'src/app/services/users/users.service';
+import { EdCourseFormControl } from '../../../constants/ed-course-form';
 
 const PRIMENG = [
   FileUploadModule,
@@ -33,14 +34,14 @@ const COMMON = [
   FormsModule,
   ReactiveFormsModule,
   CustomValidationMessageComponent,
-  FileUploadComponent,
+  EdCourseImageUploadComponent,
 ];
 
 const PROVIDERS = [MessageService];
 
 @Component({
   selector: 'app-update-ed-course-dialog',
-  imports: [...PRIMENG, ...COMMON, FileUploadComponent],
+  imports: [...PRIMENG, ...COMMON, EdCourseImageUploadComponent],
   templateUrl: './update-ed-course-dialog.component.html',
   styles: [
     `

@@ -1,0 +1,81 @@
+<p-dialog [(visible)]="lessonDialog"
+    [breakpoints]="{'900px': '55vw', '575px': '90vw' }"
+    [style]="{ width: '40vw' }"
+    [draggable]="true" [resizable]="false" [header]="modalTitle()"
+    [modal]="true">
+    <ng-template #content>
+        <p-toast />
+        <form [formGroup]="lessonForm">
+            <div class="grid grid-cols-12">
+                <div class="mb-6 mx-2 col-span-12 xl:col-span-6">
+                    <label for="name" class="block font-bold mb-2">Nome</label>
+                    <input class="w-full" type="text" formControlName="name"
+                        pInputText id="name" required fluid />
+                    <app-custom-validation-message id="nameErrorMessage"
+                        controlName="name" [minLength]="3" />
+                </div>
+
+                <div class="mb-6 mx-2 col-span-12 xl:col-span-6">
+                    <label for="courseId"
+                        class="block font-bold mb-2">Curso</label>
+                    <p-select optionLabel="name" optionValue="id"
+                        scrollHeight="300px" class="w-full"
+                        formControlName="courseId"
+                        [options]="courses()"
+                        placeholder="Selecione o instrutor" />
+                    <app-custom-validation-message id="courseIdErrorMessage"
+                        controlName="courseId" />
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12">
+                <div class="mb-6 mx-2 col-span-12 xl:col-span-6">
+                    <label for="linkPdfFile" class="block font-bold mb-2">Link Pdf</label>
+                    <p-inputgroup>
+                        <p-inputgroup-addon>www</p-inputgroup-addon>
+                        <input class="w-full" type="text" formControlName="linkPdfFile"
+                            pInputText id="linkPdfFile" required fluid />
+                    </p-inputgroup>
+                    <app-custom-validation-message id="linkPdfFileErrorMessage"
+                        controlName="linkPdfFile" />
+                </div>
+
+                <div class="mb-6 mx-2 col-span-12 xl:col-span-6">
+                    <label for="linkVideoFile" class="block font-bold mb-2">Link Vídeo</label>
+                    <p-inputgroup>
+                        <p-inputgroup-addon>www</p-inputgroup-addon>
+                        <input class="w-full" type="text" formControlName="linkVideoFile"
+                            pInputText id="linkVideoFile" required fluid />
+                    </p-inputgroup>
+                    <app-custom-validation-message id="linkVideoFileErrorMessage"
+                        controlName="linkVideoFile" />
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12">
+                <div class="mb-6 mx-2 col-span-12">
+                    <label for="description" class="block font-bold mb-2">Descrição</label>
+                    <textarea class="w-full" rows="7" pTextarea formControlName="description"
+                    id="description"></textarea>
+                    <app-custom-validation-message id="descriptionErrorMessage" controlName="description" [minLength]="3" />
+                </div>
+            </div>
+
+        </form>
+
+        <div class="grid grid-cols-12">
+            <div class="mb-6 mx-2 col-span-12">
+                <label for="imag" class="block font-bold mb-2">Capa
+                    Aula</label>
+                <app-ed-lesson-image-upload />
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancelar" icon="pi pi-times" text
+            (click)="hideDialog()" />
+        <p-button label="Salvar" icon="pi pi-check"
+            (click)="saveEdLessonHandler()" />
+    </ng-template>
+</p-dialog>

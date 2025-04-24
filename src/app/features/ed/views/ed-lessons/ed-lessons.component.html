@@ -1,5 +1,80 @@
-<div class="w-full flex flex-col items-center justify-center gap-4 p-4">
-    <h2 class="self-start">ED - Aulas</h2>
-    <img width="500" height="500" src="/assets/images/in-development.svg" alt="In development" />
-    <span class="text-xl font-extrabold">Em desenvolvimento</span>
-</div>
+
+<p-toolbar styleClass="mb-6">
+    <ng-template #start>
+        <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2" (onClick)="openInsertLesson()"  />
+        <p-button [disabled]="!selectedLessons || !selectedLessons.length" severity="danger" label="Excluir" icon="pi pi-trash" (onClick)="openDeleteLessons()" />
+    </ng-template>
+
+    <ng-template #end>
+        <p-button [disabled]="!selectedLessons || !selectedLessons.length" label="Matricular" icon="pi pi-file" severity="info" />
+    </ng-template>
+</p-toolbar>
+
+<p-table #dt [value]="edLessonsService.lessons()" [rows]="10" [columns]="columns" [paginator]="true"
+    [globalFilterFields]="['name', 'course.name', 'course.user.full_name']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedLessons"
+    [scrollable]="true" [rowHover]="true" dataKey="id"
+    currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} aulas" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
+    <ng-template #caption>
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input class="w-full sm:w-auto" pInputText type="text" (input)="onGlobalFilter(dt, $event)"
+                    placeholder="Pesquisar..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header>
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox />
+            </th>
+            <th pSortableColumn="name" style="min-width: 7rem">
+                Name
+                <p-sortIcon field="name" />
+            </th>
+            <th pSortableColumn="course.name" style="min-width: 7rem">Curso <p-sortIcon field="course.name" /></th>
+            <th pSortableColumn="course.user.full_name" style="min-width: 7rem">Professor <p-sortIcon field="course.user.full_name" /></th>
+            <th style="min-width: 5rem">Material escrito</th>
+            <th style="min-width: 5rem">Material em vídeo</th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-lesson>
+        <tr>
+            <td style="width: 3rem">
+                <p-tableCheckbox [value]="lesson" />
+            </td>
+            <td style="min-width: 7rem">{{ lesson.name }}</td>
+            <td style="min-width: 7rem">{{ lesson.course.name }}</td>
+            <td style="min-width: 7rem">{{ lesson.course.user.full_name }}</td>
+            <td style="min-width: 5rem">
+                <a [href]="lesson.link_pdf_file" target="_blank" rel="noopener noreferrer" class="text-red-400">
+                    <p-iconfield styleClass="pi pi-file-pdf" />
+                </a>
+            </td>
+            <td style="min-width: 5rem">
+                <a [href]="lesson.link_video_file" target="_blank" rel="noopener noreferrer" class="text-blue-400">
+                    <p-iconfield styleClass="pi pi-video" />
+                </a>
+            </td>
+            <td>
+                <p-button icon="pi pi-pencil" class="mr-2" severity="info" [rounded]="true" [outlined]="true"
+                    (click)="openUpdateLesson(lesson)" />
+                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                    (click)="openDeleteLesson(lesson)" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<app-update-ed-lesson-dialog
+    [lessonForm]="lessonForm"
+    [lessonDialog]="lessonDialog"
+    [modalTitle]="modalTitle()"
+    (dialogClosed)="hideDialog()"
+    (lessonSaved)="saveLessonHandler()">
+</app-update-ed-lesson-dialog>
+
+
+<p-confirmdialog [style]="{ width: '450px' }" />

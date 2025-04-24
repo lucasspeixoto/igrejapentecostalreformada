@@ -6,12 +6,12 @@ import { CommonModule } from '@angular/common';
 import { FileUploadService } from 'src/app/services/file-upload/file-upload.service';
 
 @Component({
-  selector: 'app-file-upload',
-  templateUrl: './file-upload.component.html',
+  selector: 'app-ed-lesson-image-upload',
+  templateUrl: './ed-lesson-image-upload.component.html',
   imports: [FileUpload, ToastModule, CommonModule],
   providers: [MessageService],
 })
-export class FileUploadComponent {
+export class EdLessonImageUploadComponent {
   public fileUploadService = inject(FileUploadService);
 
   public currentUpload = false;
@@ -22,7 +22,7 @@ export class FileUploadComponent {
     const reader = new FileReader();
 
     reader.onload = (e): void => {
-      this.fileUploadService.uploadedFileData.set(e.target?.result as string);
+      this.fileUploadService.uploadedLessonImage.set(e.target?.result as string);
       this.currentUpload = true;
     };
 

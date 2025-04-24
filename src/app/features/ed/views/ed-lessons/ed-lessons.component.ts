@@ -1,11 +1,211 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { FluidModule } from 'primeng/fluid';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule, Table } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { FileUploadService } from '../../../../services/file-upload/file-upload.service';
+import { ExportColumn, Column } from '../../../../models/columns.model';
+import { EdLessonsService } from '../../services/ed-lessons/ed-lessons.service';
+import { UsersService } from 'src/app/services/users/users.service';
+import { EdLesson } from '../../models/ed-lesson.model';
+import { createEdLessonForm, EdLessonFormValue } from '../../constants/ed-lesson-form';
+import { UpdateEdLessonDialogComponent } from '../../components/ed-lesson/update-ed-lesson-dialog/update-ed-lesson-dialog.component';
+
+const PRIMENG = [
+  TableModule,
+  ButtonModule,
+  ToastModule,
+  ToolbarModule,
+  InputTextModule,
+  TagModule,
+  InputIconModule,
+  IconFieldModule,
+  ConfirmDialogModule,
+  FluidModule,
+];
+
+const COMPONENTS = [UpdateEdLessonDialogComponent];
+
+const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
 @Component({
   selector: 'app-ed-lessons',
-  imports: [],
+  imports: [...PRIMENG, ...COMPONENTS],
   templateUrl: './ed-lessons.component.html',
-  styleUrl: './ed-lessons.component.scss'
-})
-export class EdLessonsComponent {
+  styles: [
+    `
+      :host ::ng-deep .p-frozen-column {
+        font-weight: bold;
+      }
 
+      :host ::ng-deep .p-datatable-frozen-tbody {
+        font-weight: bold;
+      }
+
+      :host ::ng-deep {
+        .p-button:disabled {
+          cursor: not-allowed;
+        }
+      }
+
+      ::ng-deep {
+        .p-inputmask,
+        .p-inputnumber,
+        .p-datepicker {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 450px) {
+        .p-iconfield {
+          width: 100%;
+        }
+      }
+    `,
+  ],
+  providers: [...PROVIDERS],
+})
+export class EdLessonsComponent implements OnInit {
+  public edLessonsService = inject(EdLessonsService);
+
+  private messageService = inject(MessageService);
+
+  private confirmationService = inject(ConfirmationService);
+
+  private usersService = inject(UsersService);
+
+  public fileUploadService = inject(FileUploadService);
+
+  public selecteLessons!: EdLesson[] | null;
+
+  public lessonDialog: boolean = false;
+
+  public mode = signal<'add' | 'edit'>('add');
+
+  public modalTitle = computed(() => (this.mode() === 'add' ? 'Adicionar Aula' : 'Editar Aula'));
+
+  public exportColumns!: ExportColumn[];
+
+  public columns!: Column[];
+
+  public lessonForm = createEdLessonForm();
+
+  public filteredvalues!: EdLesson[];
+
+  public selectedLessons: EdLesson[] = [];
+
+  public ngOnInit(): void {
+    this.edLessonsService.getAllLessonsDataHandler();
+    this.usersService.getAllUsers();
+  }
+
+  public onGlobalFilter(table: Table, event: Event): void {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  public openInsertLesson(): void {
+    this.mode.set('add');
+    this.lessonForm.reset();
+    this.fileUploadService.uploadedLessonImage.set('');
+    this.lessonDialog = true;
+  }
+
+  public openUpdateLesson(lesson: EdLesson): void {
+    this.mode.set('edit');
+
+    const { id, name, course_id, link_pdf_file, link_video_file, description, image } = lesson;
+
+    this.fileUploadService.uploadedLessonImage.set(image);
+
+    this.lessonForm.setValue({
+      id,
+      name,
+      courseId: course_id,
+      linkPdfFile: link_pdf_file,
+      linkVideoFile: link_video_file,
+      description,
+      image,
+    });
+
+    this.lessonDialog = true;
+  }
+
+  public openDeleteLesson(lesson: EdLesson): void {
+    this.confirmationService.confirm({
+      message:
+        'Tem certeza que deseja excluir a aula ' +
+        lesson.name +
+        '? Este processo vai remover todas as matrículas ativas',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonProps: {
+        label: 'Sim',
+        severity: 'danger',
+      },
+      accept: () => {
+        this.edLessonsService.deleteLessonHandler(lesson.id);
+      },
+    });
+  }
+
+  public openDeleteLessons(): void {
+    this.confirmationService.confirm({
+      message:
+        'Tem certeza que deseja excluir as aulas selecionados? Este processo vai remover todas as matrículas ativas',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonProps: {
+        label: 'Sim',
+        severity: 'danger',
+      },
+      accept: () => {
+        if (this.selectedLessons) {
+          const ids = this.selectedLessons.map(item => item.id);
+
+          this.edLessonsService.deleteLessonsHandler(ids);
+
+          this.selectedLessons = [];
+        }
+      },
+    });
+  }
+
+  public saveLessonHandler(): void {
+    if (this.lessonForm.invalid) {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Formulário Inválido',
+        detail: 'Preencha todos os campos obrigatórios!',
+      });
+
+      return;
+    }
+
+    this.lessonForm.patchValue({
+      image: this.fileUploadService.uploadedLessonImage() || '',
+    });
+
+    const lessonFormData = this.lessonForm.value as EdLessonFormValue;
+
+    if (this.mode() === 'add') {
+      this.edLessonsService.insertLessonDataHandler(lessonFormData);
+    } else {
+      this.edLessonsService.updateLessonDataHandler(lessonFormData);
+    }
+
+    this.hideDialog();
+  }
+
+  public hideDialog(): void {
+    this.lessonForm.reset();
+    this.lessonDialog = false;
+  }
 }
