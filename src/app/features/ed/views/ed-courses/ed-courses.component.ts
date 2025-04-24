@@ -17,8 +17,9 @@ import { EdCoursesService } from '../../services/ed-courses/ed-courses.service';
 import { ExportColumn, Column } from '../../../../models/columns.model';
 import { EdCourse } from '../../models/ed-course.model';
 import { createEdCourseForm, EdCourseFormValue } from '../../constants/ed-course-form';
-import { UpdateEdCourseDialogComponent } from '../../components/update-ed-course-dialog/update-ed-course-dialog.component';
+import { UpdateEdCourseDialogComponent } from '../../components/ed-course/update-ed-course-dialog/update-ed-course-dialog.component';
 import { UsersService } from '../../../../services/users/users.service';
+import { RouterLink } from '@angular/router';
 
 const PRIMENG = [
   TableModule,
@@ -33,7 +34,7 @@ const PRIMENG = [
   FluidModule,
 ];
 
-const COMPONENTS = [UpdateEdCourseDialogComponent];
+const COMPONENTS = [UpdateEdCourseDialogComponent, RouterLink];
 
 const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
@@ -117,7 +118,7 @@ export class EdCoursesComponent implements OnInit {
   public openInsertCourse(): void {
     this.mode.set('add');
     this.courseForm.reset();
-    this.fileUploadService.uploadedFileData.set('');
+    this.fileUploadService.uploadedCourseImage.set('');
     this.courseDialog = true;
   }
 
@@ -126,7 +127,7 @@ export class EdCoursesComponent implements OnInit {
 
     const { id, name, user_id, description, photo } = course;
 
-    this.fileUploadService.uploadedFileData.set(photo);
+    this.fileUploadService.uploadedCourseImage.set(photo);
 
     this.courseForm.setValue({
       id,
@@ -191,7 +192,7 @@ export class EdCoursesComponent implements OnInit {
     }
 
     this.courseForm.patchValue({
-      photo: this.fileUploadService.uploadedFileData() || '',
+      photo: this.fileUploadService.uploadedCourseImage() || '',
     });
 
     const courseFormData = this.courseForm.value as EdCourseFormValue;

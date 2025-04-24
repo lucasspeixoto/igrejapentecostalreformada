@@ -4,5 +4,7 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class FileUploadService {
-  public uploadedFileData = signal<string | null>(null);
+  public uploadedCourseImage = signal<string | null>(null);
+
+  public uploadedLessonImage = signal<string | null>(null);
 }

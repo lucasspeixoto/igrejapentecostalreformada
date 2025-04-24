@@ -1,8 +1,8 @@
 <p-fileupload name="file" customUpload="true" [auto]="true" (uploadHandler)="onUpload($event)" [multiple]="false" accept="image/*" maxFileSize="10000000">
     <ng-template #empty>
         <div class="flex flex-col items-center justify-center gap-2">
-            @if(fileUploadService.uploadedFileData() && !currentUpload) {
-                <img class="w-[60%] h-[120px]" alt="Foto Curso" [src]="fileUploadService.uploadedFileData()" />
+            @if(fileUploadService.uploadedCourseImage() && !currentUpload) {
+                <img class="w-[60%] h-[120px]" alt="Foto Curso" [src]="fileUploadService.uploadedCourseImage()" />
             }
             <span>Arraste e solte arquivos aqui para novo upload</span>
         </div>
