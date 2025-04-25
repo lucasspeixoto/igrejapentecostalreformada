@@ -80,10 +80,8 @@
                 }
             </td>
             <td>
-                <p-button [disabled]="isSelectedMonthClosed()" icon="pi pi-pencil" class="mr-2" severity="info" [rounded]="true"
-                    [outlined]="true" (click)="openUpdateFinanceNote(note)" />
-                <p-button [disabled]="isSelectedMonthClosed()" icon="pi pi-trash" class="mr-2" severity="danger" [rounded]="true"
-                    [outlined]="true" (click)="openDeleteFinanceNote(note)" />
+                <p-button [disabled]="isSelectedMonthClosed()" icon="pi pi-pencil" severity="info" [rounded]="true" [text]="true" (click)="openUpdateFinanceNote(note)" />
+                <p-button [disabled]="isSelectedMonthClosed()" icon="pi pi-trash" severity="danger" [rounded]="true" [text]="true" (click)="openDeleteFinanceNote(note)" />
             </td>
         </tr>
     </ng-template>

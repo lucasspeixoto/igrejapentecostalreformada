@@ -45,7 +45,7 @@ const PROVIDERS = [MessageService];
 
 @Component({
   selector: 'app-update-ed-lesson-dialog',
-  imports: [...PRIMENG, ...COMMON, EdLessonImageUploadComponent],
+  imports: [...PRIMENG, ...COMMON],
   templateUrl: './update-ed-lesson-dialog.component.html',
   styles: [
     `
