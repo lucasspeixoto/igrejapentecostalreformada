@@ -8,4 +8,5 @@ export interface EdLesson {
   created_at: string;
   description: string;
   image: string;
+  enrollments: { count: number }[]; // Tabela
 }

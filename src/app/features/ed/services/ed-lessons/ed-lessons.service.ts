@@ -2,7 +2,6 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { injectSupabase } from '../../../../utils/inject-supabase';
 import { LoadingService } from '../../../../services/loading/loading.service';
-import { toTitleCase } from '../../../../utils/case';
 import { FileUploadService } from '../../../../services/file-upload/file-upload.service';
 import { EdLesson } from '../../models/ed-lesson.model';
 import { EdLessonFormValue } from '../../constants/ed-lesson-form';
@@ -28,14 +27,14 @@ export class EdLessonsService {
 
     const { data, error } = await this.supabase
       .from('ed_lessons')
-      .select('*, course:course_id (name,user:user_id(id, full_name))')
+      .select(
+        '*, course:course_id (name,user:user_id(id, full_name)), enrollments:ed_lesson_enrollments(count)'
+      )
       .order('created_at', { ascending: false });
 
-    if (!error) this.lessons.set(data);
-
-    this.loadingService.isLoading.set(false);
-
-    if (error) {
+    if (!error) {
+      this.lessons.set(data);
+    } else {
       this.lessons.set([]);
       this.messageService.add({
         severity: 'warn',
@@ -44,6 +43,8 @@ export class EdLessonsService {
         life: 3000,
       });
     }
+
+    this.loadingService.isLoading.set(false);
   }
 
   public async insertLessonDataHandler(lesson: EdLessonFormValue): Promise<void> {
@@ -51,8 +52,8 @@ export class EdLessonsService {
 
     const updatedLesson = {
       created_at: new Date().toISOString(),
-      course_id: toTitleCase(lesson.courseId),
-      name: toTitleCase(lesson.name),
+      course_id: lesson.courseId,
+      name: lesson.name,
       link_pdf_file: lesson.linkPdfFile,
       link_video_file: lesson.linkVideoFile,
       image: lesson.image,
@@ -89,8 +90,8 @@ export class EdLessonsService {
 
     const updatedLesson = {
       created_at: new Date().toISOString(),
-      course_id: toTitleCase(lesson.courseId),
-      name: toTitleCase(lesson.name),
+      course_id: lesson.courseId,
+      name: lesson.name,
       link_pdf_file: lesson.linkPdfFile,
       link_video_file: lesson.linkVideoFile,
       image: lesson.image,
@@ -183,7 +184,9 @@ export class EdLessonsService {
   public async updateCurrentLessonsList(): Promise<void> {
     const { data, error } = await this.supabase
       .from('ed_lessons')
-      .select('*, course:course_id (name,user:user_id(id, full_name))')
+      .select(
+        '*, course:course_id (name,user:user_id(id, full_name)), enrollments:ed_lesson_enrollments(count)'
+      )
       .order('created_at', { ascending: false });
 
     if (!error) this.lessons.set(data);

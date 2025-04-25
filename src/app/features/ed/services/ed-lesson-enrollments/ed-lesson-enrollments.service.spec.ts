@@ -1,17 +1,17 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed } from '@angular/core/testing';
-import { EdLessonsService } from './ed-lessons.service';
+import { EdLessonEnrollmentsService } from './ed-lesson-enrollments.service';
 import { MessageService } from 'primeng/api';
 
-describe('EdLessonsService', () => {
-  let service: EdLessonsService;
+describe('EdLessonEnrollmentsService', () => {
+  let service: EdLessonEnrollmentsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MessageService, EdLessonsService],
+      providers: [MessageService, EdLessonEnrollmentsService],
     });
-    service = TestBed.inject(EdLessonsService);
+    service = TestBed.inject(EdLessonEnrollmentsService);
   });
 
   it('should be created', () => {

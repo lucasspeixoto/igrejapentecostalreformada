@@ -1,5 +1,8 @@
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { BadgeModule } from 'primeng/badge';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -19,9 +22,10 @@ import { EdCourse } from '../../models/ed-course.model';
 import { createEdCourseForm, EdCourseFormValue } from '../../constants/ed-course-form';
 import { UpdateEdCourseDialogComponent } from '../../components/ed-course/update-ed-course-dialog/update-ed-course-dialog.component';
 import { UsersService } from '../../../../services/users/users.service';
-import { RouterLink } from '@angular/router';
 
 const PRIMENG = [
+  BadgeModule,
+  OverlayBadgeModule,
   TableModule,
   ButtonModule,
   ToastModule,

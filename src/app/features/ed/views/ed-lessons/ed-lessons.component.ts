@@ -11,15 +11,22 @@ import { TableModule, Table } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
 import { FileUploadService } from '../../../../services/file-upload/file-upload.service';
-import { ExportColumn, Column } from '../../../../models/columns.model';
 import { EdLessonsService } from '../../services/ed-lessons/ed-lessons.service';
-import { UsersService } from 'src/app/services/users/users.service';
+import { UsersService } from '../../../../services/users/users.service';
 import { EdLesson } from '../../models/ed-lesson.model';
 import { createEdLessonForm, EdLessonFormValue } from '../../constants/ed-lesson-form';
 import { UpdateEdLessonDialogComponent } from '../../components/ed-lesson/update-ed-lesson-dialog/update-ed-lesson-dialog.component';
+import { EnrollStudentsDialogComponent } from '../../components/ed-lesson/enroll-students-dialog/enroll-students-dialog.component';
+import { FirstAndLastnamePipe } from 'src/app/pipes/first-and-lastname/first-and-lastname.pipe';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { BadgeModule } from 'primeng/badge';
 
 const PRIMENG = [
+  BadgeModule,
+  OverlayBadgeModule,
+  TooltipModule,
   TableModule,
   ButtonModule,
   ToastModule,
@@ -32,13 +39,21 @@ const PRIMENG = [
   FluidModule,
 ];
 
-const COMPONENTS = [UpdateEdLessonDialogComponent];
+const COMPONENTS = [UpdateEdLessonDialogComponent, EnrollStudentsDialogComponent];
 
 const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
+const PIPES = [FirstAndLastnamePipe];
+
+const modalTitleOptions: Record<string, string> = {
+  add: 'Adicionar Aula',
+  edit: 'Editar Aula',
+  enrollment: 'Gerar Matrículas',
+};
+
 @Component({
   selector: 'app-ed-lessons',
-  imports: [...PRIMENG, ...COMPONENTS],
+  imports: [...PRIMENG, ...COMPONENTS, ...PIPES],
   templateUrl: './ed-lessons.component.html',
   styles: [
     `
@@ -88,19 +103,17 @@ export class EdLessonsComponent implements OnInit {
 
   public lessonDialog: boolean = false;
 
-  public mode = signal<'add' | 'edit'>('add');
+  public enrollStudentsDialog: boolean = false;
 
-  public modalTitle = computed(() => (this.mode() === 'add' ? 'Adicionar Aula' : 'Editar Aula'));
+  public mode = signal<'add' | 'edit' | 'delete' | 'enrollment'>('add');
 
-  public exportColumns!: ExportColumn[];
-
-  public columns!: Column[];
+  public modalTitle = computed(() => modalTitleOptions[this.mode()]);
 
   public lessonForm = createEdLessonForm();
 
-  public filteredvalues!: EdLesson[];
-
   public selectedLessons: EdLesson[] = [];
+
+  public selectedLessonForEnrollment!: EdLesson | null;
 
   public ngOnInit(): void {
     this.edLessonsService.getAllLessonsDataHandler();
@@ -136,6 +149,14 @@ export class EdLessonsComponent implements OnInit {
     });
 
     this.lessonDialog = true;
+  }
+
+  public openEnrollmentLesson(lesson: EdLesson): void {
+    this.mode.set('enrollment');
+
+    this.selectedLessonForEnrollment = lesson;
+
+    this.enrollStudentsDialog = true;
   }
 
   public openDeleteLesson(lesson: EdLesson): void {
@@ -207,5 +228,9 @@ export class EdLessonsComponent implements OnInit {
   public hideDialog(): void {
     this.lessonForm.reset();
     this.lessonDialog = false;
+  }
+
+  public hideEnrollmentDialog(): void {
+    this.enrollStudentsDialog = false;
   }
 }

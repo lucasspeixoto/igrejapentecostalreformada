@@ -1,25 +1,35 @@
 
 <p-toolbar styleClass="mb-6">
     <ng-template #start>
-        <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2" (onClick)="openInsertLesson()"  />
-        <p-button [disabled]="!selectedLessons || !selectedLessons.length" severity="danger" label="Excluir" icon="pi pi-trash" (onClick)="openDeleteLessons()" />
+        <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2"
+            (onClick)="openInsertLesson()" />
+        <p-button [disabled]="!selectedLessons || !selectedLessons.length"
+            severity="danger" label="Excluir" icon="pi pi-trash"
+            (onClick)="openDeleteLessons()" />
     </ng-template>
 
     <ng-template #end>
-        <p-button [disabled]="!selectedLessons || !selectedLessons.length" label="Matricular" icon="pi pi-file" severity="info" />
+        <p-button pTooltip="Matricular alunos" tooltipPosition="left"
+            [disabled]="!selectedLessons || selectedLessons.length !== 1"
+            label="Matricular" icon="pi pi-file" severity="info"
+            (onClick)="openEnrollmentLesson(selectedLessons[0])" />
     </ng-template>
 </p-toolbar>
 
-<p-table #dt [value]="edLessonsService.lessons()" [rows]="10" [columns]="columns" [paginator]="true"
-    [globalFilterFields]="['name', 'course.name', 'course.user.full_name']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedLessons"
+<p-table #dt [value]="edLessonsService.lessons()" [rows]="10"
+     [paginator]="true"
+    [globalFilterFields]="['name', 'course.name', 'course.user.full_name']"
+    [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedLessons"
     [scrollable]="true" [rowHover]="true" dataKey="id"
-    currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} aulas" [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
+    currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} aulas"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]">
     <ng-template #caption>
         <div class="flex items-center justify-between flex-wrap gap-4">
             <p-iconfield>
                 <p-inputicon styleClass="pi pi-search" />
-                <input class="w-full sm:w-auto" pInputText type="text" (input)="onGlobalFilter(dt, $event)"
+                <input class="w-full sm:w-auto" pInputText type="text"
+                    (input)="onGlobalFilter(dt, $event)"
                     placeholder="Pesquisar..." />
             </p-iconfield>
         </div>
@@ -33,10 +43,16 @@
                 Name
                 <p-sortIcon field="name" />
             </th>
-            <th pSortableColumn="course.name" style="min-width: 7rem">Curso <p-sortIcon field="course.name" /></th>
-            <th pSortableColumn="course.user.full_name" style="min-width: 7rem">Professor <p-sortIcon field="course.user.full_name" /></th>
+            <th pSortableColumn="course.name" style="min-width: 7rem">Curso
+                <p-sortIcon field="course.name" />
+            </th>
+            <th pSortableColumn="course.user.full_name"
+                style="min-width: 7rem">Professor <p-sortIcon
+                    field="course.user.full_name" />
+            </th>
             <th style="min-width: 5rem">Material escrito</th>
             <th style="min-width: 5rem">Material em vídeo</th>
+            <th style="min-width: 5rem">Matrículas</th>
             <th></th>
         </tr>
     </ng-template>
@@ -47,21 +63,44 @@
             </td>
             <td style="min-width: 7rem">{{ lesson.name }}</td>
             <td style="min-width: 7rem">{{ lesson.course.name }}</td>
-            <td style="min-width: 7rem">{{ lesson.course.user.full_name }}</td>
+            <td style="min-width: 7rem">{{ lesson.course.user.full_name | firstAndLastname }}</td>
             <td style="min-width: 5rem">
-                <a [href]="lesson.link_pdf_file" target="_blank" rel="noopener noreferrer" class="text-red-400">
-                    <p-iconfield styleClass="pi pi-file-pdf" />
+                <a target="_blank" rel="noopener noreferrer"
+                    class="inline-flex rounded-full px-3 py-1 bg-red-200 hover:bg-red-300 transition-all duration-200 gap-2 items-center text-sm dark:bg-red-800 dark:hover:bg-red-700"
+                    [href]="lesson.link_pdf_file">
+                    <span
+                        class="text-red-900 dark:text-red-50 font-medium">Pdf
+                    </span>
+                    <i
+                        class="pi pi-external-link !text-xs text-red-900 dark:text-red-50">
+                    </i>
                 </a>
             </td>
             <td style="min-width: 5rem">
-                <a [href]="lesson.link_video_file" target="_blank" rel="noopener noreferrer" class="text-blue-400">
-                    <p-iconfield styleClass="pi pi-video" />
+                <a target="_blank" rel="noopener noreferrer"
+                    class="inline-flex rounded-full px-3 py-1 bg-green-200 hover:bg-green-300 transition-all duration-200 gap-2 items-center text-sm dark:bg-green-800 dark:hover:bg-green-700"
+                    [href]="lesson.link_vide_file">
+                    <span
+                        class="text-green-900 dark:text-green-50 font-medium">Vídeo
+                    </span>
+                    <i
+                        class="pi pi-external-link !text-xs text-green-900 dark:text-green-50">
+                    </i>
                 </a>
             </td>
-            <td>
-                <p-button icon="pi pi-pencil" class="mr-2" severity="info" [rounded]="true" [outlined]="true"
+            <td style="min-width: 2rem">
+                <p-badge [value]="lesson?.enrollments[0]?.count ?? 0" badgeSize="large" severity="success" />
+               </td>
+            <td class="p-0">
+                <p-button  pTooltip="Matricular alunos"
+                    tooltipPosition="top" icon="pi pi-file"
+                    severity="warn" [rounded]="true" [text]="true"
+                    (click)="openEnrollmentLesson(lesson)" />
+                <p-button  icon="pi pi-pencil"
+                    severity="info" [rounded]="true" [text]="true"
                     (click)="openUpdateLesson(lesson)" />
-                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                <p-button  icon="pi pi-trash" severity="danger"
+                    [rounded]="true" [text]="true"
                     (click)="openDeleteLesson(lesson)" />
             </td>
         </tr>
@@ -76,5 +115,12 @@
     (lessonSaved)="saveLessonHandler()">
 </app-update-ed-lesson-dialog>
 
+<app-enroll-students-dialog
+    [selectedLessonForEnrollment]="selectedLessonForEnrollment"
+    [enrollStudentsDialog]="enrollStudentsDialog"
+    [modalTitle]="modalTitle()"
+    (dialogClosed)="hideEnrollmentDialog()"
+    >
+</app-enroll-students-dialog>
 
 <p-confirmdialog [style]="{ width: '450px' }" />
