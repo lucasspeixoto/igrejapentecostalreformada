@@ -30,7 +30,7 @@ export class EdLessonEnrollmentsService {
 
     const { data, error } = await this.supabase
       .from('ed_lesson_enrollments')
-      .select('*')
+      .select('*, ed_lessons(name), users(full_name), ed_courses:lesson_id(name)')
       .order('created_at', { ascending: false });
 
     if (!error) this.enrollments.set(data);
@@ -43,6 +43,35 @@ export class EdLessonEnrollmentsService {
         severity: 'warn',
         summary: 'Erro',
         detail: 'Erro ao carregar matrículas, tente novamente mais tarde!',
+        life: 3000,
+      });
+    }
+  }
+
+  public async updateLessonEnrollmentStatusHandler(id: string, status: string): Promise<void> {
+    this.loadingService.isLoading.set(true);
+
+    const { error } = await this.supabase
+      .from('ed_lesson_enrollments')
+      .update({ status })
+      .eq('id', id);
+
+    this.loadingService.isLoading.set(false);
+
+    if (error) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Erro',
+        detail: 'Erro ao atualizar matrícula, tente novamente!',
+        life: 3000,
+      });
+    } else {
+      this.updateCurrentLessonEnrollmentsList();
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: 'Matrícula atualizada com sucesso!',
         life: 3000,
       });
     }
@@ -105,48 +134,7 @@ export class EdLessonEnrollmentsService {
     this.loadingService.isLoading.set(false);
   }
 
-  /* public async updateLessonDataHandler(lesson: EdLessonFormValue): Promise<void> {
-    this.loadingService.isLoading.set(true);
-
-    const updatedLesson = {
-      created_at: new Date().toISOString(),
-      course_id: toTitleCase(lesson.courseId),
-      name: toTitleCase(lesson.name),
-      link_pdf_file: lesson.linkPdfFile,
-      link_video_file: lesson.linkVideoFile,
-      image: lesson.image,
-      description: lesson.description,
-    } as EdLesson;
-
-    const { error } = await this.supabase
-      .from('ed_lesson_enrollments')
-      .update([updatedLesson])
-      .eq('id', lesson.id);
-
-    this.loadingService.isLoading.set(false);
-
-    if (error) {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Erro',
-        detail: 'Erro ao editar matrícula. tente novamente!',
-        life: 3000,
-      });
-    } else {
-      this.updateCurrentLessonEnrollmentsList();
-
-      this.fileUploadService.uploadedLessonImage.set('');
-
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Sucesso',
-        detail: 'Matrícula editada com sucesso!',
-        life: 3000,
-      });
-    }
-  }
-
-  public async deleteLessonHandler(id: string): Promise<void> {
+  public async deleteLessonEnrollmentHandler(id: string): Promise<void> {
     this.loadingService.isLoading.set(true);
 
     const { error } = await this.supabase.from('ed_lesson_enrollments').delete().eq('id', id);
@@ -172,7 +160,7 @@ export class EdLessonEnrollmentsService {
     }
   }
 
-  public async deleteLessonsHandler(ids: string[]): Promise<void> {
+  public async deleteLessonEnrollmentsHandler(ids: string[]): Promise<void> {
     this.loadingService.isLoading.set(true);
 
     const { error } = await this.supabase
@@ -199,12 +187,12 @@ export class EdLessonEnrollmentsService {
         life: 3000,
       });
     }
-  } */
+  }
 
   public async updateCurrentLessonEnrollmentsList(): Promise<void> {
     const { data, error } = await this.supabase
       .from('ed_lesson_enrollments')
-      .select('*')
+      .select('*, ed_lessons(name), users(full_name), ed_courses:lesson_id(name)')
       .order('created_at', { ascending: false });
 
     if (!error) this.enrollments.set(data);
