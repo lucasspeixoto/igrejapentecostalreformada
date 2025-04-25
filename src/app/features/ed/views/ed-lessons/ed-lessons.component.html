@@ -47,12 +47,12 @@
                 <p-sortIcon field="course.name" />
             </th>
             <th pSortableColumn="course.user.full_name"
-                style="min-width: 7rem">Professor <p-sortIcon
+                style="min-width: 7rem">Professor<p-sortIcon
                     field="course.user.full_name" />
             </th>
-            <th style="min-width: 5rem">Material escrito</th>
-            <th style="min-width: 5rem">Material em vídeo</th>
-            <th style="min-width: 5rem">Matrículas</th>
+            <th style="min-width: 5rem">Texto</th>
+            <th style="min-width: 5rem">Vídeo</th>
+            <th style="min-width: 5rem">Matriculados</th>
             <th></th>
         </tr>
     </ng-template>
@@ -89,7 +89,7 @@
                 </a>
             </td>
             <td style="min-width: 2rem">
-                <p-badge [value]="lesson?.enrollments[0]?.count ?? 0" badgeSize="large" severity="success" />
+                <p-badge [value]="lesson?.enrollments[0]?.count ?? 0" badgeSize="large" severity="contrast" />
                </td>
             <td class="p-0">
                 <p-button  pTooltip="Matricular alunos"

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EdLessonEnrollmentsComponent } from './ed-lesson-enrollments.component';
+import { MessageService } from 'primeng/api';
 
 describe('EdLessonEnrollmentsComponent', () => {
   let component: EdLessonEnrollmentsComponent;
@@ -8,9 +9,9 @@ describe('EdLessonEnrollmentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EdLessonEnrollmentsComponent]
-    })
-    .compileComponents();
+      imports: [EdLessonEnrollmentsComponent],
+      providers: [MessageService],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EdLessonEnrollmentsComponent);
     component = fixture.componentInstance;
