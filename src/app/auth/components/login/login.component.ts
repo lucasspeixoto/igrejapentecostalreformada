@@ -92,6 +92,7 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
                 >
               </div>
               <p-button
+                disabled
                 (click)="loginHandler()"
                 id="loginButton"
                 label="Entrar"
