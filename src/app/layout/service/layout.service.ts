@@ -184,9 +184,17 @@ export class LayoutService {
     const _config = config || this.layoutConfig();
     if (_config.darkTheme) {
       document.documentElement.classList.add('app-dark');
+      localStorage.setItem('IPR-SISTEMA-GESTAO:THEME', 'dark');
     } else {
       document.documentElement.classList.remove('app-dark');
+      localStorage.setItem('IPR-SISTEMA-GESTAO:THEME', 'light');
     }
+  }
+
+  public setInitialStorageTheme(): void {
+    const theme = localStorage.getItem('IPR-SISTEMA-GESTAO:THEME') || 'dark';
+    this.layoutConfig.update(state => ({ ...state, darkTheme: theme === 'dark' }));
+    this.toggleDarkMode(this.layoutConfig());
   }
 
   private onTransitionEnd(): void {

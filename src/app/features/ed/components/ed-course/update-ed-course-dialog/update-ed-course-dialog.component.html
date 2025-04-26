@@ -1,5 +1,5 @@
 <p-dialog [(visible)]="courseDialog" [breakpoints]="{'900px': '55vw', '575px': '90vw' }" [style]="{ width: '40vw' }"
-    [draggable]="true" [resizable]="false" [header]="modalTitle()" [modal]="true">
+    [draggable]="true" [resizable]="false" [header]="modalTitle()" [modal]="true" (onHide)="hideDialog()">
     <ng-template #content>
         <p-toast />
         <form [formGroup]="courseForm">

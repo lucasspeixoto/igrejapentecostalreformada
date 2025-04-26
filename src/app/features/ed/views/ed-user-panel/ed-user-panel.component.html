@@ -1,5 +1,22 @@
-<div class="w-full flex flex-col items-center justify-center gap-4 p-4">
-    <h2 class="self-start">ED - Painel</h2>
-    <img width="500" height="500" src="/assets/images/in-development.svg" alt="In development" />
-    <span class="text-xl font-extrabold">Em desenvolvimento</span>
+<div class="w-full flex flex-col items-center justify-center">
+    <!-- Info de resultados e select de ordenação -->
+    <div class="flex w-full justify-between items-center mb-4">
+        <span class="text-md md:text-lg text-muted-color leading-7 font-medium">Mostrando {{edCoursesService.totalOfCourses()}} resultados</span>
+        <div class="flex gap-2 items-center">
+            <span class="text-sm text-muted-color font-medium hidden md:block">Ordernar por</span>
+            <p-select [options]="orderTypes" [ngModel]="selectedOrderType()"
+            (ngModelChange)="changeOrderTypeHandler($event)"
+             optionLabel="name"
+            placeholder="Selecionar" class="w-full md:w-56" />
+        </div>
+    </div>
+    <!-- Filtros e Cursos -->
+     <div class="w-full flex flex-col md:flex-row justify-center items-start my-4">
+        <div class="w-full md:w-1/4 mb-4 md:mb-2">
+            <app-user-panel-ed-filters />
+        </div>
+        <div class="w-full md:w-3/4 px-0 md:px-4">
+            <app-user-panel-ed-courses />
+        </div>
+     </div>
 </div>

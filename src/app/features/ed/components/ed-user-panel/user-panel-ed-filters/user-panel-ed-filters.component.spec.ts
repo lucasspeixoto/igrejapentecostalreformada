@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EdUserPanelComponent } from './ed-user-panel.component';
+import { UserPanelEdFiltersComponent } from './user-panel-ed-filters.component';
 import { MessageService } from 'primeng/api';
 
-describe('EdUserPanelComponent', () => {
-  let component: EdUserPanelComponent;
-  let fixture: ComponentFixture<EdUserPanelComponent>;
+describe('UserPanelEdFiltersComponent', () => {
+  let component: UserPanelEdFiltersComponent;
+  let fixture: ComponentFixture<UserPanelEdFiltersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EdUserPanelComponent],
+      imports: [UserPanelEdFiltersComponent],
       providers: [MessageService],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EdUserPanelComponent);
+    fixture = TestBed.createComponent(UserPanelEdFiltersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

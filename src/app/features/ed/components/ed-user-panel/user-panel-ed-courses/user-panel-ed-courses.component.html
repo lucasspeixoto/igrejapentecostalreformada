@@ -1,0 +1,63 @@
+@if(!loadingService.isLoading()) {
+<p-dataview #dv [value]="courses()">
+    <ng-template #list let-items>
+        <div class="grid grid-cols-12 gap-4 grid-nogutter">
+            <div class="col-span-12" *ngFor="let item of items; let first = first">
+                <div class="flex flex-col md:flex-row sm:items-start p-2 md:px-4 md:py-6 gap-4"
+                    [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }">
+                    <div class="md:w-40 relative">
+                        <img class="block xl:block mx-auto rounded-border w-full" [src]="item.photo"
+                            [alt]="item.name" />
+                    </div>
+                    <div class="w-full flex flex-col md:flex-row justify-between items-start flex-1 gap-0 md:gap-6">
+                        <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                            <div>
+                                <div class="text-lg font-medium text-surface-900 dark:text-surface-0">{{item.name}}
+                                </div>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <p-avatar size="large" [image]="item.users.avatar_url" shape="circle"
+                                        data-pc-name="avatar"
+                                        class="p-avatar p-component p-avatar-circle p-avatar-image">
+                                    </p-avatar>
+                                    <span class="font-medium text-secondary text-md">Prof.
+                                        {{item.users.full_name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block md:hidden w-full">
+                            <p-divider />
+                        </div>
+                        <div
+                            class="flex flex-row w-full md:w-auto justify-around md:flex-col md:justify-end gap-0 md:gap-2">
+                            <span (click)="op.toggle($event)"
+                                class="cursor-pointer hover:underline font-semibold text-md md:text-lg text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
+                                <i class="text-orange-800 pi pi-pencil mr-2 bg-orange-300 p-2 rounded-md"></i>
+                                Detalhes
+                            </span>
+                            <p-popover #op>
+                                <div class="w-full sm:w-[15rem] md:w-[25rem]">
+                                    <span class="text-shadow-lg text-md tracking-wide">{{item.description}}</span>
+                                </div>
+
+                            </p-popover>
+                            <span
+                                class="font-semibold text-md md:text-lg text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
+                                <i class="text-red-800 pi pi-file mr-2 bg-red-300 p-2 rounded-md"></i>
+                                {{item.ed_lessons[0]?.count ?? 0}} aulas
+                            </span>
+                            <span
+                                class="font-semibold text-md md:text-lg text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
+                                <i class="text-violet-800 pi pi-calendar-clock mr-2 bg-violet-300 p-2 rounded-md"></i>
+                                 {{item.created_at | appCourseDate}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+</p-dataview>
+} @else {
+<app-user-panel-ed-courses-skeleton />
+}
