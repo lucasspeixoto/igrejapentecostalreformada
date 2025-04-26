@@ -5,6 +5,6 @@ export interface EdCourse {
   created_at: string;
   user_id: string;
   photo: string;
-  users: { full_name: string };
+  users: { full_name: string; avatar_url: string }[];
   ed_lessons: { count: number }[];
 }

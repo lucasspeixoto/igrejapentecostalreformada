@@ -2,7 +2,6 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { injectSupabase } from '../../../../utils/inject-supabase';
 import { LoadingService } from '../../../../services/loading/loading.service';
-import { toTitleCase } from '../../../../utils/case';
 import { EdCourse } from '../../models/ed-course.model';
 import { EdCourseFormValue } from '../../constants/ed-course-form';
 import { FileUploadService } from '../../../../services/file-upload/file-upload.service';
@@ -28,14 +27,12 @@ export class EdCoursesService {
 
     const { data, error } = await this.supabase
       .from('ed_courses')
-      .select('*, users(full_name), ed_lessons(count)')
+      .select('*, users(full_name, avatar_url), ed_lessons(count)')
       .order('created_at', { ascending: false });
 
-    if (!error) this.courses.set(data);
-
-    this.loadingService.isLoading.set(false);
-
-    if (error) {
+    if (!error) {
+      this.courses.set(data);
+    } else {
       this.courses.set([]);
       this.messageService.add({
         severity: 'warn',
@@ -44,6 +41,8 @@ export class EdCoursesService {
         life: 3000,
       });
     }
+
+    this.loadingService.isLoading.set(false);
   }
 
   public async insertCourseDataHandler(course: EdCourseFormValue): Promise<void> {
@@ -51,8 +50,8 @@ export class EdCoursesService {
 
     const updatedCourse = {
       created_at: new Date().toISOString(),
-      user_id: toTitleCase(course.userId),
-      name: toTitleCase(course.name),
+      user_id: course.userId,
+      name: course.name,
       description: course.description,
       photo: course.photo,
     } as EdCourse;
@@ -87,7 +86,7 @@ export class EdCoursesService {
 
     const updatedCourse = {
       id: course.id,
-      name: toTitleCase(course.name),
+      name: course.name,
       description: course.description,
       user_id: course.userId,
       photo: course.photo,
@@ -179,9 +178,32 @@ export class EdCoursesService {
   public async updateCurrentCoursesList(): Promise<void> {
     const { data, error } = await this.supabase
       .from('ed_courses')
-      .select('*, users(full_name), ed_lessons(count)')
+      .select('*, users(full_name, avatar_url), ed_lessons(count)')
       .order('created_at', { ascending: false });
 
     if (!error) this.courses.set(data);
+  }
+
+  public async updateCurrentCoursesListByName(order: 'asc' | 'desc'): Promise<void> {
+    this.loadingService.isLoading.set(true);
+
+    const { data, error } = await this.supabase
+      .from('ed_courses')
+      .select('*, users(full_name, avatar_url), ed_lessons(count)')
+      .order('name', { ascending: order === 'asc' ? true : false });
+
+    if (!error) {
+      this.courses.set(data);
+    } else {
+      this.courses.set([]);
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Erro',
+        detail: 'Erro ao filtrar cursos, tente novamente!',
+        life: 3000,
+      });
+    }
+
+    this.loadingService.isLoading.set(false);
   }
 }
