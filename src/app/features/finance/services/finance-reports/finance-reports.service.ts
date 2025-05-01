@@ -364,6 +364,8 @@ export class FinanceReportsService {
         month: getNextMonthDate(financeReports.month),
         month_balance: 0,
         state: 'open',
+        inputs: 0,
+        outputs: 0,
       };
 
       const { error: newReportError } = await this.supabase

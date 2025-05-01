@@ -1,6 +1,4 @@
-<app-audit-validation-warnings [isSelectedMonthClosed]="isSelectedMonthClosed()" />
-
-<p-toolbar styleClass="mb-6 flex flex-wrap justify-center md:justify-between gap-2">
+<p-toolbar styleClass="my-4 flex flex-wrap justify-center md:justify-between gap-2">
     <ng-template #start>
         <p-button [disabled]="isSelectedMonthClosed()" class="mr-2" label="Fechar" icon="pi pi-list-check"
         severity="info" (click)="closeCurrentMonth()" />
@@ -14,6 +12,8 @@
             (onClick)="openAddFinanceNote()" />
     </ng-template>
 </p-toolbar>
+
+<app-audit-validation-warnings [isSelectedMonthClosed]="isSelectedMonthClosed()" />
 
 <p-table #dt [rows]="10" [value]="financeNotesService.financeNotes()" [columns]="columns" [paginator]="true"
     [globalFilterFields]="globalFilterFields" [tableStyle]="{ 'min-width': '75rem' }"
