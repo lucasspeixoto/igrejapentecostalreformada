@@ -167,7 +167,6 @@ export class FinanceNotesComponent implements OnInit {
   public ngOnInit(): void {
     this.membersService.getAllMembersDataHandler();
     this.financeNoteCategoryService.getAllFinanceCategoryDataHandler();
-    this.financeNotesService.getAllFinanceNotesDataHandler();
 
     this.computeMinAndMaxAvailableDates();
   }
@@ -252,7 +251,7 @@ export class FinanceNotesComponent implements OnInit {
     this.openDeleteFinanceNote(this.selectedFinanceNote!);
   }
 
-  public openDeleteFinanceNote(financeNote: FinanceNote): void {
+  public async openDeleteFinanceNote(financeNote: FinanceNote): Promise<void> {
     this.mode.set('delete');
 
     this.confirmationService.confirm({
@@ -263,21 +262,21 @@ export class FinanceNotesComponent implements OnInit {
         label: 'Sim',
         severity: 'danger',
       },
-      accept: () => {
+      accept: async () => {
         this.loadingService.isLoading.set(true);
 
-        try {
-          this.financeNotesService.deleteFinanceNoteHandler(financeNote.id);
-        } catch {
-          throw new Error('Error deleting finance note!');
+        const error = await this.financeNotesService.deleteFinanceNoteHandler(financeNote.id);
+
+        if (!error) {
+          this.financeReportsService.processNewBalancesForDeleteNote(financeNote);
         }
 
-        this.financeReportsService.processNewBalancesForDeleteNote(financeNote);
+        this.loadingService.isLoading.set(false);
       },
     });
   }
 
-  public saveFinanceNoteHandler(): void {
+  public async saveFinanceNoteHandler(): Promise<void> {
     if (this.financeNoteForm.invalid) {
       this.messageService.add({
         severity: 'info',
@@ -299,27 +298,21 @@ export class FinanceNotesComponent implements OnInit {
 
     if (this.mode() === 'add') {
       const financeNote = this.createNewFinanceNoteData(transformedMemberData);
-      try {
-        this.financeNotesService.insertFinanceNoteHandler(financeNote);
-      } catch {
-        throw new Error('Error processing finance note!');
-      }
-
-      this.financeReportsService.processNewBalancesForAddNote(financeNote);
+      const error = await this.financeNotesService.insertFinanceNoteHandler(financeNote);
+      if (!error) this.financeReportsService.processNewBalancesForAddNote(financeNote);
     } else if (this.mode() === 'edit') {
       const financeNote = this.createUpdatedFinanceNoteData(transformedMemberData);
-      try {
-        this.financeNotesService.updateFinanceNoteHandler(financeNote);
-      } catch {
-        throw new Error('Error processing finance note!');
+      const error = await this.financeNotesService.updateFinanceNoteHandler(financeNote);
+      if (!error) {
+        this.financeReportsService.processNewBalancesForEditNote(
+          this.initialType,
+          this.initialValue,
+          financeNote
+        );
       }
-
-      this.financeReportsService.processNewBalancesForEditNote(
-        this.initialType,
-        this.initialValue,
-        financeNote
-      );
     }
+
+    this.loadingService.isLoading.set(false);
 
     this.hideDialog();
   }

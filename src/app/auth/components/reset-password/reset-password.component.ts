@@ -76,7 +76,6 @@ import {
                 >
               </div>
               <p-button
-                disabled
                 (click)="resetPasswordHandler()"
                 id="resetPasswordButton"
                 label="Gerar"

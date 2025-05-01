@@ -6,7 +6,7 @@ import { FinanceReports } from '../../models/finance-reports.model';
 import { getActualDate, getNextMonthDate, getPreviousDate } from '../../../../utils/date';
 import { FinanceNotesService } from '../finance-notes/finance-notes.service';
 import { FinanceNote } from '../../models/finance-note.model';
-import { MONTH_LABELS } from 'src/app/utils/constants';
+import { MONTH_LABELS } from '../../../../utils/constants';
 
 @Injectable({
   providedIn: 'root',
