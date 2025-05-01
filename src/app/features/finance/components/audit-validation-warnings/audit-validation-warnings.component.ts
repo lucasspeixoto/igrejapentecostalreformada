@@ -6,7 +6,7 @@ import { FinanceNotesService } from '../../services/finance-notes/finance-notes.
   selector: 'app-audit-validation-warnings',
   imports: [MessageModule],
   template: `
-    <div class="flex w-full justify-start gap-4 mb-4">
+    <div class="flex w-full justify-start gap-4 my-4">
       <p-message class="w-1/2" [severity]="numberOfNonCheckedNotes() === 0 ? 'success' : 'warn'">
         Notas não conferidas:
         @if (numberOfNonCheckedNotes() === 0) {
