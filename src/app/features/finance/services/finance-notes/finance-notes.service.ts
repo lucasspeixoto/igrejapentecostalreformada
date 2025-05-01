@@ -4,6 +4,7 @@ import { FinanceNote, TopFinanceNoteByCategory } from '../../models/finance-note
 import { injectSupabase } from '../../../../utils/inject-supabase';
 import { LoadingService } from '../../../../services/loading/loading.service';
 import { getActualDate, getFirstAndLastDayOfAMonth } from '../../../../utils/date';
+import { PostgrestError } from '@supabase/supabase-js';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +47,9 @@ export class FinanceNotesService {
     this.loadingService.isLoading.set(false);
   }
 
-  public async insertFinanceNoteHandler(financeNote: FinanceNote): Promise<void> {
+  public async insertFinanceNoteHandler(financeNote: FinanceNote): Promise<PostgrestError | null> {
+    let insertError: PostgrestError | null = null;
+
     const { error } = await this.supabase.from('finance_notes').insert([financeNote]);
 
     if (error) {
@@ -57,8 +60,10 @@ export class FinanceNotesService {
         life: 3000,
       });
 
-      throw new Error('Error inserting a finance note!');
+      insertError = error;
     }
+
+    return insertError;
   }
 
   public async updateFinanceNoteCheckHandler(financeNote: FinanceNote): Promise<void> {
@@ -81,7 +86,9 @@ export class FinanceNotesService {
     }
   }
 
-  public async updateFinanceNoteHandler(financeNote: FinanceNote): Promise<void> {
+  public async updateFinanceNoteHandler(financeNote: FinanceNote): Promise<PostgrestError | null> {
+    let updateError: PostgrestError | null = null;
+
     const { error } = await this.supabase
       .from('finance_notes')
       .update([financeNote])
@@ -95,11 +102,15 @@ export class FinanceNotesService {
         life: 3000,
       });
 
-      throw new Error('Error editing a finance note!');
+      updateError = error;
     }
+
+    return updateError;
   }
 
-  public async deleteFinanceNoteHandler(id: string): Promise<void> {
+  public async deleteFinanceNoteHandler(id: string): Promise<PostgrestError | null> {
+    let updateError: PostgrestError | null = null;
+
     const { error } = await this.supabase.from('finance_notes').delete().eq('id', id);
 
     if (error) {
@@ -110,8 +121,10 @@ export class FinanceNotesService {
         life: 3000,
       });
 
-      throw new Error('Error deleting a finance note!');
+      updateError = error;
     }
+
+    return updateError;
   }
 
   public async updateCurrentFinanceNotesList(): Promise<void> {

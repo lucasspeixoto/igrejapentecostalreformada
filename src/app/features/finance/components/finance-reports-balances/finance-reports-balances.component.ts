@@ -1,5 +1,5 @@
 import { FinanceReportsService } from '../../services/finance-reports/finance-reports.service';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FinanceNotesService } from '../../services/finance-notes/finance-notes.service';
 
@@ -15,13 +15,8 @@ import { FinanceNotesService } from '../../services/finance-notes/finance-notes.
     `,
   ],
 })
-export class FinanceReportsBalancesComponent implements OnInit {
+export class FinanceReportsBalancesComponent {
   public financeReportsService = inject(FinanceReportsService);
 
   public financeNotesService = inject(FinanceNotesService);
-
-  public ngOnInit(): void {
-    this.financeNotesService.getAllFinanceNotesDataHandler();
-    this.financeReportsService.getAllFinanceReportsDataHandler();
-  }
 }

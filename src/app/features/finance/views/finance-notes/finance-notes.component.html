@@ -2,16 +2,16 @@
 
 <p-toolbar styleClass="mb-6 flex flex-wrap justify-center md:justify-between gap-2">
     <ng-template #start>
-        <p-button [disabled]="isSelectedMonthClosed()" label="Novo" icon="pi pi-plus" severity="primary" class="mr-2"
-            (onClick)="openAddFinanceNote()" />
-        <p-button (onClick)="deleteSelectedFinanceNotes()" severity="danger" label="Excluir" icon="pi pi-trash"
-            [disabled]="isSelectedMonthClosed() || !selectedFinanceNote" />
+        <p-button [disabled]="isSelectedMonthClosed()" class="mr-2" label="Fechar" icon="pi pi-list-check"
+        severity="info" (click)="closeCurrentMonth()" />
+    <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="downloadFinanceNoteExcel()" />
     </ng-template>
 
     <ng-template #end>
-        <p-button [disabled]="isSelectedMonthClosed()" class="mr-2" label="Fechar" icon="pi pi-list-check"
-            severity="info" (click)="closeCurrentMonth()" />
-        <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="downloadFinanceNoteExcel()" />
+        <p-button (onClick)="deleteSelectedFinanceNotes()" severity="danger" label="Excluir" icon="pi pi-trash" class="mr-2"
+            [disabled]="isSelectedMonthClosed() || !selectedFinanceNote" />
+            <p-button [disabled]="isSelectedMonthClosed()" label="Nova" icon="pi pi-plus" severity="primary"
+            (onClick)="openAddFinanceNote()" />
     </ng-template>
 </p-toolbar>
 

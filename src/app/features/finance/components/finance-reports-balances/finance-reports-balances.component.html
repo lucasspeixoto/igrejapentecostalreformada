@@ -1,9 +1,9 @@
-<div class="col-span-12 sm:col-span-6 md:col-span-3">
+<div class="col-span-6 md:col-span-3">
     <div class="card mb-0">
         <div class="flex justify-between mb-4">
             <div>
                 <span class="block text-muted-color font-medium mb-4">Caixa anterior</span>
-                <div class="text-green-600 dark:text-green-0 font-medium text-xl">
+                <div class="text-green-600 dark:text-green-0 font-medium text-md md:text-xl">
                     R$ {{ financeReportsService.getLastMonthTotalBalance()?.toFixed(2) }}
                 </div>
             </div>
@@ -12,16 +12,16 @@
                 <i class="pi pi-inbox text-blue-500 !text-xl"></i>
             </div>
         </div>
-        <span class="text-primary font-medium">R$ {{ financeReportsService.getLastMonthBalance()?.toFixed(2) }}</span>
+        <span class="text-primary font-medium text-sm md:text-md">R$ {{ financeReportsService.getLastMonthBalance()?.toFixed(2) }}</span>
         <span class="text-muted-color"> de saldo</span>
     </div>
 </div>
-<div class="col-span-12 sm:col-span-6 md:col-span-3">
+<div class="col-span-6 md:col-span-3">
     <div class="card mb-0">
         <div class="flex justify-between mb-4">
             <div>
                 <span class="block text-muted-color font-medium mb-4">Balanço mês</span>
-                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                <div class="text-surface-900 dark:text-surface-0 font-medium text-md md:text-xl">
                     R$ {{financeReportsService.getCurrentMonthTotalBalance()?.toFixed(2) }}
 
                 </div>
@@ -31,16 +31,16 @@
                 <i class="pi pi-arrow-right-arrow-left text-orange-500 !text-xl"></i>
             </div>
         </div>
-        <span class="text-primary font-medium">{{financeReportsService.getCurrentMonthBalance()?.toFixed(2)}} </span>
-        <span class="text-muted-color">de saldo</span>
+        <span class="text-primary font-medium text-sm md:text-md">{{financeReportsService.getCurrentMonthBalance()?.toFixed(2)}} </span>
+        <span class="text-muted-color text-sm md:text-md">de saldo</span>
     </div>
 </div>
-<div class="col-span-12 sm:col-span-6 md:col-span-3">
+<div class="col-span-6 md:col-span-3">
     <div class="card mb-0">
         <div class="flex justify-between mb-4">
             <div>
                 <span class="block text-muted-color font-medium mb-4">Mês</span>
-                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                <div class="text-surface-900 dark:text-surface-0 font-medium text-md md:text-xl">
                     {{financeReportsService.selectedMonthAndYear()}}</div>
             </div>
             <div class="flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border"
@@ -49,18 +49,18 @@
             </div>
         </div>
         @if(financeReportsService.getCurrentMonthState() === 'open') {
-        <span class="text-primary font-medium">Em aberto</span>
+        <span class="text-primary font-medium text-sm md:text-md">Em aberto</span>
         } @else {
-        <span class="text-primary font-medium">Auditado</span>
+        <span class="text-primary font-medium text-sm md:text-md">Auditado</span>
         }
     </div>
 </div>
-<div class="col-span-12 sm:col-span-6 md:col-span-3">
+<div class="col-span-6 md:col-span-3">
     <div class="card mb-0">
         <div class="flex justify-between mb-4">
             <div>
                 <span class="block text-muted-color font-medium mb-4">Notas</span>
-                <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">
+                <div class="text-surface-900 dark:text-surface-0 font-medium text-md md:text-xl">
                     {{financeNotesService.totalOfFinanceNotes()}}</div>
             </div>
             <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
@@ -71,13 +71,13 @@
         <div class="flex gap-1 w-full">
             <div>
                 <i class="font-bold text-green-800 pi pi-arrow-up" style="font-size: 1rem"></i>
-                <span class="text-green-500 font-semibold text-sm">R$
+                <span class="text-green-500 font-semibold text-sm md:text-md">R$
                     {{financeReportsService.totalOfCreditNotes()?.toFixed(2)}}
                 </span>
             </div>
             <div>
                 <i class="font-bold text-red-800 pi pi-arrow-down" style="font-size: 1rem"></i>
-                <span class="text-red-500 font-semibold text-sm">R$
+                <span class="text-red-500 font-semibold text-sm md:text-md">R$
                     {{financeReportsService.totalOfDebitNotes()?.toFixed(2)}}
                 </span>
             </div>

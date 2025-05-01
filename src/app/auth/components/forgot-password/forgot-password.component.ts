@@ -71,7 +71,6 @@ import {
                 >
               </div>
               <p-button
-                disabled
                 (click)="forgotPasswordHandler()"
                 id="forgotPasswordButton"
                 label="Lembrar"

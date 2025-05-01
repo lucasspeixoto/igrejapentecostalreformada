@@ -10,27 +10,31 @@ import { MessageModule } from 'primeng/message';
       <ul id="messages">
         @if (control.hasError('required')) {
           <p-message severity="error" variant="simple" class="mt-[3px] flex items-start">
-            <span id="required">Este Campo é obrigatório!</span>
+            <span class="text-sm" id="required">Este Campo é obrigatório!</span>
           </p-message>
         }
         @if (control.hasError('email')) {
           <p-message severity="error" variant="simple" class="mt-[3px] flex items-start">
-            <span id="email">Endereço de E-mail inválido!</span>
+            <span class="text-sm" id="email">Endereço de E-mail inválido!</span>
           </p-message>
         }
         @if (control.hasError('minlength') && minLength) {
           <p-message severity="error" variant="simple" class="mt-[3px] flex items-start">
-            <span id="minLength">Este campo deve ter ao menos {{ minLength }} caracteres!</span>
+            <span class="text-sm" id="minLength"
+              >Este campo deve ter ao menos {{ minLength }} caracteres!</span
+            >
           </p-message>
         }
         @if (control.hasError('maxlength') && maxLength) {
           <p-message severity="error" variant="simple" class="mt-[3px] flex items-start">
-            <span id="maxLength">Este campo deve ter no máximo {{ maxLength }} caracteres!</span>
+            <span class="text-sm" id="maxLength"
+              >Este campo deve ter no máximo {{ maxLength }} caracteres!</span
+            >
           </p-message>
         }
         @if (control.hasError('pattern')) {
           <p-message severity="error" variant="simple" class="mt-[3px] flex items-start">
-            <span id="pattern">Padrão inválido!</span>
+            <span class="text-sm" id="pattern">Padrão inválido!</span>
           </p-message>
         }
       </ul>
