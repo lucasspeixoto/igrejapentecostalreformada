@@ -172,6 +172,8 @@ export class FinanceNotesComponent implements OnInit {
   }
 
   public checkNoteHandler(financeNote: FinanceNote): void {
+    if (this.isSelectedMonthClosed()) return;
+
     const updatedFinanceNote = {
       ...financeNote,
       is_checked: !financeNote.is_checked,
