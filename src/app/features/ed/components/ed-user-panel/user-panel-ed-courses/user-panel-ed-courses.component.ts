@@ -10,6 +10,7 @@ import { EdCoursesService } from './../../../services/ed-courses/ed-courses.serv
 import { CourseDatePipe } from '../../../pipes/course-date.pipe';
 import { UserPanelEdCoursesSkeletonComponent } from '../user-panel-ed-courses-skeleton/user-panel-ed-courses-skeleton.component';
 import { LoadingService } from '../../../../../services/loading/loading.service';
+import { environment } from 'src/environments/environment';
 
 const PRIMENG = [
   PopoverModule,
@@ -38,4 +39,6 @@ export class UserPanelEdCoursesComponent {
   public loadingService = inject(LoadingService);
 
   public courses = this.edCoursesService.courses;
+
+  public avatarsUrl = `${environment.SUPABASE_URL}/storage/v1/object/public/avatars/`;
 }

@@ -1,6 +1,6 @@
 <p-dialog [(visible)]="enrollStudentsDialog"
     [breakpoints]="{'900px': '55vw', '575px': '90vw' }"
-    [style]="{ width: '40vw' }" [draggable]="true" [resizable]="false"
+    [style]="{ width: '55vw' }" [draggable]="true" [resizable]="false"
     [header]="modalTitle()" [modal]="true" (onHide)="hideDialog()">
     <ng-template #content>
         <p-toast />
@@ -17,12 +17,8 @@
         </div>
 
         <div class="grid grid-cols-12">
-            <div class="mb-6 mx-2 col-span-12">
+            <div class="mb-6 col-span-12">
                 <p-card>
-                    <ng-template #header>
-                        <img alt="Foto Curso" class="w-full"
-                            [src]="selectedLessonForEnrollment?.image" />
-                    </ng-template>
                     <ng-template
                         #title>{{selectedLessonForEnrollment?.name}}</ng-template>
                     <ng-template #subtitle>
@@ -31,7 +27,7 @@
                                 {{selectedLessonForEnrollment?.course?.name}}
                             </span>
                             <span
-                                class="inline-flex rounded-md px-3 py-1 bg-primary-200 hover:bg-primary-300 transition-all duration-200 gap-2 items-center text-sm dark:bg-primary-800 dark:hover:bg-primary-700">
+                                class="inline-flex rounded-md px-1 py-1 bg-primary-200 hover:bg-primary-300 transition-all duration-200 gap-2 items-center text-sm dark:bg-primary-800 dark:hover:bg-primary-700">
                                 <span
                                     class="text-primary-900 dark:text-primary-50 font-medium">Prof.
                                     {{selectedLessonForEnrollment?.course?.user?.full_name! | firstAndLastname}}

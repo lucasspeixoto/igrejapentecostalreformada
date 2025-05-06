@@ -7,6 +7,5 @@ export interface EdLesson {
   course_id: string;
   created_at: string;
   description: string;
-  image: string;
   enrollments: { count: number }[]; // Tabela
 }

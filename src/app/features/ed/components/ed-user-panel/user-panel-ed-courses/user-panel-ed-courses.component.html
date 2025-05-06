@@ -6,7 +6,7 @@
                 <div class="flex flex-col md:flex-row sm:items-start p-2 md:px-4 md:py-6 gap-4"
                     [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }">
                     <div class="md:w-40 relative">
-                        <img class="block xl:block mx-auto rounded-border w-full" [src]="item.photo"
+                        <img class="block xl:block mx-auto rounded-border w-full" src="assets/images/thumb.png"
                             [alt]="item.name" />
                     </div>
                     <div class="w-full flex flex-col md:flex-row justify-between items-start flex-1 gap-0 md:gap-6">
@@ -31,7 +31,7 @@
                             class="flex flex-row w-full md:w-auto justify-around md:flex-col md:justify-end gap-0 md:gap-2">
                             <span (click)="op.toggle($event)"
                                 class="cursor-pointer hover:underline font-semibold text-md md:text-lg text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
-                                <i class="text-orange-800 pi pi-pencil mr-2 bg-orange-300 p-2 rounded-md"></i>
+                                <i class="text-green-800 pi pi-pencil mr-2 bg-green-300 p-2 rounded-md"></i>
                                 Detalhes
                             </span>
                             <p-popover #op>
@@ -42,11 +42,11 @@
                             </p-popover>
                             <span
                                 class="font-semibold text-md md:text-lg text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
-                                <i class="text-red-800 pi pi-file mr-2 bg-red-300 p-2 rounded-md"></i>
+                                <i class="text-blue-800 pi pi-file mr-2 bg-blue-300 p-2 rounded-md"></i>
                                 {{item.ed_lessons[0]?.count ?? 0}} aulas
                             </span>
                             <span
-                                class="font-semibold text-md md:text-lg text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
+                                class="my-1.5 font-semibold text-md md:text-lg text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
                                 <i class="text-violet-800 pi pi-calendar-clock mr-2 bg-violet-300 p-2 rounded-md"></i>
                                  {{item.created_at | appCourseDate}}
                             </span>

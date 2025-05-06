@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, input, Input, Output, type OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, input, Input, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -74,7 +74,7 @@ const PIPES = [FirstAndLastnamePipe];
   ],
   providers: [...PROVIDERS],
 })
-export class EnrollStudentsDialogComponent implements OnInit {
+export class EnrollStudentsDialogComponent {
   @Input() enrollStudentsDialog!: boolean;
 
   @Input() selectedLessonForEnrollment!: EdLesson | null;
@@ -92,10 +92,6 @@ export class EnrollStudentsDialogComponent implements OnInit {
   public modalTitle = input<string>('');
 
   public loadingService = inject(LoadingService);
-
-  public ngOnInit(): void {
-    this.usersService.getAllUsers();
-  }
 
   public hideDialog(): void {
     this.enrollStudentsDialog = false;

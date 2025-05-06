@@ -4,7 +4,6 @@ import { injectSupabase } from '../../../../utils/inject-supabase';
 import { LoadingService } from '../../../../services/loading/loading.service';
 import { EdCourse } from '../../models/ed-course.model';
 import { EdCourseFormValue } from '../../constants/ed-course-form';
-import { FileUploadService } from '../../../../services/file-upload/file-upload.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +14,6 @@ export class EdCoursesService {
   public loadingService = inject(LoadingService);
 
   public messageService = inject(MessageService);
-
-  public fileUploadService = inject(FileUploadService);
 
   public courses = signal<EdCourse[]>([]);
 
@@ -53,7 +50,6 @@ export class EdCoursesService {
       user_id: course.userId,
       name: course.name,
       description: course.description,
-      photo: course.photo,
     } as EdCourse;
 
     const { error } = await this.supabase.from('ed_courses').insert([updatedCourse]);
@@ -69,8 +65,6 @@ export class EdCoursesService {
       });
     } else {
       this.updateCurrentCoursesList();
-
-      this.fileUploadService.uploadedCourseImage.set('');
 
       this.messageService.add({
         severity: 'success',
@@ -89,15 +83,12 @@ export class EdCoursesService {
       name: course.name,
       description: course.description,
       user_id: course.userId,
-      photo: course.photo,
     } as EdCourse;
 
     const { error } = await this.supabase
       .from('ed_courses')
       .update([updatedCourse])
       .eq('id', course.id);
-
-    this.loadingService.isLoading.set(false);
 
     if (error) {
       this.messageService.add({
@@ -106,10 +97,11 @@ export class EdCoursesService {
         detail: 'Erro ao editar curso. tente novamente!',
         life: 3000,
       });
+      this.loadingService.isLoading.set(false);
     } else {
       this.updateCurrentCoursesList();
 
-      this.fileUploadService.uploadedCourseImage.set('');
+      this.loadingService.isLoading.set(false);
 
       this.messageService.add({
         severity: 'success',

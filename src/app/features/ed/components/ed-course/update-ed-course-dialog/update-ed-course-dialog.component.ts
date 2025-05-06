@@ -11,10 +11,9 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 
 import { ChipModule } from 'primeng/chip';
-import { EdCourseImageUploadComponent } from '../ed-course-image-upload/ed-course-image-upload.component';
 import { FileUploadModule } from 'primeng/fileupload';
-import { CustomValidationMessageComponent } from 'src/app/components/custom-validation-message/custom-validation-message';
-import { UsersService } from 'src/app/services/users/users.service';
+import { CustomValidationMessageComponent } from '../../../../../components/custom-validation-message/custom-validation-message';
+import { UsersService } from '../../../../../services/users/users.service';
 import { EdCourseFormControl } from '../../../constants/ed-course-form';
 
 const PRIMENG = [
@@ -30,18 +29,13 @@ const PRIMENG = [
   ChipModule,
 ];
 
-const COMMON = [
-  FormsModule,
-  ReactiveFormsModule,
-  CustomValidationMessageComponent,
-  EdCourseImageUploadComponent,
-];
+const COMMON = [FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
 
 const PROVIDERS = [MessageService];
 
 @Component({
   selector: 'app-update-ed-course-dialog',
-  imports: [...PRIMENG, ...COMMON, EdCourseImageUploadComponent],
+  imports: [...PRIMENG, ...COMMON],
   templateUrl: './update-ed-course-dialog.component.html',
   styles: [
     `
@@ -91,7 +85,7 @@ export class UpdateEdCourseDialogComponent {
     this.dialogClosed.emit();
   }
 
-  public saveMemberHandler(): void {
+  public saveCourseHandler(): void {
     if (this.courseForm.valid) {
       this.courseSaved.emit();
       this.courseDialog = false;

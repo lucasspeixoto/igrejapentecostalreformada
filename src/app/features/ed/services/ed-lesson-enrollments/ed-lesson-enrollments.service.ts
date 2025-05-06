@@ -2,9 +2,8 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { injectSupabase } from '../../../../utils/inject-supabase';
 import { LoadingService } from '../../../../services/loading/loading.service';
-import { FileUploadService } from '../../../../services/file-upload/file-upload.service';
 import { EdLessonEnrollment } from '../../models/ed-lesson-enrollment.model';
-import type { EdLesson } from '../../models/ed-lesson.model';
+import { EdLesson } from '../../models/ed-lesson.model';
 import { EdLessonsService } from '../ed-lessons/ed-lessons.service';
 
 @Injectable({
@@ -16,8 +15,6 @@ export class EdLessonEnrollmentsService {
   public loadingService = inject(LoadingService);
 
   public messageService = inject(MessageService);
-
-  public fileUploadService = inject(FileUploadService);
 
   public edLessonsService = inject(EdLessonsService);
 

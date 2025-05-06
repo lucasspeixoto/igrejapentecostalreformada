@@ -8,7 +8,6 @@ export type EdLessonFormControl = {
   linkPdfFile: FormControl<string>;
   linkVideoFile: FormControl<string>;
   description: FormControl<string>;
-  image: FormControl<string>;
 };
 
 export function createEdLessonForm(): FormGroup<EdLessonFormControl> {
@@ -37,10 +36,6 @@ export function createEdLessonForm(): FormGroup<EdLessonFormControl> {
     }),
     description: new FormControl('', {
       validators: [Validators.required, Validators.minLength(3)],
-      nonNullable: true,
-    }),
-    image: new FormControl('', {
-      validators: [],
       nonNullable: true,
     }),
   });
