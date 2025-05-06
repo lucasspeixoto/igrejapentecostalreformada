@@ -6,10 +6,11 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { TooltipModule } from 'primeng/tooltip';
 import { AuthenticationService } from './../../auth/services/authentication.service';
 import { LayoutService } from '../service/layout.service';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-topbar',
-  imports: [RouterModule, CommonModule, StyleClassModule, TooltipModule],
+  imports: [RouterModule, CommonModule, StyleClassModule, TooltipModule, AvatarModule],
   template: ` <div class="layout-topbar">
     <div class="layout-topbar-logo-container">
       <button
@@ -52,10 +53,17 @@ import { LayoutService } from '../service/layout.service';
 
       <div class="layout-topbar-menu hidden lg:block">
         <div class="layout-topbar-menu-content">
-          <!-- <button type="button" class="layout-topbar-action">
-            <i class="pi pi-user"></i>
-            <span>Perfil</span>
-          </button> -->
+          <div class="select-none flex items-center">
+            <p-avatar
+              [image]="authenticationService.currentUser()?.avatar_url"
+              shape="circle"
+              data-pc-name="avatar"
+              class="p-avatar p-component p-avatar-circle p-avatar-image">
+            </p-avatar>
+            <span class="mt-6 font-xs text-secondary text-md ml-1"
+              >Olá {{ authenticationService.currentUser()?.full_name!.split(' ')[0] }}</span
+            >
+          </div>
           <button
             pTooltip="Sair"
             tooltipPosition="bottom"

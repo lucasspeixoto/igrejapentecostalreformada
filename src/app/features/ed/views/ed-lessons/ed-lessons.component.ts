@@ -12,7 +12,6 @@ import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
-import { FileUploadService } from '../../../../services/file-upload/file-upload.service';
 import { EdLessonsService } from '../../services/ed-lessons/ed-lessons.service';
 import { UsersService } from '../../../../services/users/users.service';
 import { EdLesson } from '../../models/ed-lesson.model';
@@ -67,8 +66,6 @@ export class EdLessonsComponent implements OnInit {
 
   private usersService = inject(UsersService);
 
-  public fileUploadService = inject(FileUploadService);
-
   public selecteLessons!: EdLesson[] | null;
 
   public lessonDialog: boolean = false;
@@ -97,16 +94,13 @@ export class EdLessonsComponent implements OnInit {
   public openInsertLesson(): void {
     this.mode.set('add');
     this.lessonForm.reset();
-    this.fileUploadService.uploadedLessonImage.set('');
     this.lessonDialog = true;
   }
 
   public openUpdateLesson(lesson: EdLesson): void {
     this.mode.set('edit');
 
-    const { id, name, course_id, link_pdf_file, link_video_file, description, image } = lesson;
-
-    this.fileUploadService.uploadedLessonImage.set(image);
+    const { id, name, course_id, link_pdf_file, link_video_file, description } = lesson;
 
     this.lessonForm.setValue({
       id,
@@ -115,7 +109,6 @@ export class EdLessonsComponent implements OnInit {
       linkPdfFile: link_pdf_file,
       linkVideoFile: link_video_file,
       description,
-      image,
     });
 
     this.lessonDialog = true;
@@ -179,10 +172,6 @@ export class EdLessonsComponent implements OnInit {
 
       return;
     }
-
-    this.lessonForm.patchValue({
-      image: this.fileUploadService.uploadedLessonImage() || '',
-    });
 
     const lessonFormData = this.lessonForm.value as EdLessonFormValue;
 

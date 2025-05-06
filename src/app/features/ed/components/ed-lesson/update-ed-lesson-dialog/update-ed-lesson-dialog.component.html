@@ -1,6 +1,6 @@
 <p-dialog [(visible)]="lessonDialog"
     [breakpoints]="{'900px': '55vw', '575px': '90vw' }"
-    [style]="{ width: '40vw' }"
+    [style]="{ width: '50vw' }"
     [draggable]="true" [resizable]="false" [header]="modalTitle()"
     [modal]="true" (onHide)="hideDialog()">
     <ng-template #content>
@@ -23,8 +23,6 @@
                         formControlName="courseId"
                         [options]="courses()"
                         placeholder="Selecione o instrutor" />
-                    <app-custom-validation-message id="courseIdErrorMessage"
-                        controlName="courseId" />
                 </div>
             </div>
 
@@ -70,14 +68,6 @@
             </div>
 
         </form>
-
-        <div class="grid grid-cols-12">
-            <div class="mb-6 mx-2 col-span-12">
-                <label for="imag" class="block font-bold mb-2">Capa
-                    Aula</label>
-                <app-ed-lesson-image-upload />
-            </div>
-        </div>
     </ng-template>
 
     <ng-template #footer>

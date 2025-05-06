@@ -6,7 +6,7 @@ export type EdCourseFormControl = {
   userId: FormControl<string>;
   name: FormControl<string>;
   description: FormControl<string>;
-  photo: FormControl<string>;
+  /* photo: FormControl<string>; */
 };
 
 export function createEdCourseForm(): FormGroup<EdCourseFormControl> {
@@ -29,10 +29,10 @@ export function createEdCourseForm(): FormGroup<EdCourseFormControl> {
       validators: [Validators.required, Validators.minLength(3)],
       nonNullable: true,
     }),
-    photo: new FormControl('', {
+    /* photo: new FormControl('', {
       validators: [],
       nonNullable: true,
-    }),
+    }), */
   });
 }
 

@@ -2,7 +2,6 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { injectSupabase } from '../../../../utils/inject-supabase';
 import { LoadingService } from '../../../../services/loading/loading.service';
-import { FileUploadService } from '../../../../services/file-upload/file-upload.service';
 import { EdLesson } from '../../models/ed-lesson.model';
 import { EdLessonFormValue } from '../../constants/ed-lesson-form';
 
@@ -15,8 +14,6 @@ export class EdLessonsService {
   public loadingService = inject(LoadingService);
 
   public messageService = inject(MessageService);
-
-  public fileUploadService = inject(FileUploadService);
 
   public lessons = signal<EdLesson[]>([]);
 
@@ -56,7 +53,6 @@ export class EdLessonsService {
       name: lesson.name,
       link_pdf_file: lesson.linkPdfFile,
       link_video_file: lesson.linkVideoFile,
-      image: lesson.image,
       description: lesson.description,
     } as EdLesson;
 
@@ -73,8 +69,6 @@ export class EdLessonsService {
       });
     } else {
       this.updateCurrentLessonsList();
-
-      this.fileUploadService.uploadedLessonImage.set('');
 
       this.messageService.add({
         severity: 'success',
@@ -94,7 +88,6 @@ export class EdLessonsService {
       name: lesson.name,
       link_pdf_file: lesson.linkPdfFile,
       link_video_file: lesson.linkVideoFile,
-      image: lesson.image,
       description: lesson.description,
     } as EdLesson;
 
@@ -114,8 +107,6 @@ export class EdLessonsService {
       });
     } else {
       this.updateCurrentLessonsList();
-
-      this.fileUploadService.uploadedLessonImage.set('');
 
       this.messageService.add({
         severity: 'success',

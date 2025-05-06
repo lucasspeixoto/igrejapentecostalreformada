@@ -11,7 +11,6 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 
 import { ChipModule } from 'primeng/chip';
-import { EdLessonImageUploadComponent } from '../ed-lesson-image-upload/ed-lesson-image-upload.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CustomValidationMessageComponent } from 'src/app/components/custom-validation-message/custom-validation-message';
 import { EdLessonFormControl } from '../../../constants/ed-lesson-form';
@@ -34,12 +33,7 @@ const PRIMENG = [
   ChipModule,
 ];
 
-const COMMON = [
-  FormsModule,
-  ReactiveFormsModule,
-  CustomValidationMessageComponent,
-  EdLessonImageUploadComponent,
-];
+const COMMON = [FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
 
 const PROVIDERS = [MessageService];
 
