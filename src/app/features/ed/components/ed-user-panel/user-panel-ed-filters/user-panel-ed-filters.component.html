@@ -1,24 +1,7 @@
-<div class="flex flex-col gap-0gap-4">
-    <span class="text-2xl font-semibold text-surface-600 mb-4">Filtros</span>
+<div class="flex flex-col gap-0">
+    <span class="text-2xl font-semibold opacity-55 mb-4">Filtros</span>
     <div
         class="w-full flex md:flex-col flex-row flex-wrap items-start justify-between gap-2">
-        <!-- Tipo -->
-        <div class="my-2">
-            <span
-                class="ml-0 md:ml-2 text-md md:text-xl text-surface-400">Tipo</span>
-            <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
-                <div class="flex items-center">
-                    <p-checkbox inputId="type1" name="types" value="Meus cursos"
-                        [(ngModel)]="types" />
-                    <label for="type1" class="ml-2"> Meus cursos </label>
-                </div>
-                <div class="flex items-center">
-                    <p-checkbox inputId="type2" name="types" value="Todos"
-                        [(ngModel)]="types" />
-                    <label for="type2" class="ml-2"> Todos </label>
-                </div>
-            </div>
-        </div>
 
         <!-- Professor -->
         <div class="my-2">
@@ -27,24 +10,28 @@
             <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
                 <div class="flex items-center">
                     <p-checkbox inputId="professor1" name="professors"
-                        value="Sérgio Fernandes" [(ngModel)]="professors" />
+                        value="cc1a9503-786a-4c6d-8123-ea3e9ef68619"
+                        [(ngModel)]="edUserPanelService.selectedProfessorsFilters" />
                     <label for="professor1" class="ml-2"> Sérgio Fernandes
                     </label>
                 </div>
                 <div class="flex items-center">
                     <p-checkbox inputId="professor2" name="professors"
-                        value="Daniel Moraes" [(ngModel)]="professors" />
+                        value="c5e4accc-b733-4f3c-9e93-56f5608a084d"
+                        [(ngModel)]="edUserPanelService.selectedProfessorsFilters" />
                     <label for="professor2" class="ml-2"> Daniel Moraes </label>
                 </div>
                 <div class="flex items-center">
                     <p-checkbox inputId="professor3" name="professors"
-                        value="Emerson Bonfim" [(ngModel)]="professors" />
+                        value="9b3d6a23-7ca0-4cc4-bedc-895f2b0b1273"
+                        [(ngModel)]="edUserPanelService.selectedProfessorsFilters" />
                     <label for="professor3" class="ml-2"> Emerson Bonfim
                     </label>
                 </div>
                 <div class="flex items-center">
                     <p-checkbox inputId="professor4" name="professors"
-                        value="Diego de Paula" [(ngModel)]="professors" />
+                        value="baa24c90-9179-4311-9a13-6a63b9346380"
+                        [(ngModel)]="edUserPanelService.selectedProfessorsFilters" />
                     <label for="professor4" class="ml-2"> Diego de Paula
                     </label>
                 </div>
@@ -57,23 +44,31 @@
                 class="ml-0 md:ml-2 text-md md:text-xl text-surface-400 ">Tema</span>
             <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
                 <div class="flex items-center">
-                    <p-checkbox inputId="theme1" name="themes" value="Jesus"
-                        [(ngModel)]="themes" />
+                    <p-radiobutton inputId="theme1" name="themes" value="Jesus"
+                        [(ngModel)]="edUserPanelService.selectedThemesFilters" />
                     <label for="theme1" class="ml-2"> Jesus </label>
                 </div>
                 <div class="flex items-center">
-                    <p-checkbox inputId="theme2" name="themes" value="Evangelho"
-                        [(ngModel)]="themes" />
+                    <p-radiobutton inputId="theme1" name="themes"
+                        value="Jesus"
+                        inputId="theme2" name="themes" value="Evangelho"
+                        [(ngModel)]="edUserPanelService.selectedThemesFilters" />
                     <label for="theme2" class="ml-2"> Evangelho </label>
                 </div>
                 <div class="flex items-center">
-                    <p-checkbox inputId="theme3" name="themes"
-                        value="Novo testamento" [(ngModel)]="themes" />
+                    <p-radiobutton inputId="theme1" name="themes"
+                        value="Jesus"
+                        inputId="theme3" name="themes"
+                        value="Novo testamento"
+                        [(ngModel)]="edUserPanelService.selectedThemesFilters" />
                     <label for="theme3" class="ml-2"> Novo testamento </label>
                 </div>
                 <div class="flex items-center">
-                    <p-checkbox inputId="theme4" name="themes"
-                        value="Velho testamento" [(ngModel)]="themes" />
+                    <p-radiobutton inputId="theme1" name="themes"
+                        value="Jesus"
+                        inputId="theme4" name="themes"
+                        value="Velho testamento"
+                        [(ngModel)]="edUserPanelService.selectedThemesFilters" />
                     <label for="theme4" class="ml-2"> Velho testamento </label>
                 </div>
             </div>
@@ -81,10 +76,10 @@
     </div>
 
     <!-- Action -->
-    <div class="flex md:justify-between justify-end mt-4">
-        <p-button label="Limpar" class="p-button-outlined p-button-sm mr-2"
+    <div class="flex md:justify-between justify-end gap-2 mt-8">
+        <p-button label="Limpar" icon="pi pi-eraser"
             severity="info" (click)="clearFilters()" />
-        <p-button label="Aplicar" class="p-button-sm"
+        <p-button label="Aplicar" icon="pi pi-filter" severity="primary"
             (click)="applyFilters()" />
     </div>
 </div>

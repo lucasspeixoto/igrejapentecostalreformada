@@ -198,4 +198,26 @@ export class EdCoursesService {
 
     this.loadingService.isLoading.set(false);
   }
+
+  public async updateCurrentCoursesListByFilters(
+    professors: string[],
+    theme: string | null
+  ): Promise<void> {
+    let query = this.supabase
+      .from('ed_courses')
+      .select('*, users(full_name, avatar_url), ed_lessons(count)')
+      .order('created_at', { ascending: false });
+
+    if (professors && professors.length > 0) {
+      query = query.in('user_id', professors);
+    }
+
+    if (theme && theme.trim() !== '') {
+      query = query.ilike('description', `%${theme}%`);
+    }
+
+    const { data, error } = await query;
+
+    if (!error) this.courses.set(data);
+  }
 }

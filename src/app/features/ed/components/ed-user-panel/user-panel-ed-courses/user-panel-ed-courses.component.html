@@ -31,7 +31,7 @@
                             class="md:mr-4 flex flex-row w-full md:w-auto justify-around md:flex-col md:justify-end gap-0 md:gap-2">
                             <span (click)="op.toggle($event)"
                                 class="cursor-pointer hover:underline font-semibold text-sm md:text-md text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
-                                <i class="text-green-800 pi pi-pencil mr-2 bg-green-300 p-2 rounded-md"></i>
+                                <i class="shadow-lg shadow-green-500/50 text-green-800 pi pi-pencil mr-2 bg-green-300 p-2 rounded-md"></i>
                                 Detalhes
                             </span>
                             <p-popover #op>
@@ -41,12 +41,12 @@
                             </p-popover>
                             <span
                                 class="font-semibold text-sm md:text-md text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
-                                <i class="text-blue-800 pi pi-file mr-2 bg-blue-300 p-2 rounded-md"></i>
+                                <i class="shadow-lg shadow-blue-500/50 text-blue-800 pi pi-file mr-2 bg-blue-300 p-2 rounded-md"></i>
                                 {{item.ed_lessons[0]?.count ?? 0}} aulas
                             </span>
                             <span
                                 class="md:my-1.5 font-semibold text-sm md:text-md text-surface-500 dark:text-white dark:text-shadow-2xs leading-tight">
-                                <i class="text-violet-800 pi pi-calendar-clock mr-2 bg-violet-300 p-2 rounded-md"></i>
+                                <i class="shadow-lg shadow-indigo-500/50 text-indigo-800 pi pi-calendar-clock mr-2 bg-indigo-300 p-2 rounded-md"></i>
                                  {{item.created_at | appCourseDate}}
                             </span>
                         </div>

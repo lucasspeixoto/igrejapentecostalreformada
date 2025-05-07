@@ -5,8 +5,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
+import { EdUserPanelService } from '../../../services/ed-user-panel/ed-user-panel.service';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
-const PRIMENG = [ButtonModule, AccordionModule, CheckboxModule, DividerModule];
+const PRIMENG = [RadioButtonModule, ButtonModule, AccordionModule, CheckboxModule, DividerModule];
 
 const COMMON = [FormsModule];
 
@@ -19,13 +21,17 @@ const COMMON = [FormsModule];
 export class UserPanelEdFiltersComponent {
   public edCoursesService = inject(EdCoursesService);
 
-  public types: string[] = [];
+  public edUserPanelService = inject(EdUserPanelService);
 
   public professors: string[] = [];
 
   public themes: string[] = [];
 
-  public applyFilters(): void {}
+  public applyFilters(): void {
+    this.edUserPanelService.filterEdCoursesHandler();
+  }
 
-  public clearFilters(): void {}
+  public clearFilters(): void {
+    this.edUserPanelService.clearEdCoursesHandler();
+  }
 }
