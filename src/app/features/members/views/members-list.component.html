@@ -11,7 +11,7 @@
 </p-toolbar>
 
 <p-table #dt [value]="membersService.members()" [rows]="10" [columns]="columns" [paginator]="true"
-    [globalFilterFields]="['number', 'name']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedMembers"
+    [globalFilterFields]="['number', 'name', 'member_type']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedMembers"
     [scrollable]="true" [rowHover]="true" dataKey="number"
     currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} membros" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
@@ -30,13 +30,17 @@
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox />
             </th>
-            <th pSortableColumn="number" style="min-width: 10rem">
+            <th pSortableColumn="number" style="min-width: 8rem">
                 Número
                 <p-sortIcon field="number" />
             </th>
-            <th pSortableColumn="name" style="min-width: 16rem">
+            <th pSortableColumn="name" style="min-width: 12rem">
                 Name
                 <p-sortIcon field="name" />
+            </th>
+            <th pSortableColumn="member_type">
+                Tipo
+                <p-sortIcon field="member_type" />
             </th>
             <th style="min-width: 8rem">Aniversário</th>
             <th style="min-width: 10rem">RG</th>
@@ -58,14 +62,32 @@
             <td style="width: 3rem">
                 <p-tableCheckbox [value]="member" />
             </td>
-            <td>{{ member.number }}</td>
-            <td style="min-width: 18rem">{{ member.name | firstAndLastname }}</td>
+            <td style="width: 8rem">{{ member.number }}</td>
+            <td style="min-width: 12rem">{{ member.name | firstAndLastname }}</td>
+
+            <td>
+                <span
+                [ngClass]="{
+                    'shadow-indigo-500/50 bg-indigo-200 hover:bg-indigo-300 dark:bg-indigo-800 dark:hover:bg-indigo-700': member.member_type === 'congregated',
+                    'shadow-cyan-500/50 bg-cyan-200 hover:bg-cyan-300 dark:bg-cyan-800 dark:hover:bg-cyan-700': member.member_type === 'member',
+                  }"
+                    class=" select-none shadow-lg  cursor-pointer inline-flex rounded-full px-3 py-2  transition-all duration-200 gap-2 items-center text-sm "
+                    >
+                    <span
+                    [ngClass]="{
+                        'text-indigo-700': member.member_type === 'congregated',
+                        'text-cyan-700': member.member_type === 'member',
+                      }"
+                        class="dark:text-green-50 font-medium">{{ member.member_type | memberType }}
+                    </span>
+                </span>
+            </td>
             <td>{{ member.birthday | primengDate }}</td>
             <td>{{ member.rg }}</td>
             <td>{{ member.cpf }}</td>
             <td style="min-width: 22rem">{{ member.address }}</td>
             <td>{{ member.previous_church }}</td>
-            <td>{{ member.baptism_date }}</td>
+            <td>{{ member.baptism_date | primengDate }}</td>
             <td>{{ member.baptism_church }}</td>
             <td>{{ member.naturality }}</td>
             <td>{{ member.cellphone }}</td>

@@ -12,7 +12,8 @@ import { ToastModule } from 'primeng/toast';
 
 import { CustomValidationMessageComponent } from '../../../../components/custom-validation-message/custom-validation-message';
 import { MemberFormControl } from '../../constants/member-form';
-import { MARITAL_STATUS } from '../../constants/options';
+import { MARITAL_STATUS, MEMBER_TYPES } from '../../constants/options';
+import { JsonPipe } from '@angular/common';
 
 const PRIMENG = [
   InputMaskModule,
@@ -25,7 +26,7 @@ const PRIMENG = [
   DialogModule,
 ];
 
-const COMMON = [FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
+const COMMON = [JsonPipe, FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
 
 const PROVIDERS = [MessageService];
 
@@ -73,6 +74,8 @@ export class UpdateMemberDialogComponent {
   private messageService = inject(MessageService);
 
   public maritalStatus = MARITAL_STATUS;
+
+  public memberTypes = MEMBER_TYPES;
 
   public hideDialog(): void {
     this.memberDialog = false;

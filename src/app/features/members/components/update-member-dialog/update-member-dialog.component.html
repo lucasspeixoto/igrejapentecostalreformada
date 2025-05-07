@@ -1,13 +1,20 @@
 <p-dialog [(visible)]="memberDialog" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }"
-    [draggable]="false" [resizable]="false" [maximizable]="true" [header]="modalTitle()" [modal]="true" (onHide)="hideDialog()">
+    [draggable]="true" [header]="modalTitle()" [modal]="true" (onHide)="hideDialog()">
     <ng-template #content>
         <p-toast />
         <form [formGroup]="memberForm">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="my-2">
                     <label for="name" class="block font-bold mb-3">Nome</label>
                     <input class="w-full" type="text" formControlName="name" pInputText id="name" required fluid />
                     <app-custom-validation-message id="nameErrorMessage" controlName="name" [minLength]="3" />
+                </div>
+
+                <div class="my-2">
+                    <label for="memberType" class="block font-bold mb-3">Tipo</label>
+                    <p-select optionLabel="name" optionValue="code" class="w-full" formControlName="memberType"
+                        [options]="memberTypes" placeholder="Selecione o tipo" />
+                    <app-custom-validation-message id="memberTypeErrorMessage" controlName="memberType" />
                 </div>
 
                 <div class="my-2">
@@ -81,6 +88,7 @@
                     <input class="w-full" type="text" formControlName="email" pInputText id="email" />
                     <app-custom-validation-message id="emailErrorMessage" controlName="email" />
                 </div>
+
             </div>
         </form>
     </ng-template>

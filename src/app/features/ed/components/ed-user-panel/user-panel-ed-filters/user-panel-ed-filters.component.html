@@ -1,71 +1,90 @@
 <div class="flex flex-col gap-0gap-4">
     <span class="text-2xl font-semibold text-surface-600 mb-4">Filtros</span>
-    <div class="w-full flex md:flex-col flex-row flex-wrap items-start justify-between gap-2">
+    <div
+        class="w-full flex md:flex-col flex-row flex-wrap items-start justify-between gap-2">
         <!-- Tipo -->
-    <div class="my-2">
-        <span class="ml-0 md:ml-2 text-md md:text-xl text-surface-400">Tipo</span>
-        <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
-            <div class="flex items-center">
-                <p-checkbox inputId="type1" name="types" value="Meus cursos" [(ngModel)]="types" />
-                <label for="type1" class="ml-2"> Meus cursos </label>
-            </div>
-            <div class="flex items-center">
-                <p-checkbox inputId="type2" name="types" value="Todos" [(ngModel)]="types" />
-                <label for="type2" class="ml-2"> Todos </label>
+        <div class="my-2">
+            <span
+                class="ml-0 md:ml-2 text-md md:text-xl text-surface-400">Tipo</span>
+            <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
+                <div class="flex items-center">
+                    <p-checkbox inputId="type1" name="types" value="Meus cursos"
+                        [(ngModel)]="types" />
+                    <label for="type1" class="ml-2"> Meus cursos </label>
+                </div>
+                <div class="flex items-center">
+                    <p-checkbox inputId="type2" name="types" value="Todos"
+                        [(ngModel)]="types" />
+                    <label for="type2" class="ml-2"> Todos </label>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Professor -->
-    <div class="my-2">
-        <span class="ml-0 md:ml-2 text-md md:text-xl text-surface-400 ">Professor</span>
-        <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
-            <div class="flex items-center">
-                <p-checkbox inputId="professor1" name="professors" value="Sérgio Fernandes" [(ngModel)]="professors" />
-                <label for="professor1" class="ml-2"> Sérgio Fernandes </label>
-            </div>
-            <div class="flex items-center">
-                <p-checkbox inputId="professor22" name="professors" value="Daniel Moraes" [(ngModel)]="professors" />
-                <label for="professor22" class="ml-2"> Daniel Moraes </label>
-            </div>
-            <div class="flex items-center">
-                <p-checkbox inputId="professor3" name="professors"value="Emerson Bonfim" [(ngModel)]="professors" />
-                <label for="professor3" class="ml-2"> Emerson Bonfim </label>
-            </div>
-            <div class="flex items-center">
-                <p-checkbox inputId="professor4" name="professors" value="Diego de Paula" [(ngModel)]="professors" />
-                <label for="professor4" class="ml-2"> Diego de Paula </label>
+        <!-- Professor -->
+        <div class="my-2">
+            <span
+                class="ml-0 md:ml-2 text-md md:text-xl text-surface-400 ">Professor</span>
+            <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
+                <div class="flex items-center">
+                    <p-checkbox inputId="professor1" name="professors"
+                        value="Sérgio Fernandes" [(ngModel)]="professors" />
+                    <label for="professor1" class="ml-2"> Sérgio Fernandes
+                    </label>
+                </div>
+                <div class="flex items-center">
+                    <p-checkbox inputId="professor2" name="professors"
+                        value="Daniel Moraes" [(ngModel)]="professors" />
+                    <label for="professor2" class="ml-2"> Daniel Moraes </label>
+                </div>
+                <div class="flex items-center">
+                    <p-checkbox inputId="professor3" name="professors"
+                        value="Emerson Bonfim" [(ngModel)]="professors" />
+                    <label for="professor3" class="ml-2"> Emerson Bonfim
+                    </label>
+                </div>
+                <div class="flex items-center">
+                    <p-checkbox inputId="professor4" name="professors"
+                        value="Diego de Paula" [(ngModel)]="professors" />
+                    <label for="professor4" class="ml-2"> Diego de Paula
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Tema -->
-    <div class="mt-2">
-        <span class="ml-0 md:ml-2 text-md md:text-xl text-surface-400 ">Tema</span>
-        <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
-            <div class="flex items-center">
-                <p-checkbox inputId="theme1" name="themes" value="Jesus" [(ngModel)]="themes" />
-                <label for="theme1" class="ml-2"> Jesus </label>
-            </div>
-            <div class="flex items-center">
-                <p-checkbox inputId="theme2" name="themes" value="Evangelho" [(ngModel)]="themes" />
-                <label for="theme2" class="ml-2"> Evangelho </label>
-            </div>
-            <div class="flex items-center">
-                <p-checkbox inputId="theme3" name="themes"value="Novo testamento" [(ngModel)]="themes" />
-                <label for="theme3" class="ml-2"> Novo testamento </label>
-            </div>
-            <div class="flex items-center">
-                <p-checkbox inputId="theme4" name="themes" value="Velho testamento" [(ngModel)]="themes" />
-                <label for="theme4" class="ml-2"> Velho testamento </label>
+        <!-- Tema -->
+        <div class="mt-2">
+            <span
+                class="ml-0 md:ml-2 text-md md:text-xl text-surface-400 ">Tema</span>
+            <div class="ml-1 md:ml-4 flex flex-col gap-2 mt-4">
+                <div class="flex items-center">
+                    <p-checkbox inputId="theme1" name="themes" value="Jesus"
+                        [(ngModel)]="themes" />
+                    <label for="theme1" class="ml-2"> Jesus </label>
+                </div>
+                <div class="flex items-center">
+                    <p-checkbox inputId="theme2" name="themes" value="Evangelho"
+                        [(ngModel)]="themes" />
+                    <label for="theme2" class="ml-2"> Evangelho </label>
+                </div>
+                <div class="flex items-center">
+                    <p-checkbox inputId="theme3" name="themes"
+                        value="Novo testamento" [(ngModel)]="themes" />
+                    <label for="theme3" class="ml-2"> Novo testamento </label>
+                </div>
+                <div class="flex items-center">
+                    <p-checkbox inputId="theme4" name="themes"
+                        value="Velho testamento" [(ngModel)]="themes" />
+                    <label for="theme4" class="ml-2"> Velho testamento </label>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
     <!-- Action -->
     <div class="flex md:justify-between justify-end mt-4">
-        <p-button label="Limpar" class="p-button-outlined p-button-sm mr-2" severity="info" (click)="clearFilters()" />
-        <p-button label="Aplicar" class="p-button-sm" (click)="applyFilters()" />
+        <p-button label="Limpar" class="p-button-outlined p-button-sm mr-2"
+            severity="info" (click)="clearFilters()" />
+        <p-button label="Aplicar" class="p-button-sm"
+            (click)="applyFilters()" />
     </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -19,6 +19,7 @@ import { ExportColumn, Column } from '../../../models/columns.model';
 import { PrimengDatePipe } from '../../../pipes/primeng-date/primeng-date.pipe';
 import { FirstAndLastnamePipe } from '../../../pipes/first-and-lastname/first-and-lastname.pipe';
 import { UpdateMemberDialogComponent } from '../components/update-member-dialog/update-member-dialog.component';
+import { MemberTypePipe } from '../pipes/member-type.pipe';
 
 const PRIMENG = [
   TableModule,
@@ -33,15 +34,17 @@ const PRIMENG = [
   FluidModule,
 ];
 
+const COMMON = [NgClass];
+
 const COMPONENTS = [UpdateMemberDialogComponent];
 
 const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
-const PIPES = [FirstAndLastnamePipe, PrimengDatePipe];
+const PIPES = [FirstAndLastnamePipe, PrimengDatePipe, MemberTypePipe];
 
 @Component({
   selector: 'app-members-list',
-  imports: [...PRIMENG, ...COMPONENTS, ...PIPES],
+  imports: [...PRIMENG, ...COMPONENTS, ...PIPES, ...COMMON],
   templateUrl: './members-list.component.html',
   providers: [...PROVIDERS],
   styles: [
@@ -141,6 +144,7 @@ export class MembersListComponent implements OnInit {
       tellphone,
       marital_status,
       email,
+      member_type,
     } = member;
 
     this.memberForm.setValue({
@@ -158,6 +162,7 @@ export class MembersListComponent implements OnInit {
       tellphone: tellphone!,
       maritalStatus: marital_status,
       email: email!,
+      memberType: member_type!,
     });
 
     this.memberDialog = true;

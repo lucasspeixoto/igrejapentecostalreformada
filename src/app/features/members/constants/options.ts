@@ -6,3 +6,8 @@ export const MARITAL_STATUS = [
   'Separado(a) judicialmente',
   'União Estável',
 ];
+
+export const MEMBER_TYPES = [
+  { code: 'member', name: 'Membro' },
+  { code: 'congregated', name: 'Congregado' },
+];
