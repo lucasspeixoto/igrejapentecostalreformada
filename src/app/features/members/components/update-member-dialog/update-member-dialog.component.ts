@@ -9,11 +9,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
-
 import { CustomValidationMessageComponent } from '../../../../components/custom-validation-message/custom-validation-message';
 import { MemberFormControl } from '../../constants/member-form';
 import { MARITAL_STATUS, MEMBER_TYPES } from '../../constants/options';
-import { JsonPipe } from '@angular/common';
 
 const PRIMENG = [
   InputMaskModule,
@@ -26,7 +24,7 @@ const PRIMENG = [
   DialogModule,
 ];
 
-const COMMON = [JsonPipe, FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
+const COMMON = [FormsModule, ReactiveFormsModule, CustomValidationMessageComponent];
 
 const PROVIDERS = [MessageService];
 
