@@ -16,6 +16,7 @@ export type MemberFormControl = {
   tellphone: FormControl<string>;
   maritalStatus: FormControl<string>;
   email: FormControl<string>;
+  memberType: FormControl<string>;
 };
 
 export function createMemberForm(): FormGroup<MemberFormControl> {
@@ -23,7 +24,7 @@ export function createMemberForm(): FormGroup<MemberFormControl> {
 
   return formBuilder.group({
     number: new FormControl(0, {
-      validators: [Validators.required],
+      validators: [],
       nonNullable: true,
     }),
     name: new FormControl('', {
@@ -76,6 +77,10 @@ export function createMemberForm(): FormGroup<MemberFormControl> {
     }),
     email: new FormControl('', {
       validators: [Validators.email],
+      nonNullable: true,
+    }),
+    memberType: new FormControl('', {
+      validators: [Validators.required],
       nonNullable: true,
     }),
   });

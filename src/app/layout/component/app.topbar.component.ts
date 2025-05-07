@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
 import { TooltipModule } from 'primeng/tooltip';
+import { AvatarModule } from 'primeng/avatar';
 import { AuthenticationService } from './../../auth/services/authentication.service';
 import { LayoutService } from '../service/layout.service';
-import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-topbar',
@@ -18,9 +18,9 @@ import { AvatarModule } from 'primeng/avatar';
         (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>
       </button>
-      <!-- <a class="layout-topbar-logo" routerLink="/">
+      <a class="layout-topbar-logo" routerLink="/inicio/painel">
         <img alt="Logo" src="assets/images/logo.png" />
-      </a> -->
+      </a>
     </div>
 
     <div class="layout-topbar-actions">
@@ -38,6 +38,14 @@ import { AvatarModule } from 'primeng/avatar';
               'pi-sun': !layoutService.isDarkTheme(),
             }"></i>
         </button>
+        <p-avatar
+          class="inline-block lg:hidden"
+          [size]="'large'"
+          [image]="authenticationService.currentUser()?.avatar_url"
+          shape="circle"
+          data-pc-name="avatar"
+          class="p-avatar p-component p-avatar-circle p-avatar-image">
+        </p-avatar>
       </div>
 
       <button
@@ -53,17 +61,6 @@ import { AvatarModule } from 'primeng/avatar';
 
       <div class="layout-topbar-menu hidden lg:block">
         <div class="layout-topbar-menu-content">
-          <div class="select-none flex items-center">
-            <p-avatar
-              [image]="authenticationService.currentUser()?.avatar_url"
-              shape="circle"
-              data-pc-name="avatar"
-              class="p-avatar p-component p-avatar-circle p-avatar-image">
-            </p-avatar>
-            <span class="mt-6 font-xs text-secondary text-md ml-1"
-              >Olá {{ authenticationService.currentUser()?.full_name!.split(' ')[0] }}</span
-            >
-          </div>
           <button
             pTooltip="Sair"
             tooltipPosition="bottom"

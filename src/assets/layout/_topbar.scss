@@ -86,6 +86,7 @@
   .layout-topbar-actions {
     margin-left: auto;
     display: flex;
+    align-items: center;
     gap: 1rem;
   }
 
@@ -96,6 +97,7 @@
 
   .layout-config-menu {
     display: flex;
+    align-items: center;
     gap: 1rem;
   }
 }
@@ -133,7 +135,7 @@
       border: 1px solid var(--surface-border);
 
       .layout-topbar-menu-content {
-        gap: 0.5rem;
+        gap: 0rem;
       }
 
       .layout-topbar-action {

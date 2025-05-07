@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ptBrTranslation } from './app/utils/pt-br';
 import { LayoutService } from './app/layout/service/layout.service';
+import { IMAGE_CONFIG } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,5 +36,12 @@ export const appConfig: ApplicationConfig = {
       translation: ptBrTranslation,
       theme: { preset: Lara, options: { darkModeSelector: '.app-dark' } },
     }),
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
   ],
 };

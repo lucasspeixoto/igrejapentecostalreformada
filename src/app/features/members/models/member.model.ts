@@ -14,4 +14,5 @@ export interface Member {
   tellphone: string | null;
   marital_status: string;
   email: string | null;
+  member_type: string;
 }

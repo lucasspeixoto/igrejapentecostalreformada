@@ -30,9 +30,6 @@ export class CultsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.cultsService.getAllCultsDataHandler();
-    setTimeout(() => {
-      this.formGroup.setValue({ selectedCult: this.cultsService.cults()[0] });
-    }, 2000);
   }
 
   public onCultChangeHandler(event: DropdownChangeEvent): void {

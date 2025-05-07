@@ -4,7 +4,6 @@ import { Member } from '../models/member.model';
 import { injectSupabase } from '../../../../app/utils/inject-supabase';
 import { LoadingService } from '../../../../app/services/loading/loading.service';
 import { MemberFormValue } from '../constants/member-form';
-import { toTitleCase } from '../../../../app/utils/case';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +47,7 @@ export class MembersService {
 
     const updatedMember = {
       created_at: new Date().toISOString(),
-      name: toTitleCase(member.name),
+      name: member.name,
       birthday: member.birthday,
       rg: member.rg,
       cpf: member.cpf,
@@ -61,6 +60,7 @@ export class MembersService {
       tellphone: member.tellphone,
       marital_status: member.maritalStatus,
       email: member.email,
+      member_type: member.memberType,
     } as Member;
 
     const { error } = await this.supabase.from('members').insert([updatedMember]);
@@ -91,8 +91,7 @@ export class MembersService {
 
     const updatedMember = {
       number: member.number,
-      created_at: new Date().toISOString(),
-      name: toTitleCase(member.name),
+      name: member.name,
       birthday: member.birthday,
       rg: member.rg,
       cpf: member.cpf,
@@ -105,6 +104,7 @@ export class MembersService {
       tellphone: member.tellphone,
       marital_status: member.maritalStatus,
       email: member.email,
+      member_type: member.memberType,
     } as Member;
 
     const { error } = await this.supabase
