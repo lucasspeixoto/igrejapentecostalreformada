@@ -44,7 +44,7 @@ import { LayoutService } from '../service/layout.service';
           [image]="authenticationService.currentUser()?.avatar_url"
           shape="circle"
           data-pc-name="avatar"
-          class="p-avatar p-component p-avatar-circle p-avatar-image">
+          class="ring-2 ring-primary-500/50 shadow-lg shadow-primary-500/50 p-avatar p-component p-avatar-circle p-avatar-image">
         </p-avatar>
       </div>
 
