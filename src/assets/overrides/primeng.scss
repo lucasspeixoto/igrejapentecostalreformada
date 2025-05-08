@@ -1,0 +1,11 @@
+.p-dataview {
+  .p-dataview-emptymessage {
+    background-image: url('/assets/images/no-data.svg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: 1rem;
+    z-index: 9999;
+    height: 80vh;
+  }
+}
