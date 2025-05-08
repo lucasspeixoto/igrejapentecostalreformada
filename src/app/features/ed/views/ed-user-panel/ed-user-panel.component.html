@@ -1,7 +1,7 @@
 <div class="w-full flex flex-col items-center justify-center">
     <!-- Info de resultados e select de ordenação -->
-    <div class="flex w-full justify-between items-center mb-4">
-        <span class="text-md md:text-lg text-muted-color leading-7 font-medium">Mostrando {{edCoursesService.totalOfCourses()}} resultados</span>
+    <div class="flex w-full justify-end items-center mb-4 px-4">
+        <!-- <span class="text-md md:text-lg text-muted-color leading-7 font-medium">Mostrando {{edCoursesService.totalOfCourses()}} resultados</span> -->
         <div class="flex gap-2 items-center">
             <span class="text-sm text-muted-color font-medium hidden md:block">Ordernar por</span>
             <p-select [options]="orderTypes" [ngModel]="selectedOrderType()"

@@ -203,6 +203,8 @@ export class EdCoursesService {
     professors: string[],
     theme: string | null
   ): Promise<void> {
+    this.loadingService.isLoading.set(true);
+
     let query = this.supabase
       .from('ed_courses')
       .select('*, users(full_name, avatar_url), ed_lessons(count)')
@@ -219,5 +221,7 @@ export class EdCoursesService {
     const { data, error } = await query;
 
     if (!error) this.courses.set(data);
+
+    this.loadingService.isLoading.set(false);
   }
 }

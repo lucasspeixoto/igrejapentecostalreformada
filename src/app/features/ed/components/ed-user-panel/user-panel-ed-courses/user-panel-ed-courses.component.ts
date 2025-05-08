@@ -6,6 +6,9 @@ import { DataView } from 'primeng/dataview';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { DividerModule } from 'primeng/divider';
+import { SkeletonModule } from 'primeng/skeleton';
+import { FormsModule } from '@angular/forms';
+import { TagModule } from 'primeng/tag';
 import { EdCoursesService } from './../../../services/ed-courses/ed-courses.service';
 import { CourseDatePipe } from '../../../pipes/course-date.pipe';
 import { UserPanelEdCoursesSkeletonComponent } from '../user-panel-ed-courses-skeleton/user-panel-ed-courses-skeleton.component';
@@ -19,9 +22,11 @@ const PRIMENG = [
   AvatarGroupModule,
   DataView,
   ButtonModule,
+  SkeletonModule,
+  TagModule,
 ];
 
-const COMMON = [CommonModule, NgFor];
+const COMMON = [CommonModule, NgFor, FormsModule];
 
 const PIPES = [CourseDatePipe];
 
