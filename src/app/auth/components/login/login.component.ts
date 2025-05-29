@@ -29,10 +29,11 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
   ],
   template: `
     <div
-      class="container bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden">
-      <div class="w-full flex flex-col items-center justify-center">
+      class="px-2 sm:px-8 py-20 md:px-12 lg:px-20 flex items-center justify-center backdrop-blur-3xl !bg-cover !bg-center !bg-no-repeat min-h-screen"
+      style="background-image: url('/assets/images/background.jpeg')">
+      <div class=" w-full flex flex-col items-center justify-center ">
         <div class="w-[95%] sm:w-[400px] ">
-          <div class="bg-surface-0 dark:bg-surface-900 py-12 px-4 sm:px-10 rounded-2xl">
+          <div class="backdrop-blur-2xl bg-white/10 py-12 px-4 sm:px-10 rounded-2xl">
             <div class="text-center mb-8">
               <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">
                 Bem vindo a IPR
@@ -102,7 +103,6 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
       </div>
     </div>
   `,
-  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   public router = inject(Router);
