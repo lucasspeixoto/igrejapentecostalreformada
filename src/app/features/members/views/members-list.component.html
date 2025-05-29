@@ -4,7 +4,6 @@
         <p-button severity="danger" label="Excluir" icon="pi pi-trash" (onClick)="deleteSelectedMembers()"
             [disabled]="!selectedMembers || !selectedMembers.length" />
     </ng-template>
-
     <ng-template #end>
         <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="exportCSV()" />
     </ng-template>
@@ -12,7 +11,7 @@
 
 <p-table #dt [value]="membersService.members()" [rows]="10" [columns]="columns" [paginator]="true"
     [globalFilterFields]="['number', 'name', 'member_type']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedMembers"
-    [scrollable]="true" [rowHover]="true" dataKey="number"
+    [scrollable]="true" scrollHeight="500px" [rowHover]="true" dataKey="number"
     currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} membros" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
     <ng-template #caption>
@@ -30,14 +29,14 @@
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox />
             </th>
-            <th pSortableColumn="number" style="min-width: 8rem">
-                Número
-                <p-sortIcon field="number" />
-            </th>
-            <th pSortableColumn="name" style="min-width: 12rem">
+            <th pFrozenColumn pSortableColumn="name" style="min-width: 12rem">
                 Name
                 <p-sortIcon field="name" />
             </th>
+            <!-- <th pSortableColumn="number" style="min-width: 8rem">
+                Número
+                <p-sortIcon field="number" />
+            </th> -->
             <th pSortableColumn="member_type">
                 Tipo
                 <p-sortIcon field="member_type" />
@@ -62,9 +61,8 @@
             <td style="width: 3rem">
                 <p-tableCheckbox [value]="member" />
             </td>
-            <td style="width: 8rem">{{ member.number }}</td>
-            <td style="min-width: 12rem">{{ member.name | firstAndLastname }}</td>
-
+            <td pFrozenColumn style="min-width: 12rem">{{ member.name | firstAndLastname }} ({{ member.number }})</td>
+            <!-- <td style="width: 8rem">{{ member.number }}</td> -->
             <td>
                 <span
                 [ngClass]="{
