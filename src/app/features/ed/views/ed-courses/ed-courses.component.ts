@@ -21,6 +21,7 @@ import { EdCourse } from '../../models/ed-course.model';
 import { createEdCourseForm, EdCourseFormValue } from '../../constants/ed-course-form';
 import { UpdateEdCourseDialogComponent } from '../../components/ed-course/update-ed-course-dialog/update-ed-course-dialog.component';
 import { UsersService } from '../../../../services/users/users.service';
+import { EnrollStudentsDialogComponent } from '../../components/ed-course-enrollment/enroll-students-dialog/enroll-students-dialog.component';
 
 const PRIMENG = [
   BadgeModule,
@@ -37,11 +38,17 @@ const PRIMENG = [
   FluidModule,
 ];
 
-const COMPONENTS = [UpdateEdCourseDialogComponent, RouterLink];
+const COMPONENTS = [UpdateEdCourseDialogComponent, EnrollStudentsDialogComponent, RouterLink];
 
 const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
 const PIPES = [FirstAndLastnamePipe];
+
+const modalTitleOptions: Record<string, string> = {
+  add: 'Adicionar Curso',
+  edit: 'Editar Curso',
+  enrollment: 'Gerar Matrículas',
+};
 
 @Component({
   selector: 'app-ed-courses',
@@ -63,9 +70,9 @@ export class EdCoursesComponent implements OnInit {
 
   public courseDialog: boolean = false;
 
-  public mode = signal<'add' | 'edit'>('add');
+  public mode = signal<'add' | 'edit' | 'delete' | 'enrollment'>('add');
 
-  public modalTitle = computed(() => (this.mode() === 'add' ? 'Adicionar Curso' : 'Editar Curso'));
+  public modalTitle = computed(() => modalTitleOptions[this.mode()]);
 
   public exportColumns!: ExportColumn[];
 
@@ -77,6 +84,10 @@ export class EdCoursesComponent implements OnInit {
 
   public selectedCourses: EdCourse[] = [];
 
+  public selectedCourseForEnrollment!: EdCourse | null;
+
+  public enrollStudentsDialog: boolean = false;
+
   public ngOnInit(): void {
     this.edCoursesService.getAllCoursesDataHandler();
     this.usersService.getAllUsers();
@@ -84,6 +95,14 @@ export class EdCoursesComponent implements OnInit {
 
   public onGlobalFilter(table: Table, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  public openEnrollmentLesson(course: EdCourse): void {
+    this.mode.set('enrollment');
+
+    this.selectedCourseForEnrollment = course;
+
+    this.enrollStudentsDialog = true;
   }
 
   public openInsertCourse(): void {
@@ -172,5 +191,9 @@ export class EdCoursesComponent implements OnInit {
   public hideDialog(): void {
     this.courseForm.reset();
     this.courseDialog = false;
+  }
+
+  public hideEnrollmentDialog(): void {
+    this.enrollStudentsDialog = false;
   }
 }

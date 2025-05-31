@@ -16,10 +16,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { UsersService } from '../../../../../services/users/users.service';
-import { EdLesson } from '../../../models/ed-lesson.model';
-import { EdLessonEnrollmentsService } from '../../../services/ed-lesson-enrollments/ed-lesson-enrollments.service';
+import { EdCourseEnrollmentsService } from '../../../services/ed-course-enrollments/ed-course-enrollments.service';
 import { LoadingService } from '../../../../../services/loading/loading.service';
-import { FirstAndLastnamePipe } from 'src/app/pipes/first-and-lastname/first-and-lastname.pipe';
+import { EdCourse } from '../../../models/ed-course.model';
 
 const PRIMENG = [
   CardModule,
@@ -42,11 +41,9 @@ const COMMON = [FormsModule, ReactiveFormsModule];
 
 const PROVIDERS = [MessageService];
 
-const PIPES = [FirstAndLastnamePipe];
-
 @Component({
   selector: 'app-enroll-students-dialog',
-  imports: [...PRIMENG, ...COMMON, ...PIPES],
+  imports: [...PRIMENG, ...COMMON],
   templateUrl: './enroll-students-dialog.component.html',
   styles: [
     `
@@ -77,7 +74,7 @@ const PIPES = [FirstAndLastnamePipe];
 export class EnrollStudentsDialogComponent {
   @Input() enrollStudentsDialog!: boolean;
 
-  @Input() selectedLessonForEnrollment!: EdLesson | null;
+  @Input() selectedCourseForEnrollment!: EdCourse | null;
 
   @Output() dialogClosed = new EventEmitter<void>();
 
@@ -85,7 +82,7 @@ export class EnrollStudentsDialogComponent {
 
   private usersService = inject(UsersService);
 
-  private edLessonEnrollmentsService = inject(EdLessonEnrollmentsService);
+  private edCourseEnrollmentsService = inject(EdCourseEnrollmentsService);
 
   public students = this.usersService.users;
 
@@ -98,21 +95,12 @@ export class EnrollStudentsDialogComponent {
     this.dialogClosed.emit();
   }
 
-  public saveEdLessonEnrollmentHandler(): void {
-    this.loadingService.isLoading.set(true);
-
-    this.edLessonEnrollmentsService.insertLessonEnrollmentHandler(
+  public saveEdCourseEnrollmentHandler(): void {
+    this.edCourseEnrollmentsService.insertCourseEnrollmentHandler(
       this.selectedStudentsIds,
-      this.selectedLessonForEnrollment!
+      this.selectedCourseForEnrollment!
     );
 
-    //this.loadingService.isLoading.set(false);
-
-    /* this.messageService.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: 'Matrícula(s) inserida(s) com sucesso!',
-      life: 3000,
-    }); */
+    this.hideDialog();
   }
 }

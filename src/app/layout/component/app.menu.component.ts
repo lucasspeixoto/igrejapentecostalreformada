@@ -90,10 +90,16 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/inicio/escola-de-discipulos/matriculas'],
               },
               {
-                label: 'Painel do Aluno',
+                label: 'Painel de Cursos',
                 visible: this.isLogged,
                 icon: 'pi pi-fw pi-desktop',
-                routerLink: ['/inicio/escola-de-discipulos/painel'],
+                routerLink: ['/inicio/escola-de-discipulos/painel-de-cursos'],
+              },
+              {
+                label: 'Painel de Aulas',
+                visible: this.isLogged,
+                icon: 'pi pi-fw pi-clipboard',
+                routerLink: ['/inicio/escola-de-discipulos/painel-de-aulas'],
               },
             ],
           },

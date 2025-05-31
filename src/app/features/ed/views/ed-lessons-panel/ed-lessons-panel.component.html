@@ -1,0 +1,29 @@
+<div class="w-full h-auto flex flex-col flex-wrap justify-start">
+    <div class="w-full text-end">
+        <p-select [options]="lessons" [(ngModel)]="selectedLesson" optionLabel="name" placeholder="Aulas"
+            class="w-full md:w-36" />
+    </div>
+    <div class="w-full flex flex-row gap-4">
+        <!-- Left: Embedded PDF -->
+
+        <div class="mt-2 md:w-3/5 w-full h-full">
+            <iframe allowfullscreen
+                src="https://www.igrejapentecostalreformada.com.br/post/o-chamado-de-mateus-13-04-2025"
+                class="w-full h-screen" frameborder="0"></iframe>
+        </div>
+
+        <!-- Right: Youtube + Editor -->
+        <div class="md:w-2/5 w-full flex flex-col h-full gap-4 max-h-screen">
+            <!-- Top: Youtube -->
+            <div class="mt-2 w-full h-[50%]">
+                <iframe class="w-full min-h-[300px]" src="https://www.youtube.com/embed/bLYHFrsRlE0" frameborder="0"
+                    frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <!-- Bottom: PrimeNG Editor -->
+            <div class="mt-2 w-full h-[50%]">
+                <p-editor [(ngModel)]="editorContent" [style]="{ height: '300px', maxHeight: '100%' }"></p-editor>
+            </div>
+        </div>
+    </div>
+</div>

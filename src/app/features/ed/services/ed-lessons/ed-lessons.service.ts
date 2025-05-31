@@ -24,9 +24,7 @@ export class EdLessonsService {
 
     const { data, error } = await this.supabase
       .from('ed_lessons')
-      .select(
-        '*, course:course_id (name,user:user_id(id, full_name)), enrollments:ed_lesson_enrollments(count)'
-      )
+      .select('*, course:course_id (name,user:user_id(id, full_name))')
       .order('created_at', { ascending: false });
 
     if (!error) {
