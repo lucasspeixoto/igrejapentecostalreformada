@@ -10,3 +10,11 @@ export const FINANCE_NOTES_FILTER_FIELDS = [
   'finance_categories.name',
   'value',
 ];
+
+export const SEMINAR_IDS = [
+  '0ef2bfa4-6930-4fe3-92f1-7255c5f2818f',
+  '3e7d0fc7-f253-43bc-9af3-529726936e58',
+  '58f22367-5dcd-44df-8889-da79f4b56401',
+  '5ff7e8dc-fa61-4431-b045-39d2a4cb88ce',
+  '7d89aa42-fe6c-49e1-895e-75a3e4775336',
+];
