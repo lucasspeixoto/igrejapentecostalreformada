@@ -7,4 +7,5 @@ export interface EdCourse {
   /* photo: string; */
   users: { full_name: string; avatar_url: string }[];
   ed_lessons: { count: number }[];
+  enrollments: { count: number }[]; // Tabela
 }

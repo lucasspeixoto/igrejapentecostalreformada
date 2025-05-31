@@ -1,19 +1,24 @@
 <p-toolbar styleClass="mb-6">
     <ng-template #start>
-        <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2" (onClick)="openInsertCourse()"  />
-        <p-button [disabled]="!selectedCourses || !selectedCourses.length" severity="danger" label="Excluir" icon="pi pi-trash" (onClick)="openDeleteCourses()" />
+        <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2" (onClick)="openInsertCourse()" />
+        <p-button [disabled]="!selectedCourses || !selectedCourses.length" severity="danger" label="Excluir"
+            icon="pi pi-trash" (onClick)="openDeleteCourses()" />
     </ng-template>
 
     <ng-template #end>
-        <p-button routerLink="/inicio/escola-de-discipulos/aulas" label="Inserir Aula" icon="pi pi-upload" severity="info" />
+        <p-button routerLink="/inicio/escola-de-discipulos/aulas" label="Inserir Aula" icon="pi pi-upload"
+            severity="info" />
+        <p-button class="ml-2" pTooltip="Matricular alunos" tooltipPosition="left"
+            [disabled]="!selectedCourses || selectedCourses.length !== 1" label="Matricular" icon="pi pi-file"
+            severity="help" (onClick)="openEnrollmentLesson(selectedCourses[0])" />
     </ng-template>
 </p-toolbar>
 
 <p-table #dt [value]="edCoursesService.courses()" [rows]="10" [columns]="columns" [paginator]="true"
-    [globalFilterFields]="['name', 'users.full_name']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedCourses"
-    [scrollable]="true" [rowHover]="true" dataKey="id"
+    [globalFilterFields]="['name', 'users.full_name']" [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedCourses" [scrollable]="true" [rowHover]="true" dataKey="id"
     currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} cursos" [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]">
     <ng-template #caption>
         <div class="flex items-center justify-between flex-wrap gap-4">
             <p-iconfield>
@@ -29,18 +34,19 @@
                 <p-tableHeaderCheckbox />
             </th>
             <th pSortableColumn="name" style="min-width: 8rem">
-                Name
+                Nome
                 <p-sortIcon field="name" />
             </th>
-            <th pSortableColumn="users.full_name" style="min-width: 8rem">Professor <p-sortIcon field="users.full_name" /></th>
+            <th pSortableColumn="users.full_name" style="min-width: 8rem">Professor <p-sortIcon
+                    field="users.full_name" /></th>
             <th style="max-width: 14rem">Descrição</th>
             <th style="min-width: 2rem">Aulas</th>
+            <th style="min-width: 5rem">Matriculados</th>
             <th></th>
         </tr>
     </ng-template>
 
     <ng-template #body let-course>
-
         <tr>
             <td style="width: 3rem">
                 <p-tableCheckbox [value]="course" />
@@ -50,8 +56,13 @@
             <td class="truncate" style="max-width: 14rem">{{ course.description }}</td>
             <td style="min-width: 2rem">
                 <p-badge [value]="course.ed_lessons[0]?.count ?? 0" badgeSize="large" severity="success" />
-               </td>
+            </td>
+            <td style="min-width: 2rem">
+                <p-badge [value]="course?.enrollments[0]?.count ?? 0" badgeSize="large" severity="contrast" />
+            </td>
             <td>
+                <p-button icon="pi pi-file" severity="help" [rounded]="true" [text]="true"
+                    (click)="openEnrollmentLesson(course)" />
                 <p-button icon="pi pi-pencil" severity="info" [rounded]="true" [text]="true"
                     (click)="openUpdateCourse(course)" />
                 <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [text]="true"
@@ -60,13 +71,12 @@
         </tr>
     </ng-template>
 </p-table>
-<app-update-ed-course-dialog
-    [courseForm]="courseForm"
-    [courseDialog]="courseDialog"
-    [modalTitle]="modalTitle()"
-    (dialogClosed)="hideDialog()"
-    (courseSaved)="saveCourseHandler()">
+<app-update-ed-course-dialog [courseForm]="courseForm" [courseDialog]="courseDialog" [modalTitle]="modalTitle()"
+    (dialogClosed)="hideDialog()" (courseSaved)="saveCourseHandler()">
 </app-update-ed-course-dialog>
 
+<app-enroll-students-dialog [selectedCourseForEnrollment]="selectedCourseForEnrollment"
+    [enrollStudentsDialog]="enrollStudentsDialog" [modalTitle]="modalTitle()" (dialogClosed)="hideEnrollmentDialog()">
+</app-enroll-students-dialog>
 
 <p-confirmdialog [style]="{ width: '450px' }" />

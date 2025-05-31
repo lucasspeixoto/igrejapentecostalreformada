@@ -17,7 +17,7 @@ import { UsersService } from '../../../../services/users/users.service';
 import { EdLesson } from '../../models/ed-lesson.model';
 import { createEdLessonForm, EdLessonFormValue } from '../../constants/ed-lesson-form';
 import { UpdateEdLessonDialogComponent } from '../../components/ed-lesson/update-ed-lesson-dialog/update-ed-lesson-dialog.component';
-import { EnrollStudentsDialogComponent } from '../../components/ed-lesson/enroll-students-dialog/enroll-students-dialog.component';
+
 import { FirstAndLastnamePipe } from 'src/app/pipes/first-and-lastname/first-and-lastname.pipe';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { BadgeModule } from 'primeng/badge';
@@ -38,7 +38,7 @@ const PRIMENG = [
   FluidModule,
 ];
 
-const COMPONENTS = [UpdateEdLessonDialogComponent, EnrollStudentsDialogComponent];
+const COMPONENTS = [UpdateEdLessonDialogComponent];
 
 const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
@@ -70,17 +70,13 @@ export class EdLessonsComponent implements OnInit {
 
   public lessonDialog: boolean = false;
 
-  public enrollStudentsDialog: boolean = false;
-
-  public mode = signal<'add' | 'edit' | 'delete' | 'enrollment'>('add');
+  public mode = signal<'add' | 'edit' | 'delete'>('add');
 
   public modalTitle = computed(() => modalTitleOptions[this.mode()]);
 
   public lessonForm = createEdLessonForm();
 
   public selectedLessons: EdLesson[] = [];
-
-  public selectedLessonForEnrollment!: EdLesson | null;
 
   public ngOnInit(): void {
     this.edLessonsService.getAllLessonsDataHandler();
@@ -112,14 +108,6 @@ export class EdLessonsComponent implements OnInit {
     });
 
     this.lessonDialog = true;
-  }
-
-  public openEnrollmentLesson(lesson: EdLesson): void {
-    this.mode.set('enrollment');
-
-    this.selectedLessonForEnrollment = lesson;
-
-    this.enrollStudentsDialog = true;
   }
 
   public openDeleteLesson(lesson: EdLesson): void {
@@ -187,9 +175,5 @@ export class EdLessonsComponent implements OnInit {
   public hideDialog(): void {
     this.lessonForm.reset();
     this.lessonDialog = false;
-  }
-
-  public hideEnrollmentDialog(): void {
-    this.enrollStudentsDialog = false;
   }
 }

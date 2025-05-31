@@ -15,13 +15,13 @@ import { TooltipModule } from 'primeng/tooltip';
 import { FirstAndLastnamePipe } from 'src/app/pipes/first-and-lastname/first-and-lastname.pipe';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { BadgeModule } from 'primeng/badge';
-import { EdLessonEnrollmentsService } from '../../services/ed-lesson-enrollments/ed-lesson-enrollments.service';
-import { EdLessonEnrollment } from '../../models/ed-lesson-enrollment.model';
+import { EdCourseEnrollment } from '../../models/ed-course-enrollment.model';
 import { LessonEnrollmentStatusPipe } from '../../pipes/lesson-enrollment-status.pipe';
 import {
   LESSON_ENROLLMENT_STATUS_BG,
   LESSON_ENROLLMENT_STATUS_TEXT,
 } from 'src/app/utils/constants';
+import { EdCourseEnrollmentsService } from '../../services/ed-course-enrollments/ed-course-enrollments.service';
 
 const PRIMENG = [
   BadgeModule,
@@ -41,37 +41,37 @@ const PRIMENG = [
 
 const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
-const PIPES = [FirstAndLastnamePipe, LessonEnrollmentStatusPipe];
+const PIPES = [FirstAndLastnamePipe, LessonEnrollmentStatusPipe, DatePipe];
 
 const COMMON = [NgClass];
 
 @Component({
-  selector: 'app-ed-lesson-enrollments',
+  selector: 'app-ed-course-enrollments',
   imports: [...PRIMENG, ...COMMON, ...PIPES],
-  templateUrl: './ed-lesson-enrollments.component.html',
-  styleUrl: './ed-lesson-enrollments.component.scss',
+  templateUrl: './ed-course-enrollments.component.html',
+  styleUrl: './ed-course-enrollments.component.scss',
   providers: [...PROVIDERS],
 })
-export class EdLessonEnrollmentsComponent implements OnInit {
-  public edLessonEnrollmentsService = inject(EdLessonEnrollmentsService);
+export class EdCourseEnrollmentsComponent implements OnInit {
+  public edCourseEnrollmentsService = inject(EdCourseEnrollmentsService);
 
   private confirmationService = inject(ConfirmationService);
 
-  public selectedLessonEnrollments: EdLessonEnrollment[] = [];
+  public selectedLessonEnrollments: EdCourseEnrollment[] = [];
 
   public lessonEnrollmentStatusBg = LESSON_ENROLLMENT_STATUS_BG;
 
   public lessonEnrollmentStatusText = LESSON_ENROLLMENT_STATUS_TEXT;
 
   public ngOnInit(): void {
-    this.edLessonEnrollmentsService.getAllLessonEnrollmentsDataHandler();
+    this.edCourseEnrollmentsService.getAllCourseEnrollmentsDataHandler();
   }
 
   public onGlobalFilter(table: Table, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
-  public openDeleteLessonEnrollment(lessonEnrollment: EdLessonEnrollment): void {
+  public openDeleteLessonEnrollment(lessonEnrollment: EdCourseEnrollment): void {
     this.confirmationService.confirm({
       message:
         'Tem certeza que deseja excluir esta matrícula ? Este processo vai remover todas as matrículas ativas',
@@ -82,7 +82,7 @@ export class EdLessonEnrollmentsComponent implements OnInit {
         severity: 'danger',
       },
       accept: () => {
-        this.edLessonEnrollmentsService.deleteLessonEnrollmentHandler(lessonEnrollment.id);
+        this.edCourseEnrollmentsService.deleteCourseEnrollmentHandler(lessonEnrollment.id);
       },
     });
   }
@@ -100,7 +100,7 @@ export class EdLessonEnrollmentsComponent implements OnInit {
         if (this.selectedLessonEnrollments) {
           const ids = this.selectedLessonEnrollments.map(item => item.id);
 
-          this.edLessonEnrollmentsService.deleteLessonEnrollmentsHandler(ids);
+          this.edCourseEnrollmentsService.deleteCourseEnrollmentsHandler(ids);
 
           this.selectedLessonEnrollments = [];
         }

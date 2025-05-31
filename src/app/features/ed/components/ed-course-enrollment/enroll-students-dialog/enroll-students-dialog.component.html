@@ -1,0 +1,34 @@
+<p-dialog [(visible)]="enrollStudentsDialog" [breakpoints]="{'900px': '55vw', '575px': '90vw' }"
+    [style]="{ width: '55vw' }" [draggable]="true" [resizable]="false" [header]="modalTitle()" [modal]="true"
+    (onHide)="hideDialog()">
+    <ng-template #content>
+        <p-toast />
+
+        <div class="grid grid-cols-12">
+            <div class="mb-6 col-span-12">
+                <p-card>
+                    <ng-template #title>{{selectedCourseForEnrollment?.name}}</ng-template>
+                    <p class="text-justify">
+                        {{selectedCourseForEnrollment?.description}}
+                    </p>
+                </p-card>
+            </div>
+
+        </div>
+        <div class="grid grid-cols-12">
+            <div class="mb-6 mx-2 col-span-12">
+                <label for="userId" class="block font-bold mb-2">Aluno
+                    (s)</label>
+                <p-multiselect [ngModelOptions]="{standalone: true}" optionLabel="full_name" optionValue="id"
+                    scrollHeight="300px" class="w-full" [(ngModel)]="selectedStudentsIds" [options]="students()"
+                    placeholder="Selecione o(s) aluno(s)" />
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+        <p-button [disabled]="selectedStudentsIds.length === 0" label="Matrícular" icon="pi pi-file"
+            (click)="saveEdCourseEnrollmentHandler()" />
+    </ng-template>
+</p-dialog>

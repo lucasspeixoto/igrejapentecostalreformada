@@ -6,11 +6,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { DataViewModule } from 'primeng/dataview';
 import { ORDER_TYPES } from '../../constants/course-order-types';
-import { UserPanelEdCoursesComponent } from '../../components/ed-user-panel/user-panel-ed-courses/user-panel-ed-courses.component';
+import { UserPanelEdCoursesComponent } from '../../components/ed-courses-panel/user-panel-ed-courses/user-panel-ed-courses.component';
 import { EdLessonsService } from '../../services/ed-lessons/ed-lessons.service';
 import { EdCoursesService } from '../../services/ed-courses/ed-courses.service';
 import { SelectItem } from '../../../../models/select-item.model';
-import { UserPanelEdFiltersComponent } from '../../components/ed-user-panel/user-panel-ed-filters/user-panel-ed-filters.component';
+import { UserPanelEdFiltersComponent } from '../../components/ed-courses-panel/user-panel-ed-filters/user-panel-ed-filters.component';
 
 const INITIAL_SELECTED_ORDER_TYPE: SelectItem = {
   name: 'Mais recente',
@@ -24,12 +24,11 @@ const COMMON = [FormsModule];
 const COMPONENTS = [UserPanelEdCoursesComponent, UserPanelEdFiltersComponent];
 
 @Component({
-  selector: 'app-ed-user-panel',
+  selector: 'app-ed-courses-panel',
   imports: [...PRIMENG, ...COMMON, ...COMPONENTS],
-  templateUrl: './ed-user-panel.component.html',
-  styleUrl: './ed-user-panel.component.scss',
+  templateUrl: './ed-courses-panel.component.html',
 })
-export class EdUserPanelComponent implements OnInit {
+export class EdCoursesPanelComponent implements OnInit {
   public edCoursesService = inject(EdCoursesService);
   public edLessonsService = inject(EdLessonsService);
 

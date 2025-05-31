@@ -10,10 +10,10 @@
 </p-toolbar>
 
 <p-table #dt [value]="membersService.members()" [rows]="10" [columns]="columns" [paginator]="true"
-    [globalFilterFields]="['number', 'name', 'member_type']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedMembers"
-    [scrollable]="true" scrollHeight="500px" [rowHover]="true" dataKey="number"
+    [globalFilterFields]="['number', 'name', 'member_type']" [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedMembers" [scrollable]="true" scrollHeight="500px" [rowHover]="true" dataKey="number"
     currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} membros" [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]">
     <ng-template #caption>
         <div class="flex items-center justify-between flex-wrap gap-4">
             <h5 class="m-0">Membros ({{ membersService.totalOfMembers() }})</h5>
@@ -33,10 +33,6 @@
                 Name
                 <p-sortIcon field="name" />
             </th>
-            <!-- <th pSortableColumn="number" style="min-width: 8rem">
-                Número
-                <p-sortIcon field="number" />
-            </th> -->
             <th pSortableColumn="member_type">
                 Tipo
                 <p-sortIcon field="member_type" />
@@ -62,21 +58,16 @@
                 <p-tableCheckbox [value]="member" />
             </td>
             <td pFrozenColumn style="min-width: 12rem">{{ member.name | firstAndLastname }} ({{ member.number }})</td>
-            <!-- <td style="width: 8rem">{{ member.number }}</td> -->
             <td>
-                <span
-                [ngClass]="{
+                <span [ngClass]="{
                     'shadow-indigo-500/50 bg-indigo-200 hover:bg-indigo-300 dark:bg-indigo-800 dark:hover:bg-indigo-700': member.member_type === 'congregated',
                     'shadow-cyan-500/50 bg-cyan-200 hover:bg-cyan-300 dark:bg-cyan-800 dark:hover:bg-cyan-700': member.member_type === 'member',
                   }"
-                    class="select-none shadow-lg cursor-pointer inline-flex rounded-full px-3 py-2  transition-all duration-200 gap-2 items-center text-sm "
-                    >
-                    <span
-                    [ngClass]="{
+                    class="select-none shadow-lg cursor-pointer inline-flex rounded-full px-3 py-2  transition-all duration-200 gap-2 items-center text-sm ">
+                    <span [ngClass]="{
                         'text-indigo-700': member.member_type === 'congregated',
                         'text-cyan-700': member.member_type === 'member',
-                      }"
-                        class="dark:text-green-50 font-medium">{{ member.member_type | memberType }}
+                      }" class="dark:text-green-50 font-medium">{{ member.member_type | memberType }}
                     </span>
                 </span>
             </td>
@@ -102,12 +93,8 @@
     </ng-template>
 </p-table>
 
-<app-update-member-dialog
-    [memberForm]="memberForm"
-    [memberDialog]="memberDialog"
-    [modalTitle]="modalTitle()"
-    (dialogClosed)="hideDialog()"
-    (memberSaved)="saveMemberHandler()">
+<app-update-member-dialog [memberForm]="memberForm" [memberDialog]="memberDialog" [modalTitle]="modalTitle()"
+    (dialogClosed)="hideDialog()" (memberSaved)="saveMemberHandler()">
 </app-update-member-dialog>
 
 <p-confirmdialog [style]="{ width: '450px' }" />

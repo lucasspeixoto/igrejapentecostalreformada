@@ -24,7 +24,9 @@ export class EdCoursesService {
 
     const { data, error } = await this.supabase
       .from('ed_courses')
-      .select('*, users(full_name, avatar_url), ed_lessons(count)')
+      .select(
+        '*, users(full_name, avatar_url), ed_lessons(count), enrollments:ed_course_enrollments(count)'
+      )
       .order('created_at', { ascending: false });
 
     if (!error) {
@@ -170,7 +172,9 @@ export class EdCoursesService {
   public async updateCurrentCoursesList(): Promise<void> {
     const { data, error } = await this.supabase
       .from('ed_courses')
-      .select('*, users(full_name, avatar_url), ed_lessons(count)')
+      .select(
+        '*, users(full_name, avatar_url), ed_lessons(count), enrollments:ed_course_enrollments(count)'
+      )
       .order('created_at', { ascending: false });
 
     if (!error) this.courses.set(data);
