@@ -18,6 +18,8 @@ export class FinanceNotesService {
 
   public financeNotes = signal<FinanceNote[]>([]);
 
+  public allFinanceNotesOfAMonth = signal(0);
+
   public totalOfFinanceNotes = computed(() => this.financeNotes().length);
 
   public async getAllFinanceNotesDataHandler(): Promise<void> {
@@ -28,6 +30,37 @@ export class FinanceNotesService {
     const { data, error } = await this.supabase
       .from('finance_notes')
       .select('*, users(full_name), finance_categories(name), members(name)')
+      .gte('date', firstDay)
+      .lte('date', lastDay)
+      .order('created_at', { ascending: false });
+
+    if (!error) {
+      this.financeNotes.set(data);
+      this.allFinanceNotesOfAMonth.set(data.length);
+    }
+
+    if (error) {
+      this.financeNotes.set([]);
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Erro',
+        detail: 'Erro ao carregar notas, tente novamente mais tarde!',
+        life: 3000,
+      });
+    }
+
+    this.loadingService.isLoading.set(false);
+  }
+
+  public async getAllFinanceNotesByCategory(categoryId: string): Promise<void> {
+    this.loadingService.isLoading.set(true);
+
+    const { firstDay, lastDay } = this.getFirstAndLastDayOfAMonth();
+
+    const { data, error } = await this.supabase
+      .from('finance_notes')
+      .select('*, users(full_name), finance_categories(name), members(name)')
+      .eq('category_id', categoryId)
       .gte('date', firstDay)
       .lte('date', lastDay)
       .order('created_at', { ascending: false });

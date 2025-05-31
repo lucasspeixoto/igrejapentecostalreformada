@@ -1,33 +1,45 @@
 <p-toolbar styleClass="my-4 flex flex-wrap justify-center md:justify-between gap-2">
     <ng-template #start>
         <p-button [disabled]="isSelectedMonthClosed()" class="mr-2" label="Fechar" icon="pi pi-list-check"
-        severity="info" (click)="closeCurrentMonth()" />
-    <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="downloadFinanceNoteExcel()" />
+            severity="info" (click)="closeCurrentMonth()" />
+        <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="downloadFinanceNoteExcel()" />
     </ng-template>
 
     <ng-template #end>
-        <p-button (onClick)="deleteSelectedFinanceNotes()" severity="danger" label="Excluir" icon="pi pi-trash" class="mr-2"
-            [disabled]="isSelectedMonthClosed() || !selectedFinanceNote" />
-            <p-button [disabled]="isSelectedMonthClosed()" label="Nova" icon="pi pi-plus" severity="primary"
+        <p-button (onClick)="deleteSelectedFinanceNotes()" severity="danger" label="Excluir" icon="pi pi-trash"
+            class="mr-2" [disabled]="isSelectedMonthClosed() || !selectedFinanceNote" />
+        <p-button [disabled]="isSelectedMonthClosed()" label="Nova" icon="pi pi-plus" severity="primary"
             (onClick)="openAddFinanceNote()" />
     </ng-template>
 </p-toolbar>
 
 <app-audit-validation-warnings [isSelectedMonthClosed]="isSelectedMonthClosed()" />
 
+@let totalOfFinanceNotes = financeNotesService.totalOfFinanceNotes();
+
 <p-table #dt [rows]="10" [value]="financeNotesService.financeNotes()" [columns]="columns" [paginator]="true"
     [globalFilterFields]="globalFilterFields" [tableStyle]="{ 'min-width': '75rem' }"
     [(selection)]="selectedFinanceNote" selectionMode="single" [metaKeySelection]="false" dataKey="id"
     [scrollable]="true" [rowHover]="true" currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} notas"
-    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 20, 30, 50, 100]" >
+    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 20, 30, 50, 100]">
     <ng-template #caption>
         <div class="flex items-center justify-between flex-wrap gap-4">
-            <h5 class="m-0">Notas</h5>
+            <h5 class="m-0 font-bold">Notas
+                @if(totalOfFinanceNotes > 0) {
+                <span>({{totalOfFinanceNotes}})</span>
+                } @else {
+                <span>(Nenhum resultado)</span>
+                }
+            </h5>
 
             <div class="flex">
                 <p-select (onChange)="onMonthAndYearChange($event)" [options]="monthAndYearList()"
                     [(ngModel)]="financeReportsService.selectedMonthAndYear" placeholder="Selecione o mês"
-                    class="w-[180px] mr-2" />
+                    class="w-auto md:w-[120px] mr-2" />
+                <p-select [(ngModel)]="selectedNotesCategory" (onChange)="onCategoryFilterChange($event)"
+                    [showClear]="true" appendTo="body" class="mr-2 w-auto md:w-[200px]" optionLabel="name"
+                    optionValue="id" [options]="financeNoteCategoryService.financeNoteCategory()"
+                    placeholder="Selecione a categoria" />
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search" />
                     <input class="w-full sm:w-auto" pInputText type="text" (input)="onGlobalFilter(dt, $event)"
@@ -67,21 +79,23 @@
 
             <td style="min-width: 4rem">
                 @if(note.value === 0) {
-                    <p-tag severity="warn" value="Pendente" />
+                <p-tag severity="warn" value="Pendente" />
                 } @else {
-                    {{ note.value }}
+                {{ note.value }}
                 }
             </td>
             <td>
                 @if(note.is_checked) {
-                    <i class="pi pi-check" style="color: rgb(86, 212, 86)"></i>
+                <i class="pi pi-check" style="color: rgb(86, 212, 86)"></i>
                 } @else {
-                    <i class="pi pi-times" style="color: rgb(201, 69, 69)"></i>
+                <i class="pi pi-times" style="color: rgb(201, 69, 69)"></i>
                 }
             </td>
             <td>
-                <p-button [disabled]="isSelectedMonthClosed()" icon="pi pi-pencil" severity="info" [rounded]="true" [text]="true" (click)="openUpdateFinanceNote(note)" />
-                <p-button [disabled]="isSelectedMonthClosed()" icon="pi pi-trash" severity="danger" [rounded]="true" [text]="true" (click)="openDeleteFinanceNote(note)" />
+                <p-button [disabled]="isSelectedMonthClosed()" icon="pi pi-pencil" severity="info" [rounded]="true"
+                    [text]="true" (click)="openUpdateFinanceNote(note)" />
+                <p-button [disabled]="isSelectedMonthClosed()" icon="pi pi-trash" severity="danger" [rounded]="true"
+                    [text]="true" (click)="openDeleteFinanceNote(note)" />
             </td>
         </tr>
     </ng-template>
