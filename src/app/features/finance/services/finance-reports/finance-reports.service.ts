@@ -7,6 +7,7 @@ import { getActualDate, getNextMonthDate, getPreviousDate } from '../../../../ut
 import { FinanceNotesService } from '../finance-notes/finance-notes.service';
 import { FinanceNote } from '../../models/finance-note.model';
 import { MONTH_LABELS } from '../../../../utils/constants';
+import { SEMINAR_IDS } from '../../constants/options';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,8 @@ export class FinanceReportsService {
   public financeReports = signal<FinanceReports[]>([]);
 
   public monthLabels = MONTH_LABELS;
+
+  public seminarIds = SEMINAR_IDS;
 
   public availableMonths = computed(() =>
     this.financeReports()
@@ -71,6 +74,22 @@ export class FinanceReportsService {
   );
 
   public currentYear = computed(() => this.selectedMonthAndYear().split('/')[1]);
+
+  public totalOfCampaignNotes = computed(() => {
+    return this.financeNotesService
+      .financeNotes()
+      .filter(item => item.category_id === '545faf46-4161-4d0b-9a98-026dde981be6')
+      .map(item => item.value)
+      .reduce((acc, curr) => acc + curr, 0);
+  });
+
+  public totalOfSeminarNotes = computed(() => {
+    return this.financeNotesService
+      .financeNotes()
+      .filter(item => this.seminarIds.includes(item.category_id))
+      .map(item => item.value)
+      .reduce((acc, curr) => acc + curr, 0);
+  });
 
   public getStorageActualDate(): string {
     const currentActualDate = localStorage.getItem('IPR-SISTEMA-GESTAO:CURRENT-MONTH');

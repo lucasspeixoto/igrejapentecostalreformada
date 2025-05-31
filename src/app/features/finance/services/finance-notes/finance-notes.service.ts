@@ -148,6 +148,7 @@ export class FinanceNotesService {
   public getTop3NotesByCategories(type: 'C' | 'D'): TopFinanceNoteByCategory[] {
     // Create an object to accumulate values by category
     const categoryTotals = {} as Record<string, TopFinanceNoteByCategory>;
+
     let total = 0;
 
     const financeNotesByType = this.financeNotes().filter(item => item.type === type);
@@ -184,5 +185,46 @@ export class FinanceNotesService {
 
     // Return top 3
     return categoriesWithPercent.slice(0, 3);
+  }
+
+  public getAllDebitNotesData(): TopFinanceNoteByCategory[] {
+    // Create an object to accumulate values by category
+    const categoryTotals = {} as Record<string, TopFinanceNoteByCategory>;
+
+    let total = 0;
+
+    const financeNotesByType = this.financeNotes().filter(item => item.type === 'D');
+
+    // Process each note
+    financeNotesByType.forEach(financeNote => {
+      const categoryId = financeNote.category_id;
+      const categoryName = financeNote.finance_categories?.name || 'Uncategorized';
+      total += financeNote.value;
+
+      if (!categoryTotals[categoryId]) {
+        categoryTotals[categoryId] = {
+          name: categoryName,
+          total: 0,
+          quantity: 0,
+          percent: 0,
+        };
+      }
+
+      categoryTotals[categoryId].total += financeNote.value;
+      categoryTotals[categoryId].quantity += 1;
+    });
+
+    // Convert to array and sort by total (descending)
+    const sortedCategories = Object.values(categoryTotals).sort((a, b) => b['total'] - a['total']);
+
+    // Include percent
+    const categoriesWithPercent = sortedCategories.map(item => {
+      return {
+        ...item,
+        percent: +(100 * (item.total / total)).toFixed(2),
+      };
+    });
+
+    return categoriesWithPercent;
   }
 }

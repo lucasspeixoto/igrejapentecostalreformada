@@ -9,6 +9,7 @@ import { InputsAndOutputsMontlhyComponent } from '../../components/inputs-and-ou
 import { ValuesByCategoryComponent } from '../../components/values-by-category/values-by-category.component';
 import { FinanceNotesService } from '../../services/finance-notes/finance-notes.service';
 import { AnualInputsAndOutputsBalanceComponent } from '../../components/anual-inputs-and-outputs-balance/anual-inputs-and-outputs-balance.component';
+import { SummaryForAssemblyComponent } from '../../components/summary-for-assembly/summary-for-assembly.component';
 
 @Component({
   selector: 'app-finance-reports',
@@ -18,6 +19,7 @@ import { AnualInputsAndOutputsBalanceComponent } from '../../components/anual-in
     FormsModule,
     SelectModule,
     AnualInputsAndOutputsBalanceComponent,
+    SummaryForAssemblyComponent,
   ],
   templateUrl: './finance-reports.component.html',
 })
