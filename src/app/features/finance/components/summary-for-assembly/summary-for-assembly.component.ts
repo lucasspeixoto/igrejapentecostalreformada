@@ -19,41 +19,41 @@ import { MONTH_LABELS } from 'src/app/utils/constants';
   selector: 'app-summary-for-assembly',
   imports: [ChartModule],
   template: `<div class="card !mb-8">
-    <div class="flex flex-wrap justify-between items-center mb-6 px-2">
-      <h1 class="md:hidden block text-lg md:text-2xl font-bold self-start text-primary mb-8">
+    <div class="flex flex-wrap justify-between items-center mb-3 px-2 md:px-8">
+      <h1 class="md:hidden block text-lg md:text-2xl font-bold self-start text-primary mb-4">
         {{ chartMonthText() }}
       </h1>
       <div
-        class="mb-8 md:mb-0 w-full md:w-1/4 gap-4 flex flex-row md:flex-col flex-wrap justify-between">
-        <h1 class="hidden md:block text-lg md:text-2xl font-bold text-primary mb-8">
+        class="mb-4 md:mb-0 w-full md:w-1/4 gap-4 flex flex-row md:flex-col flex-wrap justify-between">
+        <h1 class="hidden md:block text-lg md:text-2xl font-bold text-primary mb-4">
           {{ chartMonthText() }}
         </h1>
-        <div class="mb-3">
+        <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Entradas Orgânicas</span>
           <p class="text-md md:text-xl text-green-700 font-bold ">
             R$
-            {{ financeReportsService.totalOfCreditNotes()?.toFixed(2) }}
+            {{ financeReportsService.totalOfOrganicNotes().toFixed(2) }}
           </p>
         </div>
-        <div class="mb-3">
+        <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Entradas de Campanhas</span>
           <p class="text-md md:text-xl text-green-700 font-bold ">
             R$ {{ financeReportsService.totalOfCampaignNotes().toFixed(2) }}
           </p>
         </div>
-        <div class="mb-3">
+        <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Entradas Seminário</span>
           <p class="text-md md:text-xl text-green-700 font-bold ">
             R$ {{ financeReportsService.totalOfSeminarNotes().toFixed(2) }}
           </p>
         </div>
-        <div class="mb-3">
+        <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Despesas</span>
           <p class="text-md md:text-xl font-bold text-red-700">
             R$ {{ financeReportsService.totalOfDebitNotes()?.toFixed(2) }}
           </p>
         </div>
-        <div class="mb-3">
+        <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Resultado</span>
           <p class="text-md md:text-xl text-primary font-bold ">
             R$ {{ financeReportsService.getCurrentMonthBalance()?.toFixed(2) }}
@@ -71,11 +71,7 @@ import { MONTH_LABELS } from 'src/app/utils/constants';
   styles: [
     `
       .card {
-        padding: 0.8rem;
-
-        @media (max-width: 400px) {
-          padding: 0.8rem;
-        }
+        padding: 0.2rem;
       }
     `,
   ],
@@ -129,7 +125,7 @@ export class SummaryForAssemblyComponent implements OnInit {
 
   public initChart(): void {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColor = documentStyle.getPropertyValue('--primary-color');
 
     if (isPlatformBrowser(this.platformId) && this.allDebitNotesData().length > 0) {
       this.chartData.set({
@@ -149,6 +145,10 @@ export class SummaryForAssemblyComponent implements OnInit {
               usePointStyle: false,
               color: textColor,
             },
+          },
+          title: {
+            display: true,
+            fontSize: 20,
           },
         },
       });

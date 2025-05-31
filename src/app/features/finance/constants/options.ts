@@ -18,3 +18,8 @@ export const SEMINAR_IDS = [
   '5ff7e8dc-fa61-4431-b045-39d2a4cb88ce',
   '7d89aa42-fe6c-49e1-895e-75a3e4775336',
 ];
+
+export const ORGANIC_CREDIT_IDS = [
+  '8201e81e-85b8-4f7b-b981-b080d169d098',
+  'e44e7b9c-138b-4218-afa9-90f2dbd68fb1',
+];

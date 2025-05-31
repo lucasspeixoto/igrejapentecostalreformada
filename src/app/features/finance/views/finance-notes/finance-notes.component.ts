@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, model, OnInit, signal, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -37,7 +37,7 @@ import { FirstAndLastnamePipe } from '../../../../pipes/first-and-lastname/first
 import { PrimengDatePipe } from '../../../../pipes/primeng-date/primeng-date.pipe';
 import { AuditValidationWarningsComponent } from '../../components/audit-validation-warnings/audit-validation-warnings.component';
 import { FinanceDataHandleService } from '../../services/finance-data-handle/finance-data-handle.service';
-import type { FinanceNoteExcel } from '../../models/finance-note-excel.model';
+import { FinanceNoteExcel } from '../../models/finance-note-excel.model';
 
 const PRIMENG = [
   TooltipModule,
@@ -107,7 +107,7 @@ const PIPES = [FirstAndLastnamePipe, PrimengDatePipe];
     `,
   ],
 })
-export class FinanceNotesComponent implements OnInit {
+export class FinanceNotesComponent implements OnInit, OnDestroy {
   private loadingService = inject(LoadingService);
 
   public financeNotesService = inject(FinanceNotesService);
@@ -164,6 +164,8 @@ export class FinanceNotesComponent implements OnInit {
 
   public maxDate!: Date | undefined;
 
+  public selectedNotesCategory = model(null);
+
   public ngOnInit(): void {
     this.membersService.getAllMembersDataHandler();
     this.financeNoteCategoryService.getAllFinanceCategoryDataHandler();
@@ -205,6 +207,14 @@ export class FinanceNotesComponent implements OnInit {
     this.financeNotesService.getAllFinanceNotesDataHandler();
 
     this.computeMinAndMaxAvailableDates();
+  }
+
+  public onCategoryFilterChange(event: DropdownChangeEvent): void {
+    if (event.value) {
+      this.financeNotesService.getAllFinanceNotesByCategory(event.value);
+    } else {
+      this.financeNotesService.getAllFinanceNotesDataHandler();
+    }
   }
 
   public onCategoryChange(event: DropdownChangeEvent): void {
@@ -374,5 +384,9 @@ export class FinanceNotesComponent implements OnInit {
   public hideDialog(): void {
     this.financeNoteForm.reset();
     this.actionDialog = false;
+  }
+
+  public ngOnDestroy(): void {
+    if (this.selectedNotesCategory()) this.financeNotesService.getAllFinanceNotesDataHandler();
   }
 }
