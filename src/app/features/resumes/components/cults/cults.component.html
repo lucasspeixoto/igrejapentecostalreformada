@@ -24,7 +24,7 @@
             class="w-[80px] text-center p-3 rounded-md bg-primary text-slate-900 font-semibold opacity-90 hover:opacity-100"
             [href]="cultsService.selectedCult()?.text_url">Ler</a>
     </div>
-    {{cultsService.selectedVideoUrl()}}
+
     <div class="flex flex-col justify-center w-full gap-2">
         <iframe height="260" [src]="cultsService.selectedVideoUrl()" frameborder="0"
             allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
