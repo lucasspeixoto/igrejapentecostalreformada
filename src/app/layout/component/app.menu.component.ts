@@ -69,7 +69,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Escola de Discípulos',
             visible: this.isLogged,
-            icon: 'pi pi-fw pi-briefcase',
+            icon: 'pi pi-fw pi-graduation-cap',
             items: [
               {
                 label: 'Cursos',
@@ -86,7 +86,7 @@ export class AppMenuComponent implements OnInit {
               {
                 label: 'Matrículas',
                 visible: this.isAdmin,
-                icon: 'pi pi-fw pi-clipboard',
+                icon: 'pi pi-fw pi-credit-card',
                 routerLink: ['/inicio/escola-de-discipulos/matriculas'],
               },
               {

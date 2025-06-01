@@ -38,6 +38,10 @@
     &:focus-visible {
       @include focused();
     }
+
+    @media (max-width: 350px) {
+      display: none;
+    }
   }
 
   .layout-topbar-action {
@@ -104,7 +108,7 @@
 
 @media (max-width: 991px) {
   .layout-topbar {
-    padding: 0 2rem;
+    padding: 0;
 
     .layout-topbar-logo-container {
       width: auto;
