@@ -1,6 +1,6 @@
 export const TYPES: { name: string; key: string }[] = [
   { name: 'Crédito', key: 'C' },
-  { name: 'Dédito', key: 'D' },
+  { name: 'Débito', key: 'D' },
 ];
 
 export const FINANCE_NOTES_FILTER_FIELDS = [

@@ -166,6 +166,8 @@ export class FinanceNotesComponent implements OnInit, OnDestroy {
 
   public selectedNotesCategory = model(null);
 
+  public expandedRows = {};
+
   public ngOnInit(): void {
     this.membersService.getAllMembersDataHandler();
     this.financeNoteCategoryService.getAllFinanceCategoryDataHandler();

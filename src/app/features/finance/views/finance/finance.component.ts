@@ -1,4 +1,4 @@
-import { Component, inject, type OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FinanceReportsBalancesComponent } from '../../components/finance-reports-balances/finance-reports-balances.component';
 import { FinanceNotesService } from '../../services/finance-notes/finance-notes.service';

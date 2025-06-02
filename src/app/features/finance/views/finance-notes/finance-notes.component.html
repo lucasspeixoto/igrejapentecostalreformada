@@ -17,13 +17,14 @@
 
 @let totalOfFinanceNotes = financeNotesService.totalOfFinanceNotes();
 
-<p-table #dt [rows]="10" [value]="financeNotesService.financeNotes()" [columns]="columns" [paginator]="true"
-    [globalFilterFields]="globalFilterFields" [tableStyle]="{ 'min-width': '75rem' }"
-    [(selection)]="selectedFinanceNote" selectionMode="single" [metaKeySelection]="false" dataKey="id"
-    [scrollable]="true" [rowHover]="true" currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} notas"
-    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 20, 30, 50, 100]">
+<p-table #dt [rows]="10" [value]="financeNotesService.financeNotes()" [expandedRowKeys]="expandedRows"
+    [columns]="columns" [paginator]="true" [globalFilterFields]="globalFilterFields"
+    [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedFinanceNote" selectionMode="single"
+    [metaKeySelection]="false" dataKey="id" [scrollable]="true" [rowHover]="true"
+    currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} notas" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]">
     <ng-template #caption>
-        <div class="flex items-center justify-between flex-wrap gap-4">
+        <div class="flex items-center justify-start sm:justify-between flex-wrap gap-4">
             <h5 class="m-0 font-bold">Notas
                 @if(totalOfFinanceNotes > 0) {
                 <span>({{totalOfFinanceNotes}})</span>
@@ -32,17 +33,17 @@
                 }
             </h5>
 
-            <div class="flex">
+            <div class="flex flex-wrap justify-center md:justify-start gap-2">
                 <p-select (onChange)="onMonthAndYearChange($event)" [options]="monthAndYearList()"
                     [(ngModel)]="financeReportsService.selectedMonthAndYear" placeholder="Selecione o mês"
-                    class="w-auto md:w-[120px] mr-2" />
+                    class="w-full sm:w-[120px] mr-2" />
                 <p-select [(ngModel)]="selectedNotesCategory" (onChange)="onCategoryFilterChange($event)"
-                    [showClear]="true" appendTo="body" class="mr-2 w-auto md:w-[200px]" optionLabel="name"
+                    [showClear]="true" appendTo="body" class="mr-2 w-full sm:w-[200px]" optionLabel="name"
                     optionValue="id" [options]="financeNoteCategoryService.financeNoteCategory()"
                     placeholder="Selecione a categoria" />
-                <p-iconfield>
+                <p-iconfield class="w-full sm:w-[200px]">
                     <p-inputicon styleClass="pi pi-search" />
-                    <input class="w-full sm:w-auto" pInputText type="text" (input)="onGlobalFilter(dt, $event)"
+                    <input class="w-full" pInputText type="text" (input)="onGlobalFilter(dt, $event)"
                         placeholder="Pesquisar..." />
                 </p-iconfield>
             </div>
@@ -50,6 +51,7 @@
     </ng-template>
     <ng-template #header>
         <tr>
+            <th style="min-width: 10rem"></th>
             <th pSortableColumn="users.full_name" style="min-width: 8rem">
                 Tesoureiro
                 <p-sortIcon field="users.full_name" />
@@ -64,14 +66,21 @@
             <th></th>
         </tr>
     </ng-template>
-    <ng-template #body let-note>
+    <ng-template #body let-note let-expanded="expanded">
         <tr [pSelectableRow]="note" (dblclick)="checkNoteHandler(note)">
-            <td style="min-width: 8rem">{{ note.users?.full_name | firstAndLastname }}</td>
+            <td style="min-width: 10rem">
+                <p-button type="button" pRipple [pRowToggler]="note" [text]="true" [rounded]="true" [plain]="true"
+                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+            </td>
+            <td style="min-width: 8rem">{{ note.users?.full_name |
+                firstAndLastname }}</td>
             <td style="min-width: 4rem">{{ note.date | primengDate }}</td>
-            <td style="min-width: 5rem">{{ note.finance_categories.name }}</td>
+            <td style="min-width: 5rem">
+                {{ note.finance_categories.name }}
+            </td>
             <td style="min-width: 3rem">
                 @if(note.type === 'D') {
-                <p-tag severity="danger" value="Dédito" />
+                <p-tag severity="danger" value="Débito" />
                 } @else {
                 <p-tag severity="success" value="Crédito" />
                 }
@@ -86,9 +95,9 @@
             </td>
             <td>
                 @if(note.is_checked) {
-                <i class="pi pi-check" style="color: rgb(86, 212, 86)"></i>
+                <i class="pi pi-check text-green-400"></i>
                 } @else {
-                <i class="pi pi-times" style="color: rgb(201, 69, 69)"></i>
+                <i class="pi pi-times text-red-400"></i>
                 }
             </td>
             <td>
@@ -98,6 +107,20 @@
                     [text]="true" (click)="openDeleteFinanceNote(note)" />
             </td>
         </tr>
+    </ng-template>
+    <ng-template #expandedrow let-note>
+        <section class="w-full flex flex-col p-2">
+            <span class="font-semibold mb-4 text-lg">Descrição</span>
+            @if(note.category_id === '8201e81e-85b8-4f7b-b981-b080d169d098') {
+            <p class="ml-2 first-line:w-full m-0 text-surface-500 dark:text-surface-400 font-medium">Dízimo
+                {{note.members?.name}}
+            </p>
+            } @else {
+            <p class="ml-2 w-full m-0 text-surface-500 dark:text-surface-400 font-medium">
+                {{note.description}}
+            </p>
+            }
+        </section>
     </ng-template>
 </p-table>
 
@@ -139,8 +162,8 @@
                 </div>
 
                 <div class="my-2">
-                    <label for="member" class="block font-bold mb-3">Membro associado <i pTooltip="Limpar"
-                            tooltipPosition="right" (click)="clearMember()"
+                    <label for="member" class="block font-bold mb-3">Membro
+                        associado <i pTooltip="Limpar" tooltipPosition="right" (click)="clearMember()"
                             class="pi pi-eraser hover:underline hover:cursor-pointer"
                             style="font-size: 1.2rem; color: var(--primary-color)"></i></label>
                     <p-select appendTo="body" optionLabel="name" optionValue="number" class="w-full"
