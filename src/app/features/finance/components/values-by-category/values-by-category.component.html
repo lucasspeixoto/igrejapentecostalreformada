@@ -11,8 +11,7 @@
         <h5>Entradas</h5>
 
         @for(note of top3CreditNotes; track note.name; let idx = $index) {
-        <app-category-note-detail [topFinanceNoteByCategory]="note"
-            [itemColor]="creditColors[idx]" />
+        <app-category-note-detail [topFinanceNoteByCategory]="note" [itemColor]="creditColors[idx]" />
         }
 
         <p-divider />
@@ -20,9 +19,7 @@
         <h5>Saídas</h5>
 
         @for(note of top3DebitNotes; track note.name; let idx = $index) {
-        <app-category-note-detail [topFinanceNoteByCategory]="note"
-            [itemColor]="debitColors[idx]" />
+        <app-category-note-detail [topFinanceNoteByCategory]="note" [itemColor]="debitColors[idx]" />
         }
-
     </ul>
 </div>
