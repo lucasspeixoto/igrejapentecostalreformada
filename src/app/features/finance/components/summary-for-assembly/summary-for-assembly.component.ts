@@ -16,16 +16,24 @@ import { FinanceReportsService } from '../../services/finance-reports/finance-re
 import { MONTH_LABELS } from 'src/app/utils/constants';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+const randomColors = (items: number[]): string[] =>
+  items.map(() => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgba(${r}, ${g}, ${b}, 0.7)`;
+  });
+
 @Component({
   selector: 'app-summary-for-assembly',
   imports: [ChartModule],
-  template: `<div class="card !mb-8">
+  template: `<div class="card !mb-8 h-full">
     <div class="flex flex-wrap justify-between items-center mb-3 px-2 md:px-8">
       <h1 class="md:hidden block text-lg md:text-2xl font-bold self-start text-primary mb-4">
         {{ chartMonthText() }}
       </h1>
       <div
-        class="mb-4 md:mb-0 w-full md:w-1/4 gap-4 flex flex-row md:flex-col flex-wrap justify-between">
+        class="my-4 md:mb-0 w-full md:w-1/4 gap-4 flex flex-row md:flex-col flex-wrap justify-between">
         <h1 class="hidden md:block text-lg md:text-2xl font-bold text-primary mb-4">
           {{ chartMonthText() }}
         </h1>
@@ -62,13 +70,14 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
         </div>
       </div>
 
-      <div class="w-full md:w-3/4 max-w-full md:max-w-[600px]">
+      <div class="hidden sm:block w-full md:w-3/4 max-w-full">
         <p-chart
           class="w-full max-w-[40px]"
-          type="doughnut"
+          type="bar"
           [data]="chartData()"
           [options]="chartOptions()"
-          [plugins]="plugin" />
+          [plugins]="plugin"
+          [responsive]="true" />
       </div>
     </div>
   </div>`,
@@ -134,36 +143,63 @@ export class SummaryForAssemblyComponent implements OnInit {
     const textColor = documentStyle.getPropertyValue('--text-color');
 
     if (isPlatformBrowser(this.platformId) && this.allDebitNotesData().length > 0) {
+      const chartData = this.allDebitNotesData().map(item => item.total);
       this.chartData.set({
         labels: this.allDebitNotesData().map(item => item.name),
         datasets: [
           {
+            label: 'Distribuição por categoria',
             data: this.allDebitNotesData().map(item => item.total),
+            borderWidth: 1,
+            backgroundColor: randomColors(chartData),
           },
         ],
       });
 
       this.chartOptions.set({
+        color: textColor,
+        responsive: true,
         plugins: {
           datalabels: {
-            color: '#fff',
+            color: textColor,
             anchor: 'end',
             align: 'start',
-            formatter: (value: string) => `R$ ${Number(value).toFixed(2)}`,
+            formatter: (value: string) => `${Number(value).toFixed(2)}`,
             font: {
+              size: '12rem',
               weight: 'bold',
             },
           },
           legend: {
-            position: 'left',
+            position: 'top',
             labels: {
-              usePointStyle: false,
               color: textColor,
+              font: {
+                size: 16,
+              },
             },
           },
           title: {
             display: true,
-            fontSize: 20,
+            fontSize: 25,
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Categoria', // Optional Y-axis title
+              color: textColor,
+            },
+            ticks: { color: textColor },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Valor', // Optional Y-axis title
+              color: textColor,
+            },
+            ticks: { color: textColor },
           },
         },
       });

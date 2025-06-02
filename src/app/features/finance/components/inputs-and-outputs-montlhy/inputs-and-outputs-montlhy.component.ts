@@ -12,19 +12,20 @@ import { ChartModule } from 'primeng/chart';
 import { FinanceNotesService } from './../../services/finance-notes/finance-notes.service';
 import { LayoutService } from '../../../../layout/service/layout.service';
 import { FinanceReportsService } from '../../services/finance-reports/finance-reports.service';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-inputs-and-outputs-montlhy',
   imports: [ChartModule],
-  template: `<div class="card !mb-8 flex flex-col items-center justify-center">
+  template: ` <div class="card !mb-8 h-full">
     <div class="font-semibold text-xl mb-4 self-start">Distribuição</div>
     <p-chart
-      type="doughnut"
+      class="w-full max-w-[40px]"
+      type="pie"
       [data]="chartData()"
       [options]="chartOptions()"
-      width="350px"
-      height="350px"
-      [responsive]="false" />
+      [responsive]="true"
+      [plugins]="plugin" />
   </div>`,
 })
 export class InputsAndOutputsMontlhyComponent implements OnInit {
@@ -41,6 +42,8 @@ export class InputsAndOutputsMontlhyComponent implements OnInit {
   public chartData = signal<unknown>(null);
 
   public chartOptions = signal<unknown>(null);
+
+  public plugin = [ChartDataLabels];
 
   public layoutEffect = effect(() => {
     if (this.layoutService.transitionComplete()) {
@@ -85,10 +88,24 @@ export class InputsAndOutputsMontlhyComponent implements OnInit {
 
       this.chartOptions.set({
         plugins: {
+          datalabels: {
+            color: textColor,
+            anchor: 'center',
+            align: 'center',
+            formatter: (value: string) => `R$ ${Number(value).toFixed(2)}`,
+            font: {
+              size: '18rem',
+              weight: 'bold',
+            },
+          },
           legend: {
+            position: 'top',
             labels: {
               usePointStyle: true,
               color: textColor,
+              font: {
+                size: 16,
+              },
             },
           },
         },

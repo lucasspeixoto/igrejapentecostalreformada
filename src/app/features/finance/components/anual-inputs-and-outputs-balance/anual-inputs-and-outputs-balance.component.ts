@@ -12,15 +12,21 @@ import { ChartModule } from 'primeng/chart';
 import { FinanceNotesService } from '../../services/finance-notes/finance-notes.service';
 import { LayoutService } from '../../../../layout/service/layout.service';
 import { FinanceReportsService } from '../../services/finance-reports/finance-reports.service';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-anual-inputs-and-outputs-balance',
   imports: [ChartModule],
-  template: `<div class="card !mb-8">
+  template: `<div class="card !mb-8  h-full">
     <div class="font-semibold text-xl mb-4">
       Balanço anual ({{ financeReportsService.currentYear() }})
     </div>
-    <p-chart type="line" [data]="chartData()" [options]="chartOptions()" />
+    <p-chart
+      [plugins]="plugin"
+      [responsive]="true"
+      type="line"
+      [data]="chartData()"
+      [options]="chartOptions()" />
   </div>`,
 })
 export class AnualInputsAndOutputsBalanceComponent implements OnInit {
@@ -37,6 +43,8 @@ export class AnualInputsAndOutputsBalanceComponent implements OnInit {
   public chartData = signal<unknown>(null);
 
   public chartOptions = signal<unknown>(null);
+
+  public plugin = [ChartDataLabels];
 
   public layoutEffect = effect(() => {
     if (this.layoutService.transitionComplete()) {
@@ -57,9 +65,7 @@ export class AnualInputsAndOutputsBalanceComponent implements OnInit {
   public initChart(): void {
     if (isPlatformBrowser(this.platformId)) {
       const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
+      const textColor = documentStyle.getPropertyValue('--text-color');
 
       this.chartData.set({
         labels: this.financeReportsService.availabeMonthsLabels().reverse(),
@@ -77,52 +83,62 @@ export class AnualInputsAndOutputsBalanceComponent implements OnInit {
             type: 'bar',
             label: 'Entradas',
             backgroundColor: documentStyle.getPropertyValue('--p-green-500'),
-            borderColor: documentStyle.getPropertyValue('--p-green-800'),
-            borderWidth: 1,
+
             data: this.financeReportsService.inputs().reverse(),
           },
           {
             type: 'bar',
             label: 'Saídas',
             backgroundColor: documentStyle.getPropertyValue('--p-red-500'),
-            borderColor: documentStyle.getPropertyValue('--p-red-800'),
-            borderWidth: 1,
             data: this.financeReportsService.outputs().reverse(),
           },
         ],
       });
 
       this.chartOptions.set({
-        maintainAspectRatio: false,
-        aspectRatio: 0.8,
+        color: textColor,
+        responsive: true,
         plugins: {
+          datalabels: {
+            color: textColor,
+            anchor: 'end',
+            align: 'start',
+            formatter: (value: string) => `R$ ${Number(value).toFixed(2)}`,
+            font: {
+              size: '10rem',
+              weight: 'bold',
+            },
+          },
           legend: {
+            position: 'top',
             labels: {
               color: textColor,
+              font: {
+                size: 16,
+              },
             },
+          },
+          title: {
+            display: true,
+            fontSize: 25,
           },
         },
         scales: {
           x: {
-            ticks: {
-              color: textColorSecondary,
-              font: {
-                weight: 500,
-              },
+            title: {
+              display: false,
+              text: 'Mês', // Optional Y-axis title
+              color: textColor,
             },
-            grid: {
-              color: surfaceBorder,
-              drawBorder: false,
-            },
+            ticks: { color: textColor },
           },
           y: {
-            ticks: {
-              color: textColorSecondary,
+            title: {
+              display: true,
+              text: 'Valor', // Optional Y-axis title
+              color: textColor,
             },
-            grid: {
-              color: surfaceBorder,
-              drawBorder: false,
-            },
+            ticks: { color: textColor },
           },
         },
       });
