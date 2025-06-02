@@ -14,6 +14,7 @@ import { FinanceNotesService } from '../../services/finance-notes/finance-notes.
 import { LayoutService } from '../../../../layout/service/layout.service';
 import { FinanceReportsService } from '../../services/finance-reports/finance-reports.service';
 import { MONTH_LABELS } from 'src/app/utils/constants';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-summary-for-assembly',
@@ -30,26 +31,26 @@ import { MONTH_LABELS } from 'src/app/utils/constants';
         </h1>
         <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Entradas Orgânicas</span>
-          <p class="text-md md:text-xl text-green-700 font-bold ">
+          <p class="text-md md:text-xl text-green-400 font-bold ">
             R$
             {{ financeReportsService.totalOfOrganicNotes().toFixed(2) }}
           </p>
         </div>
         <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Entradas de Campanhas</span>
-          <p class="text-md md:text-xl text-green-700 font-bold ">
+          <p class="text-md md:text-xl text-green-400 font-bold ">
             R$ {{ financeReportsService.totalOfCampaignNotes().toFixed(2) }}
           </p>
         </div>
         <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Entradas Seminário</span>
-          <p class="text-md md:text-xl text-green-700 font-bold ">
+          <p class="text-md md:text-xl text-green-400 font-bold ">
             R$ {{ financeReportsService.totalOfSeminarNotes().toFixed(2) }}
           </p>
         </div>
         <div class="mb-1">
           <span class="text-md md:text-xl font-semibold">Despesas</span>
-          <p class="text-md md:text-xl font-bold text-red-700">
+          <p class="text-md md:text-xl font-bold text-red-400">
             R$ {{ financeReportsService.totalOfDebitNotes()?.toFixed(2) }}
           </p>
         </div>
@@ -61,11 +62,14 @@ import { MONTH_LABELS } from 'src/app/utils/constants';
         </div>
       </div>
 
-      <p-chart
-        class="w-full md:w-[35rem] h-full"
-        type="doughnut"
-        [data]="chartData()"
-        [options]="chartOptions()" />
+      <div class="w-full md:w-3/4 max-w-full md:max-w-[600px]">
+        <p-chart
+          class="w-full max-w-[40px]"
+          type="doughnut"
+          [data]="chartData()"
+          [options]="chartOptions()"
+          [plugins]="plugin" />
+      </div>
     </div>
   </div>`,
   styles: [
@@ -84,6 +88,8 @@ export class SummaryForAssemblyComponent implements OnInit {
   public financeReportsService = inject(FinanceReportsService);
 
   public monthLabels = MONTH_LABELS;
+
+  public plugin = [ChartDataLabels];
 
   public chartMonthText = computed(() => {
     const selectedMonthAndYear = this.financeReportsService.selectedMonthAndYear();
@@ -125,7 +131,7 @@ export class SummaryForAssemblyComponent implements OnInit {
 
   public initChart(): void {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--primary-color');
+    const textColor = documentStyle.getPropertyValue('--text-color');
 
     if (isPlatformBrowser(this.platformId) && this.allDebitNotesData().length > 0) {
       this.chartData.set({
@@ -139,6 +145,15 @@ export class SummaryForAssemblyComponent implements OnInit {
 
       this.chartOptions.set({
         plugins: {
+          datalabels: {
+            color: '#fff',
+            anchor: 'end',
+            align: 'start',
+            formatter: (value: string) => `R$ ${Number(value).toFixed(2)}`,
+            font: {
+              weight: 'bold',
+            },
+          },
           legend: {
             position: 'left',
             labels: {
