@@ -70,6 +70,14 @@ const PROVIDERS = [MessageService, ConfirmationService, DatePipe];
 
 const PIPES = [FirstAndLastnamePipe, PrimengDatePipe];
 
+const NOTES_IDS_TO_CONCAT = [
+  '8201e81e-85b8-4f7b-b981-b080d169d098', // Dízimo
+  '7d89aa42-fe6c-49e1-895e-75a3e4775336', // Seminário I
+  '5ff7e8dc-fa61-4431-b045-39d2a4cb88ce', // Seminário II
+  '3e7d0fc7-f253-43bc-9af3-529726936e58', // Seminário III
+  '58f22367-5dcd-44df-8889-da79f4b56401', // Seminário IIII
+];
+
 @Component({
   selector: 'app-finance-notes',
   imports: [...PRIMENG, ...COMMON, ...PIPES],
@@ -151,6 +159,8 @@ export class FinanceNotesComponent implements OnInit, OnDestroy {
   public filteredValues!: FinanceNote[];
 
   public monthAndYearList = this.financeReportsService.availableMonths;
+
+  public notesIdsToContact = NOTES_IDS_TO_CONCAT;
 
   public isSelectedMonthClosed = computed(
     () => this.financeReportsService.selectMonthAndYearState() === 'closed'
