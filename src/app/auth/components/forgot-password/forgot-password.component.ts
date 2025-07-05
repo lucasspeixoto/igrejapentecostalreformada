@@ -37,17 +37,17 @@ import {
         <div class="w-[95%] sm:w-[400px]">
           <div class="backdrop-blur-2xl bg-white/10 py-12 px-4 sm:px-10 rounded-2xl">
             <div class="text-center mb-8">
-              <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">
+              <div class="text-surface-100 dark:text-surface-0 text-3xl font-medium mb-4">
                 Bem vindo a IPR
               </div>
-              <span class="text-muted-color font-medium">Recuperar senha</span>
+              <span class="text-surface-100 dark:text-surface-0 text-xl">Recuperar senha</span>
             </div>
 
             <form [formGroup]="forgotPasswordForm">
               <div class="my-4">
                 <label
                   for="emailField"
-                  class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2"
+                  class="block text-surface-100 dark:text-surface-0 text-xl font-medium mb-2"
                   >Email</label
                 >
                 <input

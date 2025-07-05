@@ -292,7 +292,7 @@ export class FinanceNotesComponent implements OnInit, OnDestroy {
         const error = await this.financeNotesService.deleteFinanceNoteHandler(financeNote.id);
 
         if (!error) {
-          this.financeReportsService.processNewBalancesForDeleteNote(financeNote);
+          await this.financeReportsService.processNewBalancesForDeleteNote(financeNote);
         }
 
         this.loadingService.isLoading.set(false);
@@ -322,13 +322,15 @@ export class FinanceNotesComponent implements OnInit, OnDestroy {
 
     if (this.mode() === 'add') {
       const financeNote = this.createNewFinanceNoteData(transformedMemberData);
-      const error = await this.financeNotesService.insertFinanceNoteHandler(financeNote);
-      if (!error) this.financeReportsService.processNewBalancesForAddNote(financeNote);
+      const { insertData, insertError } =
+        await this.financeNotesService.insertFinanceNoteHandler(financeNote);
+      if (!insertError)
+        await this.financeReportsService.processNewBalancesForAddNote(financeNote, insertData!.id);
     } else if (this.mode() === 'edit') {
       const financeNote = this.createUpdatedFinanceNoteData(transformedMemberData);
       const error = await this.financeNotesService.updateFinanceNoteHandler(financeNote);
       if (!error) {
-        this.financeReportsService.processNewBalancesForEditNote(
+        await this.financeReportsService.processNewBalancesForEditNote(
           this.initialType,
           this.initialValue,
           financeNote

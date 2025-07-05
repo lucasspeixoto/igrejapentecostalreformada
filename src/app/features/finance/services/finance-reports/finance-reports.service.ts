@@ -192,7 +192,10 @@ export class FinanceReportsService {
     });
   }
 
-  public async processNewBalancesForAddNote(financeNote: FinanceNote): Promise<void> {
+  public async processNewBalancesForAddNote(
+    financeNote: FinanceNote,
+    newFinanceNoteId: string
+  ): Promise<void> {
     const openedMonthFinanceReport = this.financeReports().find(item => item.state === 'open')!;
 
     let monthBalace = openedMonthFinanceReport.month_balance;
@@ -227,7 +230,7 @@ export class FinanceReportsService {
       .eq('id', openedMonthFinanceReport.id);
 
     if (error) {
-      this.financeNotesService.deleteFinanceNoteHandler(financeNote.id);
+      await this.financeNotesService.deleteFinanceNoteHandler(newFinanceNoteId);
       this.messageService.add({
         severity: 'info',
         summary: 'Erro',
@@ -283,10 +286,10 @@ export class FinanceReportsService {
       .eq('id', openedMonthFinanceReport.id);
 
     if (error) {
-      this.financeNotesService.insertFinanceNoteHandler(financeNote);
+      await this.financeNotesService.insertFinanceNoteHandler(financeNote);
     } else {
       this.getAllFinanceReportsDataHandler();
-      this.financeNotesService.updateCurrentFinanceNotesList();
+      await this.financeNotesService.updateCurrentFinanceNotesList();
       this.messageService.add({
         severity: 'success',
         summary: 'Sucesso',
@@ -349,7 +352,7 @@ export class FinanceReportsService {
       .eq('id', openedMonthFinanceReport.id);
 
     if (error) {
-      this.financeNotesService.deleteFinanceNoteHandler(financeNote.id);
+      await this.financeNotesService.deleteFinanceNoteHandler(financeNote.id);
       this.messageService.add({
         severity: 'info',
         summary: 'Erro',

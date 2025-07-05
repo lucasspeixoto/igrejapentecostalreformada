@@ -35,17 +35,19 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
         <div class="w-[95%] sm:w-[400px] ">
           <div class="backdrop-blur-2xl bg-white/10 py-12 px-4 sm:px-10 rounded-2xl">
             <div class="text-center mb-8">
-              <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">
+              <div class="text-surface-100 dark:text-surface-0 text-3xl font-medium mb-4">
                 Bem vindo a IPR
               </div>
-              <span class="text-muted-color font-medium">Faça login para continuar</span>
+              <span class="text-surface-100 dark:text-surface-0 text-xl"
+                >Faça login para continuar</span
+              >
             </div>
 
             <form [formGroup]="loginForm">
               <div class="my-4">
                 <label
                   for="emailField"
-                  class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2"
+                  class="block text-surface-100 dark:text-surface-0 text-xl font-medium mb-2"
                   >Email</label
                 >
                 <input
@@ -62,7 +64,7 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
               <div class="my-4">
                 <label
                   for="passwordField"
-                  class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2"
+                  class="block text-surface-100 dark:text-surface-0 font-medium text-xl mb-2"
                   >Senha
                 </label>
                 <p-password
@@ -84,7 +86,9 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
               <div class="flex items-center justify-between mt-2 mb-8 gap-8">
                 <div class="flex items-center">
                   <p-checkbox id="remembermeId" binary class="mr-2"></p-checkbox>
-                  <label for="remembermeId">Lembrar</label>
+                  <label class="text-surface-100 dark:text-surface-0" for="remembermeId"
+                    >Lembrar</label
+                  >
                 </div>
                 <span
                   routerLink="/lembrar-senha"

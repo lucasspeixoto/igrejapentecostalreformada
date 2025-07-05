@@ -6,7 +6,7 @@ import { MessageModule } from 'primeng/message';
   selector: 'app-custom-validation-message',
   imports: [MessageModule],
   template: `
-    @if (control && control.invalid && control.touched) {
+    @if (control && control.invalid && control.dirty) {
       <ul id="messages">
         @if (control.hasError('required')) {
           <p-message severity="error" variant="simple" class="mt-[3px] flex items-start">
