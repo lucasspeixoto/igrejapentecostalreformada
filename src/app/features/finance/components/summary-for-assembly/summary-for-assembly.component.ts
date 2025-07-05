@@ -188,7 +188,7 @@ export class SummaryForAssemblyComponent implements OnInit {
           x: {
             title: {
               display: true,
-              text: 'Categoria', // Optional Y-axis title
+              text: 'Categoria',
               color: textColor,
             },
             ticks: { color: textColor },
@@ -196,7 +196,7 @@ export class SummaryForAssemblyComponent implements OnInit {
           y: {
             title: {
               display: true,
-              text: 'Valor', // Optional Y-axis title
+              text: 'Valor',
               color: textColor,
             },
             ticks: { color: textColor },

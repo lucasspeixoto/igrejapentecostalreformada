@@ -80,10 +80,17 @@ export class FinanceNotesService {
     this.loadingService.isLoading.set(false);
   }
 
-  public async insertFinanceNoteHandler(financeNote: FinanceNote): Promise<PostgrestError | null> {
+  public async insertFinanceNoteHandler(financeNote: FinanceNote): Promise<{
+    insertData: FinanceNote | null;
+    insertError: PostgrestError | null;
+  }> {
     let insertError: PostgrestError | null = null;
+    let insertData: FinanceNote | null = null;
 
-    const { error } = await this.supabase.from('finance_notes').insert([financeNote]);
+    const { data, error } = await this.supabase
+      .from('finance_notes')
+      .insert([financeNote])
+      .select();
 
     if (error) {
       this.messageService.add({
@@ -96,7 +103,9 @@ export class FinanceNotesService {
       insertError = error;
     }
 
-    return insertError;
+    insertData = data![0];
+
+    return { insertData, insertError };
   }
 
   public async updateFinanceNoteCheckHandler(financeNote: FinanceNote): Promise<void> {
