@@ -7,7 +7,7 @@
             [disabled]="!selectedPastoralCares || !selectedPastoralCares.length" />
     </ng-template>
     <ng-template #end>
-        <p-button label="Exportar" icon="pi pi-upload" severity="success"
+        <p-button [disabled]="pastoralCareService.totalOfItems() === 0" label="Exportar" icon="pi pi-upload" severity="success"
             (click)="exportCSV()" />
     </ng-template>
 </p-toolbar>
