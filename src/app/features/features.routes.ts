@@ -5,6 +5,7 @@ import { ResumesComponent } from './resumes/resumes.component';
 import { FinanceComponent } from './finance/views/finance/finance.component';
 import { isAdminGuard } from '../auth/guards/is-admin/is-admin.guard';
 import { EdComponent } from './ed/views/ed/ed.component';
+import { PastoralCareListComponent } from './pastoral-care/views/pastoral-care-list.component';
 
 export default [
   { path: 'painel', component: ResumesComponent },
@@ -19,6 +20,11 @@ export default [
         loadChildren: () => import('./finance/finance.routes'),
       },
     ],
+  },
+  {
+    path: 'atendimento-pastoral',
+    canActivate: [isAdminGuard],
+    component: PastoralCareListComponent,
   },
   {
     path: 'escola-de-discipulos',

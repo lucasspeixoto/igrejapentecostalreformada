@@ -8,9 +8,8 @@ describe('UserPanelEdCoursesSkeletonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserPanelEdCoursesSkeletonComponent]
-    })
-    .compileComponents();
+      imports: [UserPanelEdCoursesSkeletonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserPanelEdCoursesSkeletonComponent);
     component = fixture.componentInstance;
