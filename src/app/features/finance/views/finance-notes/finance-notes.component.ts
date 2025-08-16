@@ -359,7 +359,6 @@ export class FinanceNotesComponent implements OnInit, OnDestroy {
   public createUpdatedFinanceNoteData(transformedMemberData: FinanceNoteFormValue): FinanceNote {
     return {
       id: transformedMemberData.id,
-      created_at: new Date().toISOString(),
       date: transformedMemberData.date,
       user_id: this.authenticationService.currentUser()?.id,
       description: transformedMemberData.description,
