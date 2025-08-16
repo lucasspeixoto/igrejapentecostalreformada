@@ -48,6 +48,12 @@ export class AppMenuComponent implements OnInit {
             routerLink: ['/inicio/membros'],
           },
           {
+            label: 'Atendimento Pastoral',
+            visible: this.isAdmin,
+            icon: 'pi pi-fw pi-heart-fill',
+            routerLink: ['/inicio/atendimento-pastoral'],
+          },
+          {
             label: 'Financeiro',
             visible: this.isAdmin,
             icon: 'pi pi-fw pi-dollar',
