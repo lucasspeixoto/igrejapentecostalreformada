@@ -1,4 +1,4 @@
-<p-toolbar styleClass="my-4 flex flex-wrap justify-center md:justify-between gap-2">
+<p-toolbar class="my-4 flex flex-wrap justify-center md:justify-between gap-2">
     <ng-template #start>
         <p-button [disabled]="isSelectedMonthClosed()" class="mr-2" label="Fechar" icon="pi pi-list-check"
             severity="info" (click)="closeCurrentMonth()" />
@@ -42,7 +42,7 @@
                     optionValue="id" [options]="financeNoteCategoryService.financeNoteCategory()"
                     placeholder="Selecione a categoria" />
                 <p-iconfield class="w-full sm:w-[200px]">
-                    <p-inputicon styleClass="pi pi-search" />
+                    <p-inputicon class="pi pi-search" />
                     <input class="w-full" pInputText type="text" (input)="onGlobalFilter(dt, $event)"
                         placeholder="Pesquisar..." />
                 </p-iconfield>

@@ -224,7 +224,12 @@ export class MembersListComponent implements OnInit {
 
     const transformedMemberData = {
       ...memberFormData,
-      birthday: this.datePipe.transform(memberFormData.birthday, 'yyyy-MM-dd'),
+      birthday: memberFormData.birthday
+        ? this.datePipe.transform(memberFormData.birthday, 'yyyy-MM-dd')
+        : new Date(),
+      baptismDate: memberFormData.baptismDate
+        ? this.datePipe.transform(memberFormData.baptismDate, 'yyyy-MM-dd')
+        : new Date(),
     } as MemberFormValue;
 
     if (this.mode() === 'add') {

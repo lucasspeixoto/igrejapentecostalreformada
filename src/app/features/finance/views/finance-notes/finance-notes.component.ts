@@ -9,7 +9,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { RatingModule } from 'primeng/rating';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
-import { SelectModule } from 'primeng/select';
+import { SelectModule, type SelectChangeEvent } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
@@ -17,7 +17,6 @@ import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputMaskModule } from 'primeng/inputmask';
 import { DatePickerModule } from 'primeng/datepicker';
-import { DropdownChangeEvent } from 'primeng/dropdown';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { FinanceNote, FinanceNoteProcess } from '../../models/finance-note.model';
@@ -213,7 +212,7 @@ export class FinanceNotesComponent implements OnInit, OnDestroy {
     this.financeNoteForm.get('member')?.setValue(null);
   }
 
-  public onMonthAndYearChange(event: DropdownChangeEvent): void {
+  public onMonthAndYearChange(event: SelectChangeEvent): void {
     localStorage.setItem('IPR-SISTEMA-GESTAO:CURRENT-MONTH', event.value);
     this.financeReportsService.selectedMonthAndYear.set(event.value);
     this.financeNotesService.getAllFinanceNotesDataHandler();
@@ -221,7 +220,7 @@ export class FinanceNotesComponent implements OnInit, OnDestroy {
     this.computeMinAndMaxAvailableDates();
   }
 
-  public onCategoryFilterChange(event: DropdownChangeEvent): void {
+  public onCategoryFilterChange(event: SelectChangeEvent): void {
     if (event.value) {
       this.financeNotesService.getAllFinanceNotesByCategory(event.value);
     } else {
@@ -229,7 +228,7 @@ export class FinanceNotesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onCategoryChange(event: DropdownChangeEvent): void {
+  public onCategoryChange(event: SelectChangeEvent): void {
     const selectedCategoryId = event.value;
 
     const selectedCategoryType = this.financeNoteCategoryService

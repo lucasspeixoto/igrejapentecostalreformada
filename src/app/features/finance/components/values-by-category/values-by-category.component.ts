@@ -1,10 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { DropdownChangeEvent } from 'primeng/dropdown';
+
 import { DividerModule } from 'primeng/divider';
 import { FinanceReportsService } from '../../services/finance-reports/finance-reports.service';
 import { FinanceNotesService } from '../../services/finance-notes/finance-notes.service';
 import { CategoryNoteDetailComponent } from '../category-note-detail/category-note-detail.component';
+import type { SelectChangeEvent } from 'primeng/select';
 
 const CREDIT_COLORS: Record<number, string> = {
   0: 'orange',
@@ -42,7 +43,7 @@ export class ValuesByCategoryComponent {
     return this.financeNotesService.getTop3NotesByCategories('D');
   });
 
-  public onMonthAndYearChange(event: DropdownChangeEvent): void {
+  public onMonthAndYearChange(event: SelectChangeEvent): void {
     localStorage.setItem('IPR-SISTEMA-GESTAO:CURRENT-MONTH', event.value);
     this.financeReportsService.selectedMonthAndYear.set(event.value);
     this.financeNotesService.getAllFinanceNotesDataHandler();

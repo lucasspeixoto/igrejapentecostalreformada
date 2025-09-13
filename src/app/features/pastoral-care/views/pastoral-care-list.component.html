@@ -1,4 +1,4 @@
-<p-toolbar styleClass="mb-6">
+<p-toolbar class="mb-6">
     <ng-template #start>
         <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2"
             (onClick)="openInsertPastoralCare()" />
@@ -26,7 +26,7 @@
             <h5 class="m-0">Atendimentos ({{ pastoralCareService.totalOfItems()
                 }})</h5>
             <p-iconfield>
-                <p-inputicon styleClass="pi pi-search" />
+                <p-inputicon class="pi pi-search" />
                 <input class="w-full sm:w-auto" pInputText type="text"
                     (input)="onGlobalFilter(dt, $event)"
                     placeholder="Pesquisar..." />

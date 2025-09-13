@@ -44,6 +44,8 @@ const PROVIDERS = [MessageService];
 
       ::ng-deep {
         .p-inputmask,
+        .p-inputtext,
+        .p-inputnumber,
         .p-datepicker {
           width: 100%;
         }

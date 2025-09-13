@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CultsService } from '../../services/cults.service';
-import { SelectModule } from 'primeng/select';
-import { DropdownChangeEvent } from 'primeng/dropdown';
+import { SelectModule, type SelectChangeEvent } from 'primeng/select';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimengDatePipe } from '../../../../pipes/primeng-date/primeng-date.pipe';
 import { Cult } from '../../models/cult';
@@ -32,7 +31,7 @@ export class CultsComponent implements OnInit {
     this.cultsService.getAllCultsDataHandler();
   }
 
-  public onCultChangeHandler(event: DropdownChangeEvent): void {
+  public onCultChangeHandler(event: SelectChangeEvent): void {
     const selectedCult = this.cultsService.cults().find(item => item.id === event.value)!;
     this.cultsService.selectedCult.set(selectedCult);
   }

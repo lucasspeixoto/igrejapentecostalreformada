@@ -1,5 +1,5 @@
 import { PopoverModule } from 'primeng/popover';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DataView } from 'primeng/dataview';
@@ -26,7 +26,7 @@ const PRIMENG = [
   TagModule,
 ];
 
-const COMMON = [CommonModule, NgFor, FormsModule];
+const COMMON = [CommonModule, FormsModule];
 
 const PIPES = [CourseDatePipe];
 

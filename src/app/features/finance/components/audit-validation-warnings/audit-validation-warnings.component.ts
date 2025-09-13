@@ -13,7 +13,7 @@ import { FinanceNotesService } from '../../services/finance-notes/finance-notes.
           @if (numberOfNonCheckedNotes() === 0) {
             <p class="font-extrabold">
               Nenhuma
-              @if (!isSelectedMonthClosed) {
+              @if (!isSelectedMonthClosed()) {
                 <span>(Pronto para fechamento)</span>
               }
             </p>
@@ -28,7 +28,7 @@ import { FinanceNotesService } from '../../services/finance-notes/finance-notes.
           @if (numberOfPendingNotes() === 0) {
             <p class="font-extrabold">
               Nenhuma
-              @if (!isSelectedMonthClosed) {
+              @if (!isSelectedMonthClosed()) {
                 <span>(Pronto para fechamento)</span>
               }
             </p>
