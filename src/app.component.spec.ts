@@ -2,8 +2,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { LayoutService } from './app/layout/service/layout.service';
 import { ToastModule } from 'primeng/toast';
@@ -22,7 +20,6 @@ describe('AppComponent', () => {
       providers: [
         ToastModule,
         MessageService,
-        provideAnimationsAsync(),
         providePrimeNG(),
         { provide: LayoutService, useValue: layoutServiceMock },
       ],
