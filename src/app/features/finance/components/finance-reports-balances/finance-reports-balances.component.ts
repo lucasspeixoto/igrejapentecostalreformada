@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FinanceReportsService } from '../../services/finance-reports/finance-reports.service';
 import { FinanceNotesService } from '../../services/finance-notes/finance-notes.service';
 
 @Component({
   selector: 'app-finance-reports-balances',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './finance-reports-balances.component.html',
   styles: [
     `

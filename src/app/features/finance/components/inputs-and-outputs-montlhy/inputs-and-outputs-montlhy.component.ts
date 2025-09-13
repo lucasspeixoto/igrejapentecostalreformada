@@ -20,7 +20,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
   template: ` <div class="card !mb-8 h-full">
     <div class="font-semibold text-xl mb-4 self-start">Distribuição</div>
     <p-chart
-      class="w-full max-w-[40px]"
+      styleClass="w-full max-w-[40px]"
       type="pie"
       [data]="chartData()"
       [options]="chartOptions()"

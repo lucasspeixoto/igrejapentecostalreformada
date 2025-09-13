@@ -35,7 +35,7 @@ export function createPastoralCareForm(): FormGroup<PastoralCareFormControl> {
       nonNullable: true,
     }),
     description: new FormControl('', {
-      validators: [Validators.minLength(3), Validators.maxLength(256)],
+      validators: [Validators.minLength(3)],
       nonNullable: true,
     }),
   });

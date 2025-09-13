@@ -72,7 +72,7 @@ import { CustomValidationMessageComponent } from '../../../components/custom-val
                   formControlName="password"
                   placeholder="Senha"
                   [toggleMask]="true"
-                  styleClass="mb-2"
+                  class="mb-2"
                   [fluid]="true"
                   [feedback]="false">
                 </p-password>

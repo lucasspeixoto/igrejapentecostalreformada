@@ -72,7 +72,7 @@ export function createMemberForm(): FormGroup<MemberFormControl> {
       nonNullable: true,
     }),
     maritalStatus: new FormControl('', {
-      validators: [Validators.required],
+      validators: [],
       nonNullable: true,
     }),
     email: new FormControl('', {

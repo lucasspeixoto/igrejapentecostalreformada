@@ -10,8 +10,8 @@ import { ToastModule } from 'primeng/toast';
   selector: 'app-root',
   imports: [RouterModule, LoadingComponent, ToastModule],
   template: `<div>
-    <p-toast styleClass="hidden md:block" position="top-right" />
-    <p-toast styleClass="md:hidden block" position="top-center" />
+    <p-toast class="hidden md:block" position="top-right" />
+    <p-toast class="md:hidden block" position="top-center" />
     <router-outlet />
     <app-loading [isLoading]="loadingService.isLoading()" />
   </div>`,

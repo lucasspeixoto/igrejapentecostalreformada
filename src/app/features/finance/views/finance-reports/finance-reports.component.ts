@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DropdownChangeEvent } from 'primeng/dropdown';
-import { SelectModule } from 'primeng/select';
+
+import { SelectModule, type SelectChangeEvent } from 'primeng/select';
 
 import { FinanceReportsService } from '../../services/finance-reports/finance-reports.service';
 
@@ -30,7 +30,7 @@ export class FinanceReportsComponent {
 
   public monthAndYearList = this.financeReportsService.availableMonths;
 
-  public onMonthAndYearChange(event: DropdownChangeEvent): void {
+  public onMonthAndYearChange(event: SelectChangeEvent): void {
     localStorage.setItem('IPR-SISTEMA-GESTAO:CURRENT-MONTH', event.value);
     this.financeReportsService.selectedMonthAndYear.set(event.value);
     this.financeNotesService.getAllFinanceNotesDataHandler();

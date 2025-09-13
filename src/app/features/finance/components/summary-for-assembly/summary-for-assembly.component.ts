@@ -72,7 +72,7 @@ const randomColors = (items: number[]): string[] =>
 
       <div class="hidden sm:block w-full md:w-3/4 max-w-full">
         <p-chart
-          class="w-full max-w-[40px]"
+          styleClass="w-full max-w-[40px]"
           type="bar"
           [data]="chartData()"
           [options]="chartOptions()"
