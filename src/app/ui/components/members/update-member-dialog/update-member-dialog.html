@@ -1,0 +1,144 @@
+<p-dialog [(visible)]="memberDialog"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '50vw' }"
+    [draggable]="true" [header]="modalTitle()" [modal]="true"
+    (onHide)="hideDialog()">
+    <ng-template #content>
+
+        <p-toast />
+        <form [formGroup]="memberForm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="my-2">
+                    <label for="name" class="block font-bold mb-2">Nome <span
+                            class="mx-1 font-bold text-primary">(Obrigatório)</span></label>
+                    <input class="w-full" type="text" formControlName="name"
+                        pInputText id="name" required fluid />
+                    <app-custom-validation-message id="nameErrorMessage"
+                        controlName="name" [minLength]="3" />
+                </div>
+
+                <div class="my-2">
+                    <label for="memberType"
+                        class="block font-bold mb-2">Tipo <span
+                            class="mx-1 font-bold text-primary">(Obrigatório)</span>
+                    </label>
+                    <p-select optionLabel="name" optionValue="code"
+                        class="w-full" formControlName="memberType"
+                        [options]="memberTypes"
+                        placeholder="Selecione o tipo" />
+                    <app-custom-validation-message id="memberTypeErrorMessage"
+                        controlName="memberType" />
+                </div>
+
+                <div class="my-2">
+                    <label for="email"
+                        class="block font-bold mb-2">E-mail</label>
+                    <input class="w-full" type="email" formControlName="email"
+                        pInputText id="email" />
+                    <app-custom-validation-message id="emailErrorMessage"
+                        controlName="email" />
+                </div>
+
+                <div class="my-2">
+                    <label for="birthday"
+                        class="font-bold block mb-2">Aniversário</label>
+                    <p-datepicker appendTo="body" formControlName="birthday"
+                        [showIcon]="true" inputId="birthday"
+                        dateFormat="yy-mm-dd" [showOnFocus]="false" />
+                </div>
+
+                <div class="my-2">
+                    <label for="rg" class="block font-bold mb-2">RG</label>
+                    <input class="w-full" type="text" formControlName="rg"
+                        pInputText id="rg" fluid />
+                    <app-custom-validation-message id="rgErrorMessage"
+                        controlName="rg" />
+                </div>
+
+                <div class="my-2">
+                    <label for="cpf" class="block font-bold mb-2">CPF</label>
+                    <input class="w-full" type="text" formControlName="cpf"
+                        pInputText id="cpf" fluid />
+                    <app-custom-validation-message id="cpfErrorMessage"
+                        controlName="cpf" [minLength]="3" />
+                </div>
+
+                <div class="my-2">
+                    <label for="address"
+                        class="block font-bold mb-2">Endereço</label>
+                    <input class="w-full" type="text" formControlName="address"
+                        pInputText id="address" fluid />
+                    <app-custom-validation-message id="addressErrorMessage"
+                        controlName="address" [minLength]="3" />
+                </div>
+
+                <div class="my-2">
+                    <label for="baptismDate" class="block font-bold mb-2">Data
+                        batismo</label>
+                    <p-datepicker appendTo="body" formControlName="baptismDate"
+                        [showIcon]="true" inputId="baptismDate"
+                        dateFormat="yy-mm-dd" [showOnFocus]="false" />
+                </div>
+
+                <div class="my-2 w-full">
+                    <label for="previousChurch"
+                        class="font-bold block mb-2">Última igreja</label>
+                    <input class="w-full" type="text"
+                        formControlName="previousChurch" pInputText
+                        id="previousChurch" />
+                </div>
+
+                <div class="my-2">
+                    <label for="baptismChurch"
+                        class="block font-bold mb-2">Igreja batismo</label>
+                    <input class="w-full" type="text"
+                        formControlName="baptismChurch" pInputText
+                        id="baptismChurch" />
+                </div>
+
+                <div class="my-2">
+                    <label for="naturality" class="font-bold block mb-2">
+                        Naturalidade </label>
+                    <input class="w-full" type="text"
+                        formControlName="naturality" pInputText
+                        id="naturality" />
+                </div>
+
+                <div class="my-2">
+                    <label for="maritalStatus"
+                        class="block font-bold mb-2">Estado Civil</label>
+                    <p-select scrollHeight="300px" class="w-full"
+                        formControlName="maritalStatus"
+                        [options]="maritalStatus"
+                        placeholder="Selecione Estado civil" />
+                    <app-custom-validation-message
+                        id="maritalStatusErrorMessage"
+                        controlName="maritalStatus" />
+                </div>
+
+                <div class="my-2 w-full">
+                        <label for="cellphone"
+                            class="block font-bold mb-2">Celular</label>
+                        <p-inputmask class="w-full" mask="(99) 9 9999-9999"
+                            formControlName="cellphone"
+                            placeholder="(99) 9 9999-9999" />
+                    </div>
+
+                    <div class="my-2 w-full">
+                        <label for="tellphone"
+                            class="block font-bold mb-2">Telefone</label>
+                        <p-inputmask class="w-full" mask="(99) 9999-9999"
+                            formControlName="tellphone"
+                            placeholder="(99) 9999-9999" />
+                    </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancelar" icon="pi pi-times" text
+            (click)="hideDialog()" />
+        <p-button [disabled]="memberForm.invalid" label="Salvar"
+            icon="pi pi-check" (click)="saveMemberHandler()" />
+    </ng-template>
+</p-dialog>

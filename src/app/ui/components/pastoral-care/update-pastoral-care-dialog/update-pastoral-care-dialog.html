@@ -1,0 +1,48 @@
+<p-dialog [(visible)]="dialog" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '40vw' }"
+    [draggable]="true" [header]="modalTitle()" [modal]="true" (onHide)="hideDialog()">
+    <ng-template #content>
+        <p-toast />
+        <form [formGroup]="pastoralCareForm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="my-2">
+                    <label for="memberId" class="block font-bold mb-3">Membro atendido</label>
+                    <p-select optionLabel="name" optionValue="number" class="w-full" formControlName="memberId"
+                        [options]="membersViewModel.members()" placeholder="Selecione o membro" />
+                    <app-custom-validation-message id="memberIdErrorMessage" controlName="memberId" />
+                </div>
+
+                <div class="my-2">
+                    <label for="typeId" class="block font-bold mb-3">Tipo de atendimento</label>
+                    <p-select optionLabel="name" optionValue="id" class="w-full" formControlName="typeId"
+                        [options]="pastoralCareCategoriesRepository.pastoralCareTypes()" placeholder="Selecione o membro" />
+                    <app-custom-validation-message id="typeIdErrorMessage" controlName="typeId" />
+                </div>
+
+                <div class="my-2">
+                    <label for="pastor" class="block font-bold mb-3">Obreiro que atendeu</label>
+                    <input class="w-full" type="text" formControlName="pastor" pInputText id="pastor" required fluid />
+                    <app-custom-validation-message id="pastorErrorMessage" controlName="pastor" [minLength]="3" />
+                </div>
+
+                <div class="my-2">
+                    <label for="date" class="font-bold block mb-3">Data</label>
+                    <p-datepicker appendTo="body" formControlName="date" [showIcon]="true" inputId="date"
+                        dateFormat="yy-mm-dd" [showOnFocus]="false" />
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1">
+                <div class="my-2">
+                    <label for="description" class="block font-bold mb-3">Descrição</label>
+                    <textarea rows="5" class="w-full" type="text" formControlName="description" pInputText id="description" fluid></textarea>
+                    <app-custom-validation-message id="pastorErrorMessage" controlName="description" [minLength]="3" />
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+        <p-button label="Salvar" icon="pi pi-check" (click)="savePastoralCareHandler()" />
+    </ng-template>
+</p-dialog>
