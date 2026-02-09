@@ -1,7 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
-@use "./assets/layout/layout.scss";
-@use "./assets/demo/demo.scss";
+@use './assets/layout/layout.scss';
+@use './assets/demo/demo.scss';
 @use 'primeicons/primeicons.css';
-@use "./assets/overrides/primeng.scss";
-@custom-variant dark (&:where([class*="app-dark"], [class*="app-dark"] *));
+@use './assets/overrides/primeng.scss';
