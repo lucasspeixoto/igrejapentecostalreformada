@@ -5,9 +5,9 @@ import { AppMenu } from './menu';
   selector: 'app-sidebar',
   imports: [AppMenu],
   template: `
-  <div class="layout-sidebar">
-    <app-menu />
-  </div>
+    <div class="layout-sidebar">
+      <app-menu />
+    </div>
   `,
 })
-export class AppSidebar { }
+export class AppSidebar {}

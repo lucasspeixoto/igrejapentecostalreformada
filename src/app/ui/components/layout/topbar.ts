@@ -1,22 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
+import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
 import { TooltipModule } from 'primeng/tooltip';
-import { AvatarModule } from 'primeng/avatar';
-import { LayoutService } from '../../../data/services/shared/layout';
 import { AuthenticationRepository } from '../../../data/repositories/authentication/authentication-repository';
 import { UsersRepository } from '../../../data/repositories/users/users-repository';
+import { LayoutService } from '../../../data/services/shared/layout';
 
 @Component({
   selector: 'app-topbar',
   imports: [RouterModule, CommonModule, StyleClassModule, TooltipModule, AvatarModule],
   template: ` <div class="layout-topbar">
     <div class="layout-topbar-logo-container">
-      <button
-        class="layout-menu-button layout-topbar-action"
-        (click)="layoutService.onMenuToggle()">
+      <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>
       </button>
       <a class="layout-topbar-logo" routerLink="/plataforma-ipr/painel">

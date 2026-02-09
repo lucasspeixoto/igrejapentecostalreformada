@@ -1,10 +1,12 @@
+import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FinanceReportsViewModel } from '../../../view-models/finance-reports/finance-reports.view-model';
 import { FinanceNotesViewModel } from '../../../view-models/finance-notes/finance-notes.view-model';
+import { FinanceReportsViewModel } from '../../../view-models/finance-reports/finance-reports.view-model';
 
 @Component({
   selector: 'app-finance-reports-balances',
   templateUrl: './finance-reports-balances.html',
+  imports: [NgClass],
   styles: [
     `
       .card {

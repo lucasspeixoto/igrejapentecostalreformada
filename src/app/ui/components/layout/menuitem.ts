@@ -1,10 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostBinding, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { MenuItem } from 'primeng/api';
+import { RippleModule } from 'primeng/ripple';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
-import { RippleModule } from 'primeng/ripple';
-import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../../data/services/shared/layout';
 
 @Component({
