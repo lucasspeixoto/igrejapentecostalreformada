@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { DatePipe, NgClass } from '@angular/common';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { ExcelService } from '../../../data/services/shared/excel';
-import type { Member } from '../../../domain/models/members.model';
-import { MembersViewModel } from './../../view-models/members/members.view-model';
-import { Component, computed, inject, signal, OnInit } from '@angular/core';
-import { createMemberForm } from '../../view-models/members/member-form';
-import type { ExportColumn, Column } from '../../../domain/models/columns.model';
-import { Table, TableModule } from 'primeng/table';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { FluidModule } from 'primeng/fluid';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
-import { FirstAndLastnamePipe } from '../pipes/first-and-lastname/first-and-lastname.pipe';
-import { PrimengDatePipe } from '../pipes/primeng-date/primeng-date.pipe';
-import { ToolbarModule } from 'primeng/toolbar';
-import { TagModule } from 'primeng/tag';
-import { InputIconModule } from 'primeng/inputicon';
-import { IconFieldModule } from 'primeng/iconfield';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { MemberTypePipe } from '../pipes/member-type/member-type.pipe';
+import { FluidModule } from 'primeng/fluid';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { Table, TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ExcelService } from '../../../data/services/shared/excel';
+import type { Column, ExportColumn } from '../../../domain/models/columns.model';
+import type { Member } from '../../../domain/models/members.model';
 import { UpdateMemberDialog } from '../../components/members/update-member-dialog/update-member-dialog';
+import { createMemberForm } from '../../view-models/members/member-form';
+import { FirstAndLastnamePipe } from '../pipes/first-and-lastname/first-and-lastname.pipe';
+import { MemberTypePipe } from '../pipes/member-type/member-type.pipe';
+import { PrimengDatePipe } from '../pipes/primeng-date/primeng-date.pipe';
+import { MembersViewModel } from './../../view-models/members/members.view-model';
 
 const PRIMENG = [
   TableModule,
@@ -48,9 +48,8 @@ const PIPES = [FirstAndLastnamePipe, PrimengDatePipe, MemberTypePipe];
   imports: [...PRIMENG, ...COMPONENTS, ...PIPES, ...COMMON],
   templateUrl: 'members.html',
   styleUrls: ['members.scss'],
-  providers: [...PROVIDERS]
+  providers: [...PROVIDERS],
 })
-
 export class Members implements OnInit {
   public membersViewModel = inject(MembersViewModel);
 
@@ -64,9 +63,7 @@ export class Members implements OnInit {
 
   public mode = signal<'add' | 'edit'>('add');
 
-  public modalTitle = computed(() =>
-    this.mode() === 'add' ? 'Adicionar Membro' : 'Editar Membro'
-  );
+  public modalTitle = computed(() => (this.mode() === 'add' ? 'Adicionar Membro' : 'Editar Membro'));
 
   public exportColumns!: ExportColumn[];
 
@@ -183,8 +180,5 @@ export class Members implements OnInit {
     const member = this.memberForm.getRawValue();
 
     this.membersViewModel.saveMember(member, this.mode());
-
   }
-
-
 }

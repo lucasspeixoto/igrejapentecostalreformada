@@ -1,6 +1,6 @@
-/* eslint-disable max-len */
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { FinanceReportsRepository } from '../../../data/repositories/finance-reports/finance-reports-repository';
+import { FinanceRpcRepository } from '../../../data/repositories/finance-rpc-repository/finance-rpc-repository';
 import { MONTH_LABELS } from '../../../utils/constants';
 import { getActualDate, getFirstMonthDay, getLastMonthDay, getPreviousDate } from '../../../utils/date';
 
@@ -8,16 +8,19 @@ import { getActualDate, getFirstMonthDay, getLastMonthDay, getPreviousDate } fro
 export class FinanceReportsViewModel {
   private financeReportsRepository = inject(FinanceReportsRepository);
 
+  private financeRpcRepository = inject(FinanceRpcRepository);
+
   public currentOpenMonth = computed(
     () => this.financeReportsRepository.financeReports().find(item => item.state === 'open')?.month
   );
 
-  public minDate = computed(() => getFirstMonthDay(this.currentOpenMonth()!))
+  public minDate = computed(() => getFirstMonthDay(this.currentOpenMonth()!));
 
-  public maxDate = computed(() => getLastMonthDay(this.currentOpenMonth()!))
+  public maxDate = computed(() => getLastMonthDay(this.currentOpenMonth()!));
 
   public availableMonths = computed(() =>
-    this.financeReportsRepository.financeReports()
+    this.financeReportsRepository
+      .financeReports()
       .filter(item => item.state !== 'start')
       .map(item => item.month)
   );
@@ -32,12 +35,9 @@ export class FinanceReportsViewModel {
     () => this.financeReportsRepository.financeReports().find(item => item.month === this.selectedMonthAndYear())?.state
   );
 
-  public isSelectedMonthClosed = computed(
-    () => this.selectMonthAndYearState() === 'closed'
-  );
+  public isSelectedMonthClosed = computed(() => this.selectMonthAndYearState() === 'closed');
 
-  public openMonth = computed(() => this.financeReportsRepository.financeReports()
-    .find(item => item.state === 'open')!);
+  public openMonth = computed(() => this.financeReportsRepository.financeReports().find(item => item.state === 'open')!);
 
   public totalOfCreditNotes = computed(
     () => this.financeReportsRepository.financeReports().find(item => item.month === this.selectedMonthAndYear())?.inputs
@@ -83,7 +83,8 @@ export class FinanceReportsViewModel {
     const currentOpenMonth = this.selectedMonthAndYear();
 
     if (currentOpenMonth) {
-      return this.financeReportsRepository.financeReports().find(item => item.month === currentOpenMonth)?.month_balance as number;
+      return this.financeReportsRepository.financeReports().find(item => item.month === currentOpenMonth)
+        ?.month_balance as number;
     } else {
       return 0;
     }

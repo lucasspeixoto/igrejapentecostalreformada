@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { inject, Injectable } from "@angular/core";
-import type { FinanceNoteAddParameters, FinanceNoteDeleteParameters, FinanceNoteEditParameters, IDeleteFinanceNoteResponse, IFindAllFinanceNotesByDateRangeResponse, IUpdateFinanceNoteResponse } from "../../../domain/models/finance-note.model";
-import { FinanceRpcService } from "../../services/finance-rpc/finance-rpc-service";
-import type { PostgrestError } from "@supabase/supabase-js";
+import { inject, Injectable } from '@angular/core';
+import type { PostgrestError } from '@supabase/supabase-js';
+import type {
+  FinanceNoteAddParameters,
+  FinanceNoteDeleteParameters,
+  FinanceNoteEditParameters,
+} from '../../../domain/models/finance-note.model';
+import { FinanceRpcService } from '../../services/finance-rpc/finance-rpc-service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +19,6 @@ export class FinanceRpcRepository {
 
     return { error };
   }
-
 
   public async editFinanceNote(params: FinanceNoteEditParameters): Promise<{ error: PostgrestError | null }> {
     const { data, error } = await this.financeRpcService.editFinanceNote(params);
