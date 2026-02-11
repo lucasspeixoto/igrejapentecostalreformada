@@ -67,4 +67,11 @@ export const MARITAL_STATUS = [
 export const MEMBER_TYPES = [
   { code: 'member', name: 'Membro' },
   { code: 'congregated', name: 'Congregado' },
+  { code: 'disconnected', name: 'Desligado' },
+];
+
+export const FINANCE_TYPES = [
+  { label: 'Todos', value: 'A' },
+  { label: 'Crédito', value: 'C' },
+  { label: 'Débito', value: 'D' },
 ];
