@@ -1,13 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostBinding, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { MenuItem } from 'primeng/api';
+import { RippleModule } from 'primeng/ripple';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
-import { RippleModule } from 'primeng/ripple';
-import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../../data/services/shared/layout';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[app-menuitem]',
   imports: [CommonModule, RouterModule, RippleModule],
   template: `
@@ -39,60 +40,56 @@ import { LayoutService } from '../../../data/services/shared/layout';
           [routerLink]="item.routerLink"
           routerLinkActive="active-route"
           [routerLinkActiveOptions]="
-          item.routerLinkActiveOptions || {
-            paths: 'exact',
-            queryParams: 'ignored',
-            matrixParams: 'ignored',
-            fragment: 'ignored',
+            item.routerLinkActiveOptions || {
+              paths: 'exact',
+              queryParams: 'ignored',
+              matrixParams: 'ignored',
+              fragment: 'ignored',
+            }
+          "
+          [fragment]="item.fragment"
+          [queryParamsHandling]="item.queryParamsHandling"
+          [preserveFragment]="item.preserveFragment"
+          [skipLocationChange]="item.skipLocationChange"
+          [replaceUrl]="item.replaceUrl"
+          [state]="item.state"
+          [queryParams]="item.queryParams"
+          [attr.target]="item.target"
+          tabindex="0"
+          pRipple>
+          <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+          <span class="layout-menuitem-text">{{ item.label }}</span>
+          @if (item.items) {
+            <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
           }
-        "
-        [fragment]="item.fragment"
-        [queryParamsHandling]="item.queryParamsHandling"
-        [preserveFragment]="item.preserveFragment"
-        [skipLocationChange]="item.skipLocationChange"
-        [replaceUrl]="item.replaceUrl"
-        [state]="item.state"
-        [queryParams]="item.queryParams"
-        [attr.target]="item.target"
-        tabindex="0"
-        pRipple>
-        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-        <span class="layout-menuitem-text">{{ item.label }}</span>
-        @if (item.items) {
-          <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
-        }
-      </a>
-    }
+        </a>
+      }
 
-    @if (item.items && item.visible !== false) {
-      <ul class="layout-submenu" [ngClass]="submenuAnimation">
-        @for (child of item.items; track child; let i = $index) {
-          <li
-            app-menuitem
-            [item]="child"
-            [index]="i"
-            [parentKey]="key"
-            [class]="child['badgeClass']">
-          </li>
-        }
-      </ul>
-    }
+      @if (item.items && item.visible !== false) {
+        <ul class="layout-submenu" [ngClass]="submenuAnimation">
+          @for (child of item.items; track child; let i = $index) {
+            <li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child['badgeClass']"></li>
+          }
+        </ul>
+      }
     </ng-container>
-    `,
-  styles: [`
-    .layout-submenu {
+  `,
+  styles: [
+    `
+      .layout-submenu {
         overflow: hidden;
         transition: max-height 400ms cubic-bezier(0.86, 0, 0.07, 1);
-     }
+      }
 
-    .layout-submenu.collapsed {
+      .layout-submenu.collapsed {
         max-height: 0;
-    }
+      }
 
-    .layout-submenu.expanded {
+      .layout-submenu.expanded {
         max-height: 1000px;
-    }
-    `],
+      }
+    `,
+  ],
   providers: [LayoutService],
 })
 export class AppMenuitem implements OnInit, OnDestroy {
@@ -122,8 +119,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
     this.menuSourceSubscription = this.layoutService.menuSource$.subscribe(value => {
       Promise.resolve(null).then(() => {
         if (value.routeEvent) {
-          this.active =
-            value.key === this.key || value.key.startsWith(this.key + '-') ? true : false;
+          this.active = value.key === this.key || value.key.startsWith(this.key + '-') ? true : false;
         } else {
           if (value.key !== this.key && !value.key.startsWith(this.key + '-')) {
             this.active = false;

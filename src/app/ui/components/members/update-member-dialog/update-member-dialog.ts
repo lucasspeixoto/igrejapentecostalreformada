@@ -1,5 +1,5 @@
 import { Component, EventEmitter, input, Input, Output } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';

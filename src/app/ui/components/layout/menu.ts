@@ -1,24 +1,24 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { AppMenuitem } from './menuitem';
-import { UserRolesRepository } from '../../../data/repositories/user-roles/user-roles-repository';
 import { AuthenticationRepository } from '../../../data/repositories/authentication/authentication-repository';
+import { UserRolesRepository } from '../../../data/repositories/user-roles/user-roles-repository';
+import { AppMenuitem } from './menuitem';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
   imports: [AppMenuitem, RouterModule],
   template: `<ul class="layout-menu">
-      @for (item of menuItems; track item; let i = $index) {
-        @if (!item.separator) {
-          <li app-menuitem [item]="item" [index]="i" [root]="true"></li>
-        }
-        @if (item.separator) {
-          <li class="menu-separator"></li>
-        }
+    @for (item of menuItems; track item; let i = $index) {
+      @if (!item.separator) {
+        <li app-menuitem [item]="item" [index]="i" [root]="true"></li>
       }
-    </ul>`,
+      @if (item.separator) {
+        <li class="menu-separator"></li>
+      }
+    }
+  </ul>`,
 })
 export class AppMenu implements OnInit {
   public menuItems: MenuItem[] = [];

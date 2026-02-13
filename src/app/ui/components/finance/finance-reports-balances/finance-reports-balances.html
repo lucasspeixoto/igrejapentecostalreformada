@@ -1,88 +1,101 @@
 <div class="col-span-6 md:col-span-3">
-    <div class="card mb-0 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(251,191,36,0.35)]">
-        <div class="flex justify-between mb-4">
-            <div>
-                <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Caixa anterior</span>
-                <div class="text-green-600 dark:text-green-0 font-medium text-sm md:text-lg">
-                    R$ {{ financeReportsViewModel.getLastMonthTotalBalance()?.toFixed(2) }}
-                </div>
-            </div>
-            <div
-                class="size-6 sm:size-10 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border">
-                <i class="pi pi-inbox text-blue-500 text-xl!"></i>
-            </div>
+  <div class="card mb-0 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(251,191,36,0.35)]">
+    <div class="flex justify-between mb-4">
+      <div>
+        <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Caixa anterior</span>
+        <div class="text-green-600 dark:text-green-300 font-medium text-sm md:text-lg">
+          R$ {{ financeReportsViewModel.getLastMonthTotalBalance()?.toFixed(2) }}
         </div>
-        <span class="text-primary font-medium text-sm md:text-md">{{
-            financeReportsViewModel.getLastMonthBalance()?.toFixed(2) }}</span>
-        <span class="text-muted-color"> de saldo</span>
+      </div>
+      <div class="size-6 sm:size-10 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border">
+        <i class="pi pi-inbox text-blue-500 text-xl!"></i>
+      </div>
     </div>
+    <span
+      [ngClass]="
+        financeReportsViewModel.getLastMonthBalance()! >= 0
+          ? 'text-green-500 dark:text-green-300'
+          : 'text-red-500 dark:text-red-300'
+      "
+      class="font-medium text-sm md:text-md"
+      >R$ {{ financeReportsViewModel.getLastMonthBalance()?.toFixed(2) }}</span
+    >
+    <span class="text-muted-color"> de saldo</span>
+  </div>
 </div>
 <div class="col-span-6 md:col-span-3">
-    <div class="card mb-0 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(251,191,36,0.35)]">
-        <div class="flex justify-between mb-4">
-            <div>
-                <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Balanço mês</span>
-                <div class="text-muted-color font-bold text-sm md:text-xl">
-                    R$ {{financeReportsViewModel.getCurrentMonthTotalBalance()?.toFixed(2) }}
-                </div>
-            </div>
-            <div
-                class="size-6 sm:size-10 flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border">
-                <i class="pi pi-arrow-right-arrow-left text-orange-500 text-xl!"></i>
-            </div>
-        </div>
-        <span
-            class="text-primary font-medium text-sm md:text-md">{{financeReportsViewModel.getCurrentMonthBalance()?.toFixed(2)}}
+  <div class="card mb-0 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(251,191,36,0.35)]">
+    <div class="flex justify-between mb-4">
+      <div>
+        <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Balanço mês</span>
+        <span class="text-blue-600 dark:text-blue-300 font-medium text-sm md:text-lg">
+          R$ {{ financeReportsViewModel.getCurrentMonthTotalBalance()?.toFixed(2) }}
         </span>
-        <span class="text-muted-color text-sm md:text-md">de saldo</span>
+      </div>
+      <div class="size-6 sm:size-10 flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border">
+        <i class="pi pi-arrow-right-arrow-left text-orange-500 text-xl!"></i>
+      </div>
     </div>
+    <span
+      [ngClass]="
+        financeReportsViewModel.getCurrentMonthBalance()! >= 0
+          ? 'text-green-500 dark:text-green-300'
+          : 'text-red-500 dark:text-red-300'
+      "
+      class="font-medium text-sm md:text-md"
+      >R$ {{ financeReportsViewModel.getCurrentMonthBalance()?.toFixed(2) }}
+    </span>
+    <span class="text-muted-color text-sm md:text-md">de saldo</span>
+  </div>
 </div>
 <div class="col-span-6 md:col-span-3">
-    <div class="card mb-0 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(251,191,36,0.35)]">
-        <div class="flex justify-between mb-4">
-            <div>
-                <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Mês</span>
-                <span class="text-muted-color font-bold text-sm md:text-xl">
-                    {{financeReportsViewModel.selectedMonthAndYear()}}</span>
-            </div>
-            <div
-                class="size-6 sm:size-10 flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border">
-                <i class="pi pi-calendar-clock text-cyan-500 text-xl!"></i>
-            </div>
-        </div>
-        @if(financeReportsViewModel.getCurrentMonthState() === 'open') {
-        <span class="text-primary font-medium text-sm md:text-md">Em aberto</span>
-        } @else {
-        <span class="text-primary font-medium text-sm md:text-md">Auditado</span>
-        }
+  <div class="card mb-0 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(251,191,36,0.35)]">
+    <div class="flex justify-between mb-4">
+      <div>
+        <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Mês</span>
+        <span class="text-blue-600 dark:text-blue-300 font-medium text-sm md:text-lg">
+          {{ financeReportsViewModel.selectedMonthAndYear() }}</span
+        >
+      </div>
+      <div class="size-6 sm:size-10 flex items-center justify-center bg-cyan-100 dark:bg-cyan-400/10 rounded-border">
+        <i class="pi pi-calendar-clock text-cyan-500 text-xl!"></i>
+      </div>
     </div>
+    @if (financeReportsViewModel.getCurrentMonthState() === 'open') {
+      <span class="text-primary font-medium text-sm md:text-md">Em aberto</span>
+    } @else {
+      <span class="text-primary font-medium text-sm md:text-md">Auditado</span>
+    }
+  </div>
 </div>
 <div class="col-span-6 md:col-span-3">
-    <div class="card mb-0 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(251,191,36,0.35)]">
-        <div class="flex justify-between mb-4">
-            <div>
-                <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Notas</span>
-                <div class="text-muted-color font-bold text-sm md:text-xl">
-                    {{financeNotesViewModel.totalOfFinanceNotes()}}</div>
-            </div>
-            <div
-                class="size-6 sm:size-10 flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border">
-                <i class="pi pi-clipboard text-purple-500 text-xl!"></i>
-            </div>
+  <div class="card mb-0 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(251,191,36,0.35)]">
+    <div class="flex justify-between mb-4">
+      <div>
+        <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Notas</span>
+        <div class="text-blue-600 dark:text-blue-300 font-medium text-sm md:text-lg">
+          {{ financeNotesViewModel.totalOfFinanceNotes() }}
         </div>
-        <div class="flex gap-1 w-full">
-            <div>
-                <i class="hidden md:inline-block font-bold text-green-800 pi pi-arrow-up" style="font-size: 0.5rem"></i>
-                <span class="text-green-500 font-semibold text-xs sm:text-sm md:text-md">
-                    {{financeReportsViewModel.totalOfCreditNotes()?.toFixed(2)}}
-                </span>
-            </div>
-            <div>
-                <i class="hidden md:inline-block font-bold text-red-800 pi pi-arrow-down" style="font-size: 0.5rem"></i>
-                <span class="text-red-500 font-semibold text-xs sm:text-sm md:text-md">
-                    {{financeReportsViewModel.totalOfDebitNotes()?.toFixed(2)}}
-                </span>
-            </div>
-        </div>
+      </div>
+      <div class="size-6 sm:size-10 flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border">
+        <i class="pi pi-clipboard text-purple-500 text-xl!"></i>
+      </div>
     </div>
+    <div class="flex gap-1 w-full">
+      <div>
+        <i
+          class="hidden md:inline-block font-bold text-green-500 dark:text-green-300 pi pi-arrow-up"
+          style="font-size: 0.5rem"></i>
+        <span class="text-green-500 dark:text-green-300 font-semibold text-xs sm:text-sm md:text-md">
+          {{ financeReportsViewModel.totalOfCreditNotes()?.toFixed(2) }}
+        </span>
+      </div>
+      <div>
+        <i class="hidden md:inline-block font-bold text-red-500 dark:text-red-300 pi pi-arrow-down" style="font-size: 0.5rem"></i>
+        <span class="text-red-500 dark:text-red-300 font-semibold text-xs sm:text-sm md:text-md">
+          {{ financeReportsViewModel.totalOfDebitNotes()?.toFixed(2) }}
+        </span>
+      </div>
+    </div>
+  </div>
 </div>

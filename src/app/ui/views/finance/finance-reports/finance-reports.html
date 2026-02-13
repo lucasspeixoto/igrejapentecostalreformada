@@ -1,1 +1,16 @@
-<h3>Relatórios Financeiros</h3>
+<div class="flex flex-col w-full pt-4 gap-4">
+  <span class="text-muted-color font-medium mb-4 text-lg md:text-2xl">Relatórios Financeiros</span>
+  <div class="grid grid-cols-12">
+    <app-monthly-totals-by-year class="col-span-12" />
+  </div>
+  <div class="grid grid-cols-12">
+    <app-summary-for-assembly class="col-span-12" />
+  </div>
+  <div class="grid grid-cols-12 gap-8">
+    <app-inputs-and-outputs-monthly class="col-span-12 xl:col-span-6 h-full" />
+    <app-values-by-category class="col-span-12 xl:col-span-6" />
+  </div>
+  <div class="grid grid-cols-12">
+    <app-anual-inputs-and-outputs-balance class="col-span-12" />
+  </div>
+</div>

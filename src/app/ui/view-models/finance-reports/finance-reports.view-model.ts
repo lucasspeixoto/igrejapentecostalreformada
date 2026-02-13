@@ -1,7 +1,6 @@
-/* eslint-disable max-len */
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { FinanceReportsRepository } from '../../../data/repositories/finance-reports/finance-reports-repository';
-import { MONTH_LABELS } from '../../../utils/constants';
+import { MONTH_LABELS, MONTHS } from '../../../utils/constants';
 import { getActualDate, getFirstMonthDay, getLastMonthDay, getPreviousDate } from '../../../utils/date';
 
 @Injectable({ providedIn: 'root' })
@@ -12,12 +11,17 @@ export class FinanceReportsViewModel {
     () => this.financeReportsRepository.financeReports().find(item => item.state === 'open')?.month
   );
 
-  public minDate = computed(() => getFirstMonthDay(this.currentOpenMonth()!))
+  public minDate = computed(() => getFirstMonthDay(this.currentOpenMonth()!));
 
-  public maxDate = computed(() => getLastMonthDay(this.currentOpenMonth()!))
+  public maxDate = computed(() => getLastMonthDay(this.currentOpenMonth()!));
+
+  public monthLabels = MONTH_LABELS;
+
+  public months = MONTHS;
 
   public availableMonths = computed(() =>
-    this.financeReportsRepository.financeReports()
+    this.financeReportsRepository
+      .financeReports()
       .filter(item => item.state !== 'start')
       .map(item => item.month)
   );
@@ -26,18 +30,21 @@ export class FinanceReportsViewModel {
     return this.availableMonths().map(item => MONTH_LABELS[item.split('/')[0]]);
   });
 
+  public availabeMonthsLabelsInAYear = computed(() => {
+    return this.months.map(item => MONTH_LABELS[item.split('/')[0]]);
+  });
+
   public selectedMonthAndYear = signal(this.getStorageActualDate());
+
+  public selectedYear = signal(new Date().getFullYear());
 
   public selectMonthAndYearState = computed(
     () => this.financeReportsRepository.financeReports().find(item => item.month === this.selectedMonthAndYear())?.state
   );
 
-  public isSelectedMonthClosed = computed(
-    () => this.selectMonthAndYearState() === 'closed'
-  );
+  public isSelectedMonthClosed = computed(() => this.selectMonthAndYearState() === 'closed');
 
-  public openMonth = computed(() => this.financeReportsRepository.financeReports()
-    .find(item => item.state === 'open')!);
+  public openMonth = computed(() => this.financeReportsRepository.financeReports().find(item => item.state === 'open')!);
 
   public totalOfCreditNotes = computed(
     () => this.financeReportsRepository.financeReports().find(item => item.month === this.selectedMonthAndYear())?.inputs
@@ -83,7 +90,8 @@ export class FinanceReportsViewModel {
     const currentOpenMonth = this.selectedMonthAndYear();
 
     if (currentOpenMonth) {
-      return this.financeReportsRepository.financeReports().find(item => item.month === currentOpenMonth)?.month_balance as number;
+      return this.financeReportsRepository.financeReports().find(item => item.month === currentOpenMonth)
+        ?.month_balance as number;
     } else {
       return 0;
     }
@@ -107,4 +115,48 @@ export class FinanceReportsViewModel {
   public setSelectedMonthAndYear(monthAndYear: string): void {
     this.selectedMonthAndYear.set(monthAndYear);
   }
+
+  public setSelectedYear(year: string): void {
+    this.selectedYear.set(+year);
+  }
+
+  public chartMonthText = computed(() => {
+    const selectedMonthAndYear = this.selectedMonthAndYear();
+
+    const month = selectedMonthAndYear.split('/')[0];
+
+    const year = selectedMonthAndYear.split('/')[1];
+
+    return `${this.monthLabels[month]} ${year}`;
+  });
+
+  public inputs = computed(() => {
+    const reportsInAYear = this.financeReportsRepository
+      .financeReports()
+      .filter(item => item.month.split('/')[1] === this.selectedYear().toString());
+
+    return reportsInAYear.map(item => item.inputs);
+  });
+
+  public outputs = computed(() => {
+    const reportsInAYear = this.financeReportsRepository
+      .financeReports()
+      .filter(item => item.month.split('/')[1] === this.selectedYear().toString());
+
+    return reportsInAYear.map(item => item.outputs);
+  });
+
+  public monthBalances = computed(() =>
+    this.financeReportsRepository
+      .financeReports()
+      .filter(item => item.state !== 'start')
+      .map(item => item.month_balance)
+  );
+
+  public monthBalancesInAYear = computed(() => {
+    const reportsInAYear = this.financeReportsRepository
+      .financeReports()
+      .filter(item => item.month.split('/')[1] === this.selectedYear().toString());
+    return reportsInAYear.map(item => item.month_balance);
+  });
 }

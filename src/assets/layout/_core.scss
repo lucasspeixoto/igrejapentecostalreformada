@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: var(--text-color);
   background-color: var(--surface-ground);
   margin: 0;
@@ -15,9 +15,9 @@ body {
   line-height: 1.2;
 }
 
-/* a {
+a {
   text-decoration: none;
-} */
+}
 
 .layout-wrapper {
   min-height: 100vh;

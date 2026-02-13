@@ -1,11 +1,11 @@
-import { inject, Injectable, signal } from "@angular/core";
+import { inject, Injectable, signal } from '@angular/core';
 import type {
   FinanceReports,
   IDeleteFinanceReportsResponse,
   IFindAllFinanceReportsByDateRangeResponse,
   IUpdateFinanceReportsResponse,
-} from "../../../domain/models/finance-reports.model";
-import { FinanceReportsService } from "../../services/finance-reports/finance-reports-service";
+} from '../../../domain/models/finance-reports.model';
+import { FinanceReportsService } from '../../services/finance-reports/finance-reports-service';
 
 @Injectable({ providedIn: 'root' })
 export class FinanceReportsRepository {
@@ -41,4 +41,3 @@ export class FinanceReportsRepository {
     return { error };
   }
 }
-

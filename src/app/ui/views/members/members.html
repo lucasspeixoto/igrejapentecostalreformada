@@ -1,23 +1,31 @@
 <p-toolbar class="mb-6">
   <ng-template #start>
-    <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2"
-      (onClick)="openInsertMember()" />
-    <p-button severity="danger" label="Excluir" icon="pi pi-trash"
+    <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2" (onClick)="openInsertMember()" />
+    <p-button
+      severity="danger"
+      label="Excluir"
+      icon="pi pi-trash"
       (onClick)="deleteSelectedMembers()"
       [disabled]="!selectedMembers || !selectedMembers.length" />
   </ng-template>
   <ng-template #end>
-    <p-button label="Exportar" icon="pi pi-upload" severity="success"
-      (click)="exportCSV()" />
+    <p-button label="Exportar" icon="pi pi-upload" severity="success" (click)="exportCSV()" />
   </ng-template>
 </p-toolbar>
 
-<p-table #dt [value]="membersViewModel.members()" [rows]="10" [columns]="columns"
+<p-table
+  #dt
+  [value]="membersViewModel.members()"
+  [rows]="10"
+  [columns]="columns"
   [paginator]="true"
   [globalFilterFields]="['number', 'name', 'member_type']"
   [tableStyle]="{ 'min-width': '75rem' }"
-  [(selection)]="selectedMembers" [scrollable]="true" scrollHeight="500px"
-  [rowHover]="true" dataKey="number"
+  [(selection)]="selectedMembers"
+  [scrollable]="true"
+  scrollHeight="500px"
+  [rowHover]="true"
+  dataKey="number"
   currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} membros"
   [showCurrentPageReport]="true"
   [rowsPerPageOptions]="[10, 20, 30, 50, 100]">
@@ -26,9 +34,7 @@
       <h5 class="m-0">Membros ({{ membersViewModel.totalOfMembers() }})</h5>
       <p-iconfield>
         <p-inputicon class="pi pi-search" />
-        <input class="w-full sm:w-auto" pInputText type="text"
-          (input)="onGlobalFilter(dt, $event)"
-          placeholder="Pesquisar..." />
+        <input class="w-full sm:w-auto" pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Pesquisar..." />
       </p-iconfield>
     </div>
   </ng-template>
@@ -65,19 +71,26 @@
       <td style="width: 3rem">
         <p-tableCheckbox [value]="member" />
       </td>
-      <td pFrozenColumn style="min-width: 12rem">{{ member.name |
-        firstAndLastname }} ({{ member.number }})</td>
+      <td pFrozenColumn style="min-width: 12rem">{{ member.name | firstAndLastname }} ({{ member.number }})</td>
       <td>
-        <span [ngClass]="{
-                  'shadow-indigo-500/50 bg-indigo-200 hover:bg-indigo-300 dark:bg-indigo-800 dark:hover:bg-indigo-700': member.member_type === 'congregated',
-                  'shadow-cyan-500/50 bg-cyan-200 hover:bg-cyan-300 dark:bg-cyan-800 dark:hover:bg-cyan-700': member.member_type === 'member',
-                }"
-          class="select-none shadow-lg cursor-pointer inline-flex rounded-full px-3 py-2  transition-all duration-200 gap-2 items-center text-sm ">
-          <span [ngClass]="{
-                      'text-indigo-700': member.member_type === 'congregated',
-                      'text-cyan-700': member.member_type === 'member',
-                    }" class="dark:text-green-50 font-medium">{{
-            member.member_type | memberType }}
+        <span
+          [ngClass]="{
+            'shadow-indigo-500/50 bg-indigo-200 hover:bg-indigo-300 dark:bg-indigo-800 dark:hover:bg-indigo-700':
+              member.member_type === 'congregated',
+            'shadow-cyan-500/50 bg-cyan-200 hover:bg-cyan-300 dark:bg-cyan-800 dark:hover:bg-cyan-700':
+              member.member_type === 'member',
+            'shadow-red-500/50 bg-red-200 hover:bg-red-300 dark:bg-red-800 dark:hover:bg-red-700':
+              member.member_type === 'disconnected',
+          }"
+          class="select-none shadow-lg cursor-pointer inline-flex rounded-full px-3 py-2 transition-all duration-200 gap-2 items-center text-sm">
+          <span
+            [ngClass]="{
+              'text-indigo-700': member.member_type === 'congregated',
+              'text-cyan-700': member.member_type === 'member',
+              'text-red-700': member.member_type === 'disconnected',
+            }"
+            class="dark:text-green-50 font-medium"
+            >{{ member.member_type | memberType }}
           </span>
         </span>
       </td>
@@ -94,20 +107,19 @@
       <td>{{ member.marital_status }}</td>
       <td>{{ member.email }}</td>
       <td>
-        <p-button icon="pi pi-pencil" severity="info" [rounded]="true"
-          [text]="true"
-          (click)="openUpdateMember(member)" />
-        <p-button icon="pi pi-trash" severity="danger" [rounded]="true"
-          [text]="true"
-          (click)="openDeleteMember(member)" />
+        <p-button icon="pi pi-pencil" severity="info" [rounded]="true" [text]="true" (click)="openUpdateMember(member)" />
+        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [text]="true" (click)="openDeleteMember(member)" />
       </td>
     </tr>
   </ng-template>
 </p-table>
 
-<app-update-member-dialog [memberForm]="memberForm"
-  [memberDialog]="memberDialog" [modalTitle]="modalTitle()"
-  (dialogClosed)="hideDialog()" (memberSaved)="saveMemberHandler()">
+<app-update-member-dialog
+  [memberForm]="memberForm"
+  [memberDialog]="memberDialog"
+  [modalTitle]="modalTitle()"
+  (dialogClosed)="hideDialog()"
+  (memberSaved)="saveMemberHandler()">
 </app-update-member-dialog>
 
 <p-confirmdialog [style]="{ width: '450px' }" />
