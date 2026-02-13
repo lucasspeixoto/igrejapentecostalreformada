@@ -1,32 +1,14 @@
-import { CurrencyPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
-import { TableModule } from 'primeng/table';
-import { LoadingService } from '../../../../data/services/shared/loading/loading';
-import { FINANCE_TYPES } from '../../../../utils/constants';
-import { FinanceChartsViewModel } from '../../../view-models/finance-charts/finance-charts.view-model';
-import { FinanceReportsViewModel } from '../../../view-models/finance-reports/finance-reports.view-model';
+import { Component } from '@angular/core';
+import { AnualInputsAndOutputs } from '../../../components/finance/anual-inputs-and-outputs-balance/anual-inputs-and-outputs-balance';
+import { InputsAndOutputsMontlhy } from '../../../components/finance/inputs-and-outputs-monthly/inputs-and-outputs-monthly';
+import { MonthlyTotalsByYear } from '../../../components/finance/monthly-totals-by-year/monthly-totals-by-year';
+import { SummaryForAssembly } from '../../../components/finance/summary-for-assembly/summary-for-assembly';
+import { ValuesByCategory } from '../../../components/finance/values-by-category/values-by-category';
 
 @Component({
   selector: 'app-finance-reports',
-  imports: [CurrencyPipe, FormsModule, TableModule, SelectModule, ButtonModule],
+  imports: [MonthlyTotalsByYear, SummaryForAssembly, InputsAndOutputsMontlhy, ValuesByCategory, AnualInputsAndOutputs],
   templateUrl: './finance-reports.html',
   styleUrl: './finance-reports.scss',
 })
-export class FinanceReports implements OnInit {
-  public loadingService = inject(LoadingService);
-
-  public financeReportsViewModel = inject(FinanceReportsViewModel);
-
-  public financeChartsViewModel = inject(FinanceChartsViewModel);
-
-  public monthlyTotalCategories = this.financeChartsViewModel.getMonthlyTotalCategories();
-
-  public financeTypes = FINANCE_TYPES;
-
-  public async ngOnInit(): Promise<void> {
-    await this.financeChartsViewModel.getMonthlyCategories();
-  }
-}
+export class FinanceReports {}

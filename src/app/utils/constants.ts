@@ -39,6 +39,10 @@ export const MONTH_LABELS: Record<string, string> = {
   '12': 'Dezembro',
 };
 
+export const MONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
+export const MONTHS_ALIAS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
 export const LESSON_ENROLLMENT_STATUS_BG: Record<string, string> = {
   pending: 'bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-800 dark:hover:bg-yellow-700',
   approved: 'bg-orange-200 hover:bg-orange-300 dark:bg-orange-800 dark:hover:bg-orange-700',

@@ -4,9 +4,10 @@ import { FinanceChartsRepository } from '../../../data/repositories/finance-char
 import { ExcelService } from '../../../data/services/shared/excel';
 import { LoadingService } from '../../../data/services/shared/loading/loading';
 import type { MonthlyTotal, MonthlyTotalCategory } from '../../../domain/models/finance-reports.model';
+import { MONTHS_ALIAS } from '../../../utils/constants';
 
 @Injectable({ providedIn: 'root' })
-export class FinanceChartsViewModel {
+export class MonthlyTotalsByYearViewModel {
   private financeChartsRepository = inject(FinanceChartsRepository);
 
   public loadingService = inject(LoadingService);
@@ -15,7 +16,7 @@ export class FinanceChartsViewModel {
 
   public messageService = inject(MessageService);
 
-  public months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  public months = MONTHS_ALIAS;
 
   public selectedYear: number = new Date().getFullYear();
 

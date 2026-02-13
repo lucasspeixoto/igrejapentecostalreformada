@@ -3,7 +3,7 @@
     <div class="flex justify-between mb-4">
       <div>
         <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Caixa anterior</span>
-        <div class="text-blue-600 dark:text-blue-300 font-medium text-sm md:text-lg">
+        <div class="text-green-600 dark:text-green-300 font-medium text-sm md:text-lg">
           R$ {{ financeReportsViewModel.getLastMonthTotalBalance()?.toFixed(2) }}
         </div>
       </div>
@@ -28,7 +28,7 @@
     <div class="flex justify-between mb-4">
       <div>
         <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Balanço mês</span>
-        <span class="text-grey-600 dark:text-amber-100 font-medium text-sm md:text-lg">
+        <span class="text-blue-600 dark:text-blue-300 font-medium text-sm md:text-lg">
           R$ {{ financeReportsViewModel.getCurrentMonthTotalBalance()?.toFixed(2) }}
         </span>
       </div>
@@ -53,7 +53,7 @@
     <div class="flex justify-between mb-4">
       <div>
         <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Mês</span>
-        <span class="text-grey-600 dark:text-amber-100 font-medium text-sm md:text-lg">
+        <span class="text-blue-600 dark:text-blue-300 font-medium text-sm md:text-lg">
           {{ financeReportsViewModel.selectedMonthAndYear() }}</span
         >
       </div>
@@ -73,7 +73,7 @@
     <div class="flex justify-between mb-4">
       <div>
         <span class="block text-muted-color font-medium mb-4 text-md md:text-xl">Notas</span>
-        <div class="text-grey-600 dark:text-amber-100 font-medium text-sm md:text-lg">
+        <div class="text-blue-600 dark:text-blue-300 font-medium text-sm md:text-lg">
           {{ financeNotesViewModel.totalOfFinanceNotes() }}
         </div>
       </div>
