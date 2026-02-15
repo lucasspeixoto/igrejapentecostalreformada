@@ -1,1 +1,1 @@
-# Plataforma Igreja pentecostal reformada
+# Plataforma Igreja Pentecostal Reformada

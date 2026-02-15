@@ -79,3 +79,8 @@ export const FINANCE_TYPES = [
   { label: 'Crédito', value: 'C' },
   { label: 'Débito', value: 'D' },
 ];
+
+export const BANK_TYPES = [
+  { label: 'Cora SCFI', value: 'Cora SCFI' },
+  { label: 'PagBank', value: 'PagBank' },
+];

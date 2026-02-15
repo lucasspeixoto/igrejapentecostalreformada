@@ -126,10 +126,6 @@ export class FinanceNotesViewModel {
     this.loadingService.isLoading.set(false);
   }
 
-  public async getAllFinanceReportsDataHandler(): Promise<void> {
-    await this.financeReportsRepository.findAll();
-  }
-
   public getFirstAndLastDayOfAMonth(): { firstDay: string; lastDay: string } {
     const currentActualDate = localStorage.getItem('IPR-SISTEMA-GESTAO:CURRENT-MONTH');
     return getFirstAndLastDayOfAMonth(currentActualDate ? currentActualDate : getActualDate());

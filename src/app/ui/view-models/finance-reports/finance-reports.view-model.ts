@@ -7,6 +7,10 @@ import { getActualDate, getFirstMonthDay, getLastMonthDay, getPreviousDate } fro
 export class FinanceReportsViewModel {
   private financeReportsRepository = inject(FinanceReportsRepository);
 
+  public async findAll(): Promise<void> {
+    await this.financeReportsRepository.findAll();
+  }
+
   public currentOpenMonth = computed(
     () => this.financeReportsRepository.financeReports().find(item => item.state === 'open')?.month
   );

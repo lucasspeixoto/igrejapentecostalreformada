@@ -3,13 +3,9 @@ export const TYPES: { name: string; key: string }[] = [
   { name: 'Débito', key: 'D' },
 ];
 
-export const FINANCE_NOTES_FILTER_FIELDS = [
-  'users.full_name',
-  'date',
-  'type',
-  'finance_categories.name',
-  'value',
-];
+export const FINANCE_NOTES_FILTER_FIELDS = ['users.full_name', 'date', 'type', 'finance_categories.name', 'value'];
+
+export const FINANCE_INVESTMENT_FILTER_FIELDS = ['users.full_name', 'reason', 'value'];
 
 export const SEMINAR_IDS = [
   '0ef2bfa4-6930-4fe3-92f1-7255c5f2818f',
@@ -19,10 +15,7 @@ export const SEMINAR_IDS = [
   '7d89aa42-fe6c-49e1-895e-75a3e4775336',
 ];
 
-export const ORGANIC_CREDIT_IDS = [
-  '8201e81e-85b8-4f7b-b981-b080d169d098',
-  'e44e7b9c-138b-4218-afa9-90f2dbd68fb1',
-];
+export const ORGANIC_CREDIT_IDS = ['8201e81e-85b8-4f7b-b981-b080d169d098', 'e44e7b9c-138b-4218-afa9-90f2dbd68fb1'];
 
 export const NOTES_IDS_TO_CONCAT = [
   '8201e81e-85b8-4f7b-b981-b080d169d098', // Dízimo
