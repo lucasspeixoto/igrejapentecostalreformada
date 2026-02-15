@@ -1,27 +1,26 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { FluidModule } from 'primeng/fluid';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { Table, TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { TagModule } from 'primeng/tag';
-import { InputIconModule } from 'primeng/inputicon';
-import { IconFieldModule } from 'primeng/iconfield';
-import { FluidModule } from 'primeng/fluid';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { InputTextModule } from 'primeng/inputtext';
+import { PastoralCareCategoriesRepository } from '../../../data/repositories/pastoral-care-categories/pastoral-care-categories-repository';
 import { ExcelService } from '../../../data/services/shared/excel';
-import type { ExportColumn, Column } from '../../../domain/models/columns.model';
+import type { Column } from '../../../domain/models/columns.model';
 import type { PastoralCare } from '../../../domain/models/pastoral-care.model';
+import { UpdatePastoralCareDialog } from '../../components/pastoral-care/update-pastoral-care-dialog/update-pastoral-care-dialog';
+import { createPastoralCareForm } from '../../view-models/pastoral-care/pastoral-care-form';
+import { PastoralCareViewModel } from '../../view-models/pastoral-care/pastoral-care.view-model';
 import { FirstAndLastnamePipe } from '../pipes/first-and-lastname/first-and-lastname.pipe';
 import { PrimengDatePipe } from '../pipes/primeng-date/primeng-date.pipe';
-import { createPastoralCareForm } from '../../view-models/pastoral-care/pastoral-care-form';
-import { UpdatePastoralCareDialog } from '../../components/pastoral-care/update-pastoral-care-dialog/update-pastoral-care-dialog';
-import { PastoralCareCategoriesRepository } from '../../../data/repositories/pastoral-care-categories/pastoral-care-categories-repository';
-import { PastoralCareViewModel } from '../../view-models/pastoral-care/pastoral-care.view-model';
-import { PastoralCareCategoriesViewModel } from '../../view-models/pastoral-care-categories/pastoral-care-categories.view-model';
 
 const PRIMENG = [
   TableModule,
@@ -38,14 +37,7 @@ const PRIMENG = [
 
 const COMPONENTS = [UpdatePastoralCareDialog];
 
-const PROVIDERS = [
-  MessageService,
-  ConfirmationService,
-  DatePipe,
-  PastoralCareCategoriesViewModel,
-  PastoralCareViewModel
-];
-
+const PROVIDERS = [MessageService, ConfirmationService, DatePipe, PastoralCareViewModel];
 
 const PIPES = [FirstAndLastnamePipe, PrimengDatePipe];
 
@@ -57,8 +49,6 @@ const PIPES = [FirstAndLastnamePipe, PrimengDatePipe];
   styleUrls: ['./pastoral-care-list.scss'],
 })
 export class PastoralCareList implements OnInit {
-  public pastoralCareCategoriesViewModel = inject(PastoralCareCategoriesViewModel);
-
   public pastoralCareViewModel = inject(PastoralCareViewModel);
 
   public pastoralCareCategoriesRepository = inject(PastoralCareCategoriesRepository);
@@ -73,28 +63,19 @@ export class PastoralCareList implements OnInit {
 
   public mode = signal<'add' | 'edit'>('add');
 
-  public modalTitle = computed(() =>
-    this.mode() === 'add' ? 'Novo atendimento' : 'Alterar atendimento'
-  );
-
-  public exportColumns!: ExportColumn[];
+  public modalTitle = computed(() => (this.mode() === 'add' ? 'Novo atendimento' : 'Alterar atendimento'));
 
   public columns!: Column[];
 
   public pastoralCareForm = createPastoralCareForm();
 
-  public filteredvalues!: PastoralCare[];
-
   public exportCSV(): void {
-    this.excelService.exportToExcel(
-      this.pastoralCareViewModel.pastoralCare(),
-      'Listagem de atendimentos'
-    );
+    this.excelService.exportToExcel(this.pastoralCareViewModel.pastoralCare(), 'Listagem de atendimentos');
   }
 
-  public ngOnInit(): void {
-    this.pastoralCareCategoriesRepository.findAll();
-    this.pastoralCareViewModel.findAll();
+  public async ngOnInit(): Promise<void> {
+    await this.pastoralCareCategoriesRepository.findAll();
+    await this.pastoralCareViewModel.findAll();
   }
 
   public onGlobalFilter(table: Table, event: Event): void {
@@ -150,7 +131,6 @@ export class PastoralCareList implements OnInit {
     });
   }
 
-
   public openDeletePastoralCare(pastoralCare: PastoralCare): void {
     this.confirmationService.confirm({
       message: 'Tem certeza que deseja excluir este atendimento ?',
@@ -167,12 +147,10 @@ export class PastoralCareList implements OnInit {
   }
 
   public savePastoralCareHandler(): void {
-
     this.pastoralCareViewModel.checkUpdateMemberForm(this.pastoralCareForm);
 
     const pastoralCare = this.pastoralCareForm.getRawValue();
 
     this.pastoralCareViewModel.savePastoralCare(pastoralCare, this.mode());
-
   }
 }

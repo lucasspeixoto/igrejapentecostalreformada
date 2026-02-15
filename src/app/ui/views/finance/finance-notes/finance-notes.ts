@@ -1,13 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, computed, inject, model, signal, type OnInit } from '@angular/core';
-import { FinanceReportsViewModel } from '../../../view-models/finance-reports/finance-reports.view-model';
-import type { FinanceNote, FinanceNoteProcess } from '../../../../domain/models/finance-note.model';
 import { DatePipe } from '@angular/common';
-import type { Column, ExportColumn } from '../../../../domain/models/columns.model';
-import { FINANCE_NOTES_FILTER_FIELDS, NOTES_IDS_TO_CONCAT, TYPES } from '../../../../utils/options';
-import { createFinanceNoteForm, type FinanceNoteFormValue } from '../../../view-models/finance-notes/finance-note-form';
+import { Component, computed, inject, model, signal, type OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MessageService, ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -17,6 +12,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { RatingModule } from 'primeng/rating';
 import { SelectModule, type SelectChangeEvent } from 'primeng/select';
 import { TableModule, type Table } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -24,19 +20,23 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
-import { CustomValidationMessageComponent } from '../../../components/shared/custom-validation-message/custom-validation-message';
-import { FirstAndLastnamePipe } from '../../pipes/first-and-lastname/first-and-lastname.pipe';
-import { PrimengDatePipe } from '../../pipes/primeng-date/primeng-date.pipe';
-import { RatingModule } from 'primeng/rating';
-import type { FinanceNoteExcel } from '../../../../domain/models/finance-note-excel.model';
 import { ExcelService } from '../../../../data/services/shared/excel';
 import { LoadingService } from '../../../../data/services/shared/loading/loading';
-import { FinanceNotesViewModel } from '../../../view-models/finance-notes/finance-notes.view-model';
-import { FinanceNoteCategoriesViewModel } from '../../../view-models/finance-note-categories/finance-note-categories.view-model';
-import { MembersViewModel } from '../../../view-models/members/members.view-model';
-import { AuthenticationViewModel } from '../../../view-models/auth/authentication/authentication.view-model';
-import { AuditValidationWarnings } from '../../../components/finance/audit-validation-warnings/audit-validation-warnings';
+import type { Column } from '../../../../domain/models/columns.model';
+import type { FinanceNoteExcel } from '../../../../domain/models/finance-note-excel.model';
+import type { FinanceNote, FinanceNoteProcess } from '../../../../domain/models/finance-note.model';
 import { getNextMonthDate } from '../../../../utils/date';
+import { FINANCE_NOTES_FILTER_FIELDS, NOTES_IDS_TO_CONCAT, TYPES } from '../../../../utils/options';
+import { AuditValidationWarnings } from '../../../components/finance/audit-validation-warnings/audit-validation-warnings';
+import { CustomValidationMessageComponent } from '../../../components/shared/custom-validation-message/custom-validation-message';
+import { AuthenticationViewModel } from '../../../view-models/auth/authentication/authentication.view-model';
+import { FinanceNoteCategoriesViewModel } from '../../../view-models/finance-note-categories/finance-note-categories.view-model';
+import { createFinanceNoteForm, type FinanceNoteFormValue } from '../../../view-models/finance-notes/finance-note-form';
+import { FinanceNotesViewModel } from '../../../view-models/finance-notes/finance-notes.view-model';
+import { FinanceReportsViewModel } from '../../../view-models/finance-reports/finance-reports.view-model';
+import { MembersViewModel } from '../../../view-models/members/members.view-model';
+import { FirstAndLastnamePipe } from '../../pipes/first-and-lastname/first-and-lastname.pipe';
+import { PrimengDatePipe } from '../../pipes/primeng-date/primeng-date.pipe';
 
 const PRIMENG = [
   TooltipModule,
@@ -58,20 +58,9 @@ const PRIMENG = [
   ConfirmDialogModule,
 ];
 
-const COMMON = [
-  FormsModule,
-  ReactiveFormsModule,
-  CustomValidationMessageComponent,
-  AuditValidationWarnings,
-];
+const COMMON = [FormsModule, ReactiveFormsModule, CustomValidationMessageComponent, AuditValidationWarnings];
 
-const PROVIDERS = [
-  MessageService,
-  ConfirmationService,
-  DatePipe,
-  AuthenticationViewModel,
-  MembersViewModel,
-];
+const PROVIDERS = [MessageService, ConfirmationService, DatePipe, AuthenticationViewModel, MembersViewModel];
 
 const PIPES = [FirstAndLastnamePipe, PrimengDatePipe];
 
@@ -113,8 +102,6 @@ export class FinanceNotes implements OnInit {
 
   public modalTitle = computed(() => (this.mode() === 'add' ? 'Adicionar Nota' : 'Editar Nota'));
 
-  public exportColumns!: ExportColumn[];
-
   public columns!: Column[];
 
   public globalFilterFields = FINANCE_NOTES_FILTER_FIELDS;
@@ -122,8 +109,6 @@ export class FinanceNotes implements OnInit {
   public financeNoteForm = createFinanceNoteForm();
 
   public types = TYPES;
-
-  public filteredValues!: FinanceNote[];
 
   public monthAndYearList = this.financeReportsViewModel.availableMonths;
 
@@ -151,9 +136,9 @@ export class FinanceNotes implements OnInit {
   public async checkNoteHandler(financeNote: FinanceNote): Promise<void> {
     if (this.isSelectedMonthClosed()) return;
 
-    const {error} = await this.financeNotesViewModel.updateFinanceNoteCheck(financeNote);
+    const { error } = await this.financeNotesViewModel.updateFinanceNoteCheck(financeNote);
 
-    if(!error) await this.financeNotesViewModel.getAllFinanceNotesDataHandler();
+    if (!error) await this.financeNotesViewModel.getAllFinanceNotesDataHandler();
   }
 
   public downloadFinanceNoteExcel(): void {
@@ -242,7 +227,7 @@ export class FinanceNotes implements OnInit {
 
         const { error } = await this.financeNotesViewModel.deleteFinanceNote({ p_note_id: financeNote!.id });
 
-        if (!error) this.refetchFinanceNotesAndReports()
+        if (!error) this.refetchFinanceNotesAndReports();
 
         this.loadingService.isLoading.set(false);
       },
@@ -288,7 +273,7 @@ export class FinanceNotes implements OnInit {
 
   public refetchFinanceNotesAndReports(): void {
     this.financeNotesViewModel.getAllFinanceNotesDataHandler();
-    this.financeNotesViewModel.getAllFinanceReportsDataHandler();
+    this.financeReportsViewModel.findAll();
   }
 
   public async closeCurrentMonth(): Promise<void> {
@@ -314,14 +299,10 @@ export class FinanceNotes implements OnInit {
         if (!error) {
           const nextOpenMonth = getNextMonthDate(openMonthDate);
           this.financeReportsViewModel.setSelectedMonthAndYear(nextOpenMonth);
-          localStorage.setItem(
-            'IPR-SISTEMA-GESTAO:CURRENT-MONTH',
-            nextOpenMonth
-          );
+          localStorage.setItem('IPR-SISTEMA-GESTAO:CURRENT-MONTH', nextOpenMonth);
 
-          this.refetchFinanceNotesAndReports()
-        };
-
+          this.refetchFinanceNotesAndReports();
+        }
       },
     });
   }

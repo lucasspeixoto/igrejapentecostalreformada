@@ -76,6 +76,12 @@ export class AppMenu implements OnInit {
                 icon: 'pi pi-fw pi-chart-bar',
                 routerLink: ['/plataforma-ipr/financeiro/relatorios'],
               },
+              {
+                label: 'Investimentos',
+                visible: this.isAdmin,
+                icon: 'pi pi-fw pi-chart-line',
+                routerLink: ['/plataforma-ipr/financeiro/investimentos'],
+              },
             ],
           },
         ],
