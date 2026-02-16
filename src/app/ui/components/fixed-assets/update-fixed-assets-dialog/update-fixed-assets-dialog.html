@@ -1,0 +1,44 @@
+<p-dialog
+  [(visible)]="fixedAssetsDialog"
+  [breakpoints]="{ '1199px': '75vw', '991px': '80vw', '767px': '90vw', '575px': '90vw' }"
+  [style]="{ width: '40vw' }"
+  [draggable]="true"
+  [header]="modalTitle()"
+  [modal]="true"
+  (onHide)="hideDialog()">
+  <ng-template #content>
+    <p-toast />
+    <form [formGroup]="fixedAssetsForm">
+      <div class="flex flex-wrap flex-col gap-4">
+        <div class="my-2">
+          <label for="type" class="block font-bold mb-2">Tipo </label>
+          <p-select
+            optionLabel="label"
+            optionValue="value"
+            class="w-full"
+            formControlName="type"
+            [options]="assetTypes"
+            placeholder="Selecione o tipo" />
+          <app-custom-validation-message id="typeErrorMessage" controlName="type" />
+        </div>
+
+        <div class="my-2">
+          <label for="local" class="block font-bold mb-2">Local </label>
+          <input class="w-full" type="text" formControlName="local" pInputText id="local" required fluid />
+          <app-custom-validation-message id="localErrorMessage" controlName="local" [minLength]="3" />
+        </div>
+
+        <div class="my-2 col-span-1 sm:col-span-2 md:col-span-2">
+          <label for="asset" class="block font-bold mb-2">Patrimônio </label>
+          <input class="w-full" type="text" formControlName="asset" pInputText id="asset" required fluid />
+          <app-custom-validation-message id="assetErrorMessage" controlName="asset" [minLength]="3" />
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #footer>
+    <p-button label="Cancelar" icon="pi pi-times" text (click)="hideDialog()" />
+    <p-button [disabled]="fixedAssetsForm.invalid" label="Salvar" icon="pi pi-check" (click)="saveFixedAssetHandler()" />
+  </ng-template>
+</p-dialog>

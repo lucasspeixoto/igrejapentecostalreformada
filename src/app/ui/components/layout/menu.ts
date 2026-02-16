@@ -54,6 +54,12 @@ export class AppMenu implements OnInit {
             routerLink: ['/plataforma-ipr/membros'],
           },
           {
+            label: 'Patrimônio',
+            visible: this.isAdmin,
+            icon: 'pi pi-fw pi-building',
+            routerLink: ['/plataforma-ipr/patrimonio'],
+          },
+          {
             label: 'Atendimento Pastoral',
             visible: this.isAdmin,
             icon: 'pi pi-fw pi-heart-fill',
