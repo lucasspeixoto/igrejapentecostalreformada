@@ -1,8 +1,9 @@
 <p-toolbar class="mb-6">
   <ng-template #start>
-    <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mr-2" (onClick)="openInsertMember()" />
+    <p-button label="Novo" icon="pi pi-plus" severity="primary" class="mx-2" (onClick)="openInsertMember()" />
     <p-button
       severity="danger"
+      class="mx-2"
       label="Excluir"
       icon="pi pi-trash"
       (onClick)="deleteSelectedMembers()"
@@ -43,8 +44,8 @@
       <th style="width: 3rem">
         <p-tableHeaderCheckbox />
       </th>
-      <th pFrozenColumn pSortableColumn="name" style="min-width: 12rem">
-        Name
+      <th pFrozenColumn pSortableColumn="name" style="min-width: 18rem">
+        Nome
         <p-sortIcon field="name" />
       </th>
       <th pSortableColumn="member_type">
@@ -67,11 +68,11 @@
     </tr>
   </ng-template>
   <ng-template #body let-member>
-    <tr>
+    <tr (click)="openUpdateMember(member)" [pSelectableRow]="member">
       <td style="width: 3rem">
         <p-tableCheckbox [value]="member" />
       </td>
-      <td pFrozenColumn style="min-width: 12rem">{{ member.name | firstAndLastname }} ({{ member.number }})</td>
+      <td pFrozenColumn style="min-width: 18rem">{{ member.name }} ({{ member.number }})</td>
       <td>
         <span
           [ngClass]="{
