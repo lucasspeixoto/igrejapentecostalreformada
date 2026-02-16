@@ -17,7 +17,6 @@ import type { Column, ExportColumn } from '../../../domain/models/columns.model'
 import type { Member } from '../../../domain/models/members.model';
 import { UpdateMemberDialog } from '../../components/members/update-member-dialog/update-member-dialog';
 import { createMemberForm } from '../../view-models/members/member-form';
-import { FirstAndLastnamePipe } from '../pipes/first-and-lastname/first-and-lastname.pipe';
 import { MemberTypePipe } from '../pipes/member-type/member-type.pipe';
 import { PrimengDatePipe } from '../pipes/primeng-date/primeng-date.pipe';
 import { MembersViewModel } from './../../view-models/members/members.view-model';
@@ -41,7 +40,7 @@ const COMPONENTS = [UpdateMemberDialog];
 
 const PROVIDERS = [MembersViewModel, MessageService, ConfirmationService, DatePipe];
 
-const PIPES = [FirstAndLastnamePipe, PrimengDatePipe, MemberTypePipe];
+const PIPES = [PrimengDatePipe, MemberTypePipe];
 
 @Component({
   selector: 'app-members',
@@ -57,7 +56,7 @@ export class Members implements OnInit {
 
   private excelService = inject(ExcelService<Member>);
 
-  public selectedMembers!: Member[] | null;
+  public selectedMembers: Member[] = [];
 
   public memberDialog: boolean = false;
 
@@ -96,7 +95,9 @@ export class Members implements OnInit {
     this.memberDialog = false;
   }
 
-  public openUpdateMember(member: Member): void {
+  public openUpdateMember(member: Member | null): void {
+    if (!member) return;
+
     this.mode.set('edit');
 
     const {
