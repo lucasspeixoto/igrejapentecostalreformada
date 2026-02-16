@@ -84,3 +84,10 @@ export const BANK_TYPES = [
   { label: 'Cora SCFI', value: 'Cora SCFI' },
   { label: 'PagBank', value: 'PagBank' },
 ];
+
+export const OBREIROS = [
+  { label: 'Pr. Sergio Fernandes', value: 'Pr. Sergio Fernandes' },
+  { label: 'Pr. Daniel Moraes', value: 'Pr. Daniel Moraes' },
+  { label: 'Pb. Emerson Xavier Bonfim', value: 'Pb. Emerson Xavier Bonfim' },
+  { label: 'Pb. Diego de Paula', value: 'Pb. Diego de Paula' },
+];
