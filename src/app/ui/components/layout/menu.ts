@@ -27,14 +27,16 @@ export class AppMenu implements OnInit {
 
   public authenticationRepository = inject(AuthenticationRepository);
 
-  public isAdmin = false;
+  //public isAdmin = false;
 
-  public isLogged = false;
+  //public isLogged = false;
 
   public ngOnInit(): void {
-    this.isAdmin = this.userRolesRepository.isUserAdmin();
+    const isAdmin = this.userRolesRepository.isUserAdmin();
 
-    this.isLogged = this.authenticationRepository.isUserLogged();
+    const isTreasury = this.userRolesRepository.isUserTreasury();
+
+    const isSecretary = this.userRolesRepository.isUserSecretary();
 
     this.menuItems = [
       {
@@ -49,42 +51,42 @@ export class AppMenu implements OnInit {
           },
           {
             label: 'Membros',
-            visible: this.isAdmin,
+            visible: isAdmin || isSecretary,
             icon: 'pi pi-fw pi-users',
             routerLink: ['/plataforma-ipr/membros'],
           },
           {
             label: 'Patrimônio',
-            visible: this.isAdmin,
+            visible: isAdmin,
             icon: 'pi pi-fw pi-building',
             routerLink: ['/plataforma-ipr/patrimonio'],
           },
           {
             label: 'Atendimento Pastoral',
-            visible: this.isAdmin,
+            visible: isAdmin,
             icon: 'pi pi-fw pi-heart-fill',
             routerLink: ['/plataforma-ipr/atendimento-pastoral'],
           },
           {
             label: 'Financeiro',
-            visible: this.isAdmin,
+            visible: isAdmin || isTreasury,
             icon: 'pi pi-fw pi-dollar',
             items: [
               {
                 label: 'Lançamentos',
-                visible: this.isAdmin,
+                visible: isAdmin || isTreasury,
                 icon: 'pi pi-fw pi-file-arrow-up',
                 routerLink: ['/plataforma-ipr/financeiro/notas'],
               },
               {
                 label: 'Relatórios',
-                visible: this.isAdmin,
+                visible: isAdmin || isTreasury,
                 icon: 'pi pi-fw pi-chart-bar',
                 routerLink: ['/plataforma-ipr/financeiro/relatorios'],
               },
               {
                 label: 'Investimentos',
-                visible: this.isAdmin,
+                visible: isAdmin || isTreasury,
                 icon: 'pi pi-fw pi-chart-line',
                 routerLink: ['/plataforma-ipr/financeiro/investimentos'],
               },

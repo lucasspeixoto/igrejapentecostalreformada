@@ -6,10 +6,12 @@ import { Members } from '../../ui/views/members/members';
 import { Resumes } from '../../ui/views/panel/resumes';
 import { PastoralCareList } from '../../ui/views/pastoral-care/pastoral-care-list';
 import { isAdminGuard } from '../guards/is-admin/is-admin.guard';
+import { isSecretaryGuard } from '../guards/is-secretary/is-secretary.guard';
+import { isTreasuryGuard } from '../guards/is-treasury/is-treasury.guard';
 
 export default [
   { path: 'painel', component: Resumes },
-  { path: 'membros', canActivate: [isAdminGuard], component: Members },
+  { path: 'membros', canActivate: [isSecretaryGuard], component: Members },
   { path: 'patrimonio', canActivate: [isAdminGuard], component: FixedAssets },
   {
     path: 'atendimento-pastoral',
@@ -19,7 +21,7 @@ export default [
   {
     path: 'financeiro',
     component: Finance,
-    canActivate: [isAdminGuard],
+    canActivate: [isTreasuryGuard],
     children: [
       {
         path: '',
@@ -27,16 +29,5 @@ export default [
       },
     ],
   },
-  /* ,
-  {
-    path: 'escola-de-discipulos',
-    component: EdComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./ed/ed.routes'),
-      },
-    ],
-  }, */
   { path: '**', redirectTo: '/notfound' },
 ] as Routes;
