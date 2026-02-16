@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, input, Input, Output, type OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -9,11 +9,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
-import { MARITAL_STATUS, MEMBER_TYPES } from '../../../../utils/constants';
+import { PastoralCareCategoriesRepository } from '../../../../data/repositories/pastoral-care-categories/pastoral-care-categories-repository';
+import { MARITAL_STATUS, MEMBER_TYPES, OBREIROS } from '../../../../utils/constants';
+import { MembersViewModel } from '../../../view-models/members/members.view-model';
 import type { PastoralCareFormControl } from '../../../view-models/pastoral-care/pastoral-care-form';
 import { CustomValidationMessageComponent } from '../../shared/custom-validation-message/custom-validation-message';
-import { MembersViewModel } from '../../../view-models/members/members.view-model';
-import { PastoralCareCategoriesRepository } from '../../../../data/repositories/pastoral-care-categories/pastoral-care-categories-repository';
 
 const PRIMENG = [
   InputMaskModule,
@@ -78,6 +78,8 @@ export class UpdatePastoralCareDialog implements OnInit {
   public maritalStatus = MARITAL_STATUS;
 
   public memberTypes = MEMBER_TYPES;
+
+  public obreiroTypes = OBREIROS;
 
   public ngOnInit(): void {
     this.membersViewModel.findAll();
