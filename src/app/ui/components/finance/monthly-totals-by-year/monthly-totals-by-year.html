@@ -1,7 +1,7 @@
 <div class="card mb-8! h-full">
   <span class="text-muted-color font-medium mb-2 text-md md:text-lg">Totais anual por categoria</span>
-  <div class="w-full flex flex-col md:flex-row justify-between mt-4 mb-10 items-end">
-    <div class="flex flex-row gap-4">
+  <div class="w-full flex flex-col sm:flex-row justify-center sm:justify-between mt-4 mb-10 items-center">
+    <div class="flex flex-row gap-4 mb-2 sm:mb-0">
       <div class="flex flex-col gap-1 w-full md:w-32">
         <label class="block text-md font-bold text-muted-foreground">Ano</label>
         <p-select
@@ -25,7 +25,6 @@
 
     <p-button
       (onClick)="monthlyTotalsByYearViewModel.exportMonthlyTotalCategoriesToExcel()"
-      class="self-end"
       label="Exportar"
       icon="pi pi-download"
       severity="success" />
