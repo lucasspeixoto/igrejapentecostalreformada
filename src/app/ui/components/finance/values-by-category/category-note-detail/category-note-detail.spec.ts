@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { describe, it, expect, beforeEach } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { CategoryNoteDetail } from './category-note-detail';
 
@@ -7,8 +7,8 @@ describe('CategoryNoteDetail', () => {
   let component: CategoryNoteDetail;
   let fixture: ComponentFixture<CategoryNoteDetail>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [CategoryNoteDetail, CommonModule],
     }).compileComponents();
 
