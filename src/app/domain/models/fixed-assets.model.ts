@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import type { PostgrestError } from '@supabase/supabase-js';
 import type { ISupabaseResponse } from './supabase.model';
 

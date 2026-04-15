@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { computed, inject, Injectable } from '@angular/core';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { FinanceReportsRepository } from '../../../data/repositories/finance-reports/finance-reports-repository';

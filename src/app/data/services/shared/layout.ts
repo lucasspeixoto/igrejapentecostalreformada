@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable, effect, signal, computed, PLATFORM_ID, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { $t } from '@primeuix/themes';

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import type { PostgrestSingleResponse } from '@supabase/supabase-js';
 import type { MonthlyTotal } from '../../../domain/models/finance-reports.model';

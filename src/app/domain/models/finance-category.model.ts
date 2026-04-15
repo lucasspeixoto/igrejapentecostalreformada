@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import type { ISupabaseResponse } from "./supabase.model";
 
 export interface FinanceNoteCategory {

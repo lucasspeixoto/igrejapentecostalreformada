@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 export interface FinanceNoteExcel {
   date: string;
   description: string;

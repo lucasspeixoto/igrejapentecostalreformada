@@ -44,53 +44,6 @@ module.exports = defineConfig([
           style: 'kebab-case',
         },
       ],
-      '@typescript-eslint/naming-convention': [
-        'warn',
-        {
-          selector: 'interface',
-          format: ['PascalCase'],
-          custom: {
-            regex: '^I[A-Z]',
-            match: true,
-          },
-        },
-        {
-          selector: 'class',
-          format: ['PascalCase'],
-        },
-        {
-          selector: 'function',
-          format: ['camelCase'],
-        },
-        {
-          selector: 'method',
-          format: ['camelCase'],
-        },
-        {
-          selector: 'variable',
-          format: ['camelCase', 'UPPER_CASE'],
-          leadingUnderscore: 'allow',
-        },
-        {
-          selector: 'typeLike',
-          format: ['PascalCase'],
-        },
-        {
-          selector: 'property',
-          format: ['camelCase'],
-          leadingUnderscore: 'allow',
-        },
-        {
-          selector: 'variable',
-          modifiers: ['const'],
-          format: ['camelCase', 'UPPER_CASE'],
-        },
-        {
-          selector: 'objectLiteralProperty',
-          format: ['camelCase'],
-          leadingUnderscore: 'allow',
-        },
-      ],
       '@typescript-eslint/explicit-member-accessibility': [
         'error',
         {
