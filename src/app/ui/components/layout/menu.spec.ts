@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppMenu } from './menu';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { RouterModule } from '@angular/router';
-import { UserRolesRepository } from '../../../data/repositories/user-roles/user-roles-repository';
+import type { MenuItem } from 'primeng/api';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthenticationRepository } from '../../../data/repositories/authentication/authentication-repository';
+import { UserRolesRepository } from '../../../data/repositories/user-roles/user-roles-repository';
+import { AppMenu } from './menu';
 
 describe('AppMenu', () => {
   let component: AppMenu;
@@ -19,7 +20,7 @@ describe('AppMenu', () => {
     signOut: vi.fn(),
   };
 
-  function findItemByLabelPart(labelPart: string) {
+  function findItemByLabelPart(labelPart: string): MenuItem | undefined {
     return component.menuItems[0].items?.find((item): boolean => item.label?.includes(labelPart) ?? false);
   }
 
