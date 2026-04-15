@@ -73,7 +73,7 @@ describe('AppLayoutComponent', () => {
   });
 
   it('should compute container classes correctly', () => {
-    const classes = component.containerClass as any;
+    const classes = component.containerClass as Record<string, boolean>;
     expect(classes['layout-static']).toBe(true);
     expect(classes['layout-static-inactive']).toBe(false);
   });

@@ -7,11 +7,33 @@ import { ExcelService } from '../../../data/services/shared/excel';
 import { DatePipe } from '@angular/common';
 import { signal } from '@angular/core';
 import { Subject } from 'rxjs';
+import type { Member } from '../../../domain/models/members.model';
+
+function createMember(): Member {
+  return {
+    created_at: '2026-01-01',
+    number: 1,
+    name: 'John',
+    birthday: '1990-01-01',
+    rg: null,
+    cpf: null,
+    address: 'Street 1',
+    baptism_date: null,
+    previous_church: null,
+    baptism_church: null,
+    naturality: null,
+    cellphone: null,
+    tellphone: null,
+    marital_status: 'single',
+    email: null,
+    member_type: 'member',
+  };
+}
 
 vi.stubGlobal('ResizeObserver', class ResizeObserver {
-  observe = vi.fn();
-  unobserve = vi.fn();
-  disconnect = vi.fn();
+  public observe = vi.fn();
+  public unobserve = vi.fn();
+  public disconnect = vi.fn();
 });
 
 describe('Members', () => {
@@ -30,7 +52,7 @@ describe('Members', () => {
 
   const mockConfirmationService = {
     confirm: vi.fn(),
-    requireConfirmation$: new Subject<any>().asObservable(),
+    requireConfirmation$: new Subject<unknown>().asObservable(),
   };
 
   const mockExcelService = {
@@ -88,7 +110,7 @@ describe('Members', () => {
   });
 
   it('should call confirmation service on delete', () => {
-    const member = { number: '1', name: 'John' } as any;
+    const member = createMember();
     component.openDeleteMember(member);
     expect(mockConfirmationService.confirm).toHaveBeenCalled();
   });

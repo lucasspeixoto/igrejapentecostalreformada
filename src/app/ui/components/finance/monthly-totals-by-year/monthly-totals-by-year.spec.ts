@@ -8,9 +8,17 @@ import { signal } from '@angular/core';
 
 if (typeof window !== 'undefined') {
   class MockResizeObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+    public observe(): void {
+      return;
+    }
+
+    public unobserve(): void {
+      return;
+    }
+
+    public disconnect(): void {
+      return;
+    }
   }
   window.ResizeObserver = window.ResizeObserver || MockResizeObserver;
 }

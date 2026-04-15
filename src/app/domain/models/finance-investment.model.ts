@@ -1,6 +1,5 @@
 import type { ISupabaseResponse } from './supabase.model';
 
-/* eslint-disable @typescript-eslint/naming-convention */
 export interface FinanceInvestment {
   id: string;
   created_at: string;

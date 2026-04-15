@@ -9,12 +9,10 @@ import { CommonModule } from '@angular/common';
 describe('AppMenuitem', () => {
   let component: AppMenuitem;
   let fixture: ComponentFixture<AppMenuitem>;
-  let layoutService: LayoutService;
-  let router: Router;
 
-  const menuSourceSubject = new Subject<any>();
+  const menuSourceSubject = new Subject<unknown>();
   const resetSourceSubject = new Subject<void>();
-  const routerEventsSubject = new Subject<any>();
+  const routerEventsSubject = new Subject<unknown>();
 
   const mockLayoutService = {
     menuSource$: menuSourceSubject.asObservable(),
@@ -53,8 +51,6 @@ describe('AppMenuitem', () => {
 
     fixture = TestBed.createComponent(AppMenuitem);
     component = fixture.componentInstance;
-    layoutService = TestBed.inject(LayoutService);
-    router = TestBed.inject(Router);
 
     component.item = { label: 'Test Item', routerLink: ['/test'] };
     component.index = 0;

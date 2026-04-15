@@ -7,6 +7,21 @@ import { FinanceInvestmentsViewModel } from '../../../view-models/finance-invest
 import { FinanceReportsViewModel } from '../../../view-models/finance-reports/finance-reports.view-model';
 import { LoadingService } from '../../../../data/services/shared/loading/loading';
 import { signal } from '@angular/core';
+import type { FinanceInvestment } from '../../../../domain/models/finance-investment.model';
+
+function createFinanceInvestment(): FinanceInvestment {
+  return {
+    id: '1',
+    created_at: '2026-01-01',
+    updated_at: '2026-01-02',
+    value: 100,
+    reason: 'Test',
+    user_id: 'user-1',
+    account_bank: 'Inter',
+    month: '01/2026',
+    users: { full_name: 'User Test' },
+  };
+}
 
 describe('FinanceInvestmentsComponent', () => {
   let component: FinanceInvestmentsComponent;
@@ -33,10 +48,9 @@ describe('FinanceInvestmentsComponent', () => {
   };
 
   beforeEach(async () => {
-    // Need to provide canvas context for PrimeNG components
     HTMLCanvasElement.prototype.getContext = vi.fn().mockReturnValue({
-      // mock context
-    } as any);
+      canvas: document.createElement('canvas'),
+    } as unknown as CanvasRenderingContext2D);
 
     await TestBed.configureTestingModule({
       imports: [FinanceInvestmentsComponent, ReactiveFormsModule],
@@ -54,8 +68,8 @@ describe('FinanceInvestmentsComponent', () => {
           { provide: FinanceReportsViewModel, useValue: mockFinanceReportsViewModel },
           { provide: MessageService, useValue: mockMessageService },
           ConfirmationService,
-        ]
-      }
+        ],
+      },
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinanceInvestmentsComponent);
@@ -82,7 +96,7 @@ describe('FinanceInvestmentsComponent', () => {
   });
 
   it('should open edit dialog with investment data', () => {
-    const investment = { id: '1', value: 100, reason: 'Test', account_bank: 'Inter' } as any;
+    const investment = createFinanceInvestment();
     component.openEditInvestment(investment);
     expect(component.mode()).toBe('edit');
     expect(component.investmentForm.value.id).toBe('1');
@@ -90,8 +104,10 @@ describe('FinanceInvestmentsComponent', () => {
   });
 
   it('should not call creatOrEditInvestment if form is invalid', async () => {
-    component.investmentForm.get('value')?.setValue('' as any);
+    component.investmentForm.get('value')?.setErrors({ required: true });
+
     await component.creatOrEditInvestment();
+
     expect(mockFinanceInvestmentsViewModel.creatOrEditInvestment).not.toHaveBeenCalled();
     expect(mockMessageService.add).toHaveBeenCalledWith(expect.objectContaining({ summary: 'Formulário Inválido' }));
   });
@@ -99,9 +115,9 @@ describe('FinanceInvestmentsComponent', () => {
   it('should call creatOrEditInvestment and refresh data on success', async () => {
     component.investmentForm.patchValue({ value: 50, reason: 'Savings', account_bank: 'Inter' });
     mockFinanceInvestmentsViewModel.creatOrEditInvestment.mockResolvedValue({ error: null });
-    
+
     await component.creatOrEditInvestment();
-    
+
     expect(mockFinanceInvestmentsViewModel.creatOrEditInvestment).toHaveBeenCalled();
     expect(mockFinanceInvestmentsViewModel.findAll).toHaveBeenCalled();
   });

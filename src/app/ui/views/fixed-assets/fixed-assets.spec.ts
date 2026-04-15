@@ -7,11 +7,25 @@ import { ExcelService } from '../../../data/services/shared/excel';
 import { DatePipe } from '@angular/common';
 import { signal } from '@angular/core';
 import { Subject } from 'rxjs';
+import type { FixedAsset } from '../../../domain/models/fixed-assets.model';
+
+function createFixedAsset(): FixedAsset {
+  return {
+    id: 1,
+    created_at: '2026-01-01',
+    updated_at: '2026-01-02',
+    local: 'Main Hall',
+    type: 'Furniture',
+    asset: 'Table',
+    user_id: 1,
+    users: { full_name: 'User Test' },
+  };
+}
 
 vi.stubGlobal('ResizeObserver', class ResizeObserver {
-  observe = vi.fn();
-  unobserve = vi.fn();
-  disconnect = vi.fn();
+  public observe = vi.fn();
+  public unobserve = vi.fn();
+  public disconnect = vi.fn();
 });
 
 describe('FixedAssets', () => {
@@ -31,7 +45,7 @@ describe('FixedAssets', () => {
 
   const mockConfirmationService = {
     confirm: vi.fn(),
-    requireConfirmation$: new Subject<any>().asObservable(),
+    requireConfirmation$: new Subject<unknown>().asObservable(),
   };
 
   const mockExcelService = {
@@ -84,7 +98,7 @@ describe('FixedAssets', () => {
   });
 
   it('should open edit dialog with data', () => {
-    const asset = { id: '1', asset: 'Table', local: 'Main Hall', type: 'Furniture' } as any;
+    const asset = createFixedAsset();
     component.openUpdateFixedAsset(asset);
     expect(component.mode()).toBe('edit');
     expect(component.fixedAssetsForm.value.asset).toBe('Table');
@@ -92,7 +106,7 @@ describe('FixedAssets', () => {
   });
 
   it('should call confirmation service on delete', () => {
-    const asset = { id: '1', asset: 'Table' } as any;
+    const asset = createFixedAsset();
     component.openDeleteFixedAsset(asset);
     expect(mockConfirmationService.confirm).toHaveBeenCalled();
   });

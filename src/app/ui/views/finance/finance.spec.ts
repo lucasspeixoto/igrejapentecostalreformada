@@ -42,7 +42,7 @@ describe('Finance', () => {
     // Need to provide canvas context for PrimeNG components inside FinanceReportsBalances
     HTMLCanvasElement.prototype.getContext = vi.fn().mockReturnValue({
       // mock context
-    } as any);
+    } as unknown as CanvasRenderingContext2D);
 
     await TestBed.configureTestingModule({
       imports: [Finance, RouterModule.forRoot([]), FinanceReportsBalances],

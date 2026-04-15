@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 
 import { inject, Injectable } from '@angular/core';
 import { MembersRepository } from '../../../data/repositories/members/members-repository';

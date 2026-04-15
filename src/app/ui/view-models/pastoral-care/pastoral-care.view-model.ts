@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 
 import { inject, Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';

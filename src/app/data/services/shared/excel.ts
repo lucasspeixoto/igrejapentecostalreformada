@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import type { MonthlyTotalCategory } from '../../../domain/models/finance-reports.model';

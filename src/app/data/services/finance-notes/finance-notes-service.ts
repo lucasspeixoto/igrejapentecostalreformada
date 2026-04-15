@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from "@angular/core";
 import { injectSupabase } from "../shared/supabase";
 import type { PostgrestSingleResponse } from "@supabase/supabase-js";

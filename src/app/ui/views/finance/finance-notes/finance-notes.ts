@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, model, signal, type OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

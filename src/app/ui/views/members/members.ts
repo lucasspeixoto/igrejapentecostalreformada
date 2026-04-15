@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { DatePipe, NgClass } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';

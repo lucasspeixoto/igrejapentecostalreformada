@@ -12,18 +12,17 @@ import { LayoutService } from '../../../../data/services/shared/layout';
 import { MonthlyTotalsByYearViewModel } from '../../../view-models/finance-charts/monthly-totals-by-year.view-model';
 import { AnualInputsAndOutputsBalanceViewModel } from '../../../view-models/finance-charts/anual-inputs-and-outputs-balance.view-model';
 import { signal } from '@angular/core';
-import { Subject } from 'rxjs';
+
 vi.stubGlobal('ResizeObserver', class {
-  observe = vi.fn();
-  unobserve = vi.fn();
-  disconnect = vi.fn();
+  public observe = vi.fn();
+  public unobserve = vi.fn();
+  public disconnect = vi.fn();
 });
 
 describe('FinanceReports', () => {
   let component: FinanceReports;
   let fixture: ComponentFixture<FinanceReports>;
 
-  const mockSignal = signal([]);
   const mockFinanceNotesViewModel = {
     totalOfFinanceNotes: signal(0),
     totalOfOrganicNotes: signal(0),
@@ -64,10 +63,6 @@ describe('FinanceReports', () => {
     setSelectedYear: vi.fn(),
     chartMonthText: signal('Maio 2026'),
   };
-  const mockConfirmationService = {
-    confirm: vi.fn(),
-    requireConfirmation$: new Subject<any>().asObservable(),
-  };
   const mockLayoutService = {
     isDarkTheme: signal(false),
     layoutConfig: signal({ darkTheme: false }),
@@ -76,7 +71,7 @@ describe('FinanceReports', () => {
 
   beforeEach(async () => {
     // Mock canvas context
-    HTMLCanvasElement.prototype.getContext = vi.fn().mockReturnValue({} as any);
+    HTMLCanvasElement.prototype.getContext = vi.fn().mockReturnValue({} as unknown as CanvasRenderingContext2D);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -91,8 +86,23 @@ describe('FinanceReports', () => {
         { provide: FinanceNotesViewModel, useValue: mockFinanceNotesViewModel },
         { provide: FinanceReportsViewModel, useValue: mockFinanceReportsViewModel },
         { provide: LayoutService, useValue: mockLayoutService },
-        { provide: MonthlyTotalsByYearViewModel, useValue: { getMonthlyTotalCategories: vi.fn().mockReturnValue(signal([])), getMonthlyCategories: vi.fn().mockResolvedValue([]), months: [], availableYears: [2025, 2026] } },
-        { provide: AnualInputsAndOutputsBalanceViewModel, useValue: { availableYears: [2025, 2026], getAnualInputsAndOutputsBalance: signal([]), initAnualInputsAndOutputsBalance: vi.fn() } },
+        {
+          provide: MonthlyTotalsByYearViewModel,
+          useValue: {
+            getMonthlyTotalCategories: vi.fn().mockReturnValue(signal([])),
+            getMonthlyCategories: vi.fn().mockResolvedValue([]),
+            months: [],
+            availableYears: [2025, 2026],
+          },
+        },
+        {
+          provide: AnualInputsAndOutputsBalanceViewModel,
+          useValue: {
+            availableYears: [2025, 2026],
+            getAnualInputsAndOutputsBalance: signal([]),
+            initAnualInputsAndOutputsBalance: vi.fn(),
+          },
+        },
       ],
     }).compileComponents();
 

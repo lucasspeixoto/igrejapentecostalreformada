@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { inject, Injectable } from '@angular/core';
 import type { FormGroup } from '@angular/forms';
 import type { PostgrestSingleResponse } from '@supabase/supabase-js';

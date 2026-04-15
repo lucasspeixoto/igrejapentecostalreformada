@@ -7,6 +7,15 @@ import { FinanceReportsViewModel } from '../../../view-models/finance-reports/fi
 import { PLATFORM_ID, signal } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+interface ChartLikeData {
+  labels: string[];
+  datasets: { data: number[] }[];
+}
+
+interface MonthChangeEvent {
+  value: string;
+}
+
 if (typeof window !== 'undefined') {
   window.HTMLCanvasElement.prototype.getContext = vi.fn().mockReturnValue({
     fillRect: vi.fn(),
@@ -33,7 +42,7 @@ if (typeof window !== 'undefined') {
     transform: vi.fn(),
     rect: vi.fn(),
     clip: vi.fn(),
-  }) as any;
+  } as unknown as CanvasRenderingContext2D);
 }
 
 describe('SummaryForAssembly', () => {
@@ -88,17 +97,17 @@ describe('SummaryForAssembly', () => {
 
   it('should initialize chart data on init', () => {
     component.initChart();
-    const data = component.chartData() as any;
+    const data = component.chartData() as ChartLikeData;
     expect(data.labels).toEqual(['Cat 1', 'Cat 2']);
     expect(data.datasets[0].data).toEqual([100, 200]);
   });
 
   it('should handle month and year change', () => {
     const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
-    const event = { value: '02/2025' } as any;
-    
+    const event: MonthChangeEvent = { value: '02/2025' };
+
     component.onMonthAndYearChange(event);
-    
+
     expect(setItemSpy).toHaveBeenCalledWith('IPR-SISTEMA-GESTAO:CURRENT-MONTH', '02/2025');
     expect(mockFinanceReportsViewModel.setSelectedMonthAndYear).toHaveBeenCalledWith('02/2025');
     expect(mockFinanceNotesViewModel.getAllFinanceNotesDataHandler).toHaveBeenCalled();

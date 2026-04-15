@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 export const COLOR_CLASS_MAP: Record<string, string> = {
   red: 'bg-red-500',
   orange: 'bg-orange-500',

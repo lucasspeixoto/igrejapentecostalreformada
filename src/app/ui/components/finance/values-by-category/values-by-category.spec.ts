@@ -24,6 +24,10 @@ describe('ValuesByCategory', () => {
     setSelectedMonthAndYear: vi.fn(),
   };
 
+  interface MonthChangeEvent {
+    value: string;
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ValuesByCategory, NoopAnimationsModule],
@@ -56,7 +60,7 @@ describe('ValuesByCategory', () => {
 
   it('should handle month and year change', () => {
     const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
-    const event = { value: '02/2025' } as any;
+    const event: MonthChangeEvent = { value: '02/2025' };
     
     component.onMonthAndYearChange(event);
     

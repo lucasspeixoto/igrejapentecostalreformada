@@ -14,11 +14,30 @@ import { LoadingService } from '../../../../data/services/shared/loading/loading
 import { ExcelService } from '../../../../data/services/shared/excel';
 import { DatePipe } from '@angular/common';
 import { signal } from '@angular/core';
+import type { FinanceNote } from '../../../../domain/models/finance-note.model';
+
+function createFinanceNote(): FinanceNote {
+  return {
+    id: 'note-1',
+    created_at: '2026-01-01',
+    user_id: 'user-1',
+    member_id: 'member-1',
+    type: 'D',
+    value: 100,
+    date: '2026-01-01',
+    description: 'Test note',
+    category_id: 'category-1',
+    users: { full_name: 'User Test' },
+    finance_categories: { name: 'Category Test' },
+    members: { name: 'Member Test' },
+    is_checked: false,
+  };
+}
 
 vi.stubGlobal('ResizeObserver', class {
-  observe = vi.fn();
-  unobserve = vi.fn();
-  disconnect = vi.fn();
+  public observe = vi.fn();
+  public unobserve = vi.fn();
+  public disconnect = vi.fn();
 });
 
 describe('FinanceNotes', () => {
@@ -35,8 +54,8 @@ describe('FinanceNotes', () => {
     generateFinanceNotesForCSV: vi.fn().mockReturnValue([]),
     generateFinanceNoteAddParameters: vi.fn(),
     generateFinanceNoteEditParameters: vi.fn(),
-    financeNotes: signal([]),
-    pagedFinanceNotes: signal([]),
+    financeNotes: signal<FinanceNote[]>([]),
+    pagedFinanceNotes: signal<FinanceNote[]>([]),
     totalOfFinanceNotes: signal(0),
     totalOfOrganicNotes: signal(0),
     totalOfDebitNotes: signal(0),
@@ -66,12 +85,12 @@ describe('FinanceNotes', () => {
   };
 
   const mockAuthenticationViewModel = {
-    currentSession: signal({ user: { id: 'user-1' } } as any),
+    currentSession: signal({ user: { id: 'user-1' } }),
   };
   
   const mockConfirmationService = {
     confirm: vi.fn(),
-    requireConfirmation$: new Subject<any>().asObservable(),
+    requireConfirmation$: new Subject<unknown>().asObservable(),
   };
 
   const mockMessageService = {
@@ -144,7 +163,7 @@ describe('FinanceNotes', () => {
   });
 
   it('should handle month and year change', () => {
-    const event = { value: '04/2026' } as any;
+    const event = { value: '04/2026' };
     component.onMonthAndYearChange(event);
     
     expect(mockFinanceReportsViewModel.setSelectedMonthAndYear).toHaveBeenCalledWith('04/2026');
@@ -152,13 +171,13 @@ describe('FinanceNotes', () => {
   });
 
   it('should call getAllFinanceNotesByCategory when category filter changes', async () => {
-    const event = { value: 'cat-1' } as any;
+    const event = { value: 'cat-1' };
     await component.onCategoryFilterChange(event);
     expect(mockFinanceNotesViewModel.getAllFinanceNotesByCategory).toHaveBeenCalledWith('cat-1');
   });
 
   it('should toggle note check if month is not closed', async () => {
-    const note = { id: 'note-1', check: false } as any;
+    const note = createFinanceNote();
     mockFinanceReportsViewModel.isSelectedMonthClosed.set(false);
     mockFinanceNotesViewModel.updateFinanceNoteCheck.mockResolvedValue({ error: null });
     

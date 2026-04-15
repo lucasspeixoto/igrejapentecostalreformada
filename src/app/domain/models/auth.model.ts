@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Session, User, AuthError, type WeakPassword, type Subscription } from '@supabase/supabase-js';
 
 export interface IAuthCredentials {

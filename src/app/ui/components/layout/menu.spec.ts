@@ -19,24 +19,14 @@ describe('AppMenu', () => {
     signOut: vi.fn(),
   };
 
+  function findItemByLabelPart(labelPart: string) {
+    return component.menuItems[0].items?.find((item): boolean => item.label?.includes(labelPart) ?? false);
+  }
+
   beforeEach(async () => {
     mockUserRolesRepository.isUserAdmin.mockReturnValue(false);
     mockUserRolesRepository.isUserTreasury.mockReturnValue(false);
     mockUserRolesRepository.isUserSecretary.mockReturnValue(false);
-    // The provided snippet seems to be malformed here.
-    // Assuming the intent was to insert mockRouter after the initial mock setup.
-    // The line `mockUserRolesRepository.isUserAdmi` is incomplete and will be corrected to `mockUserRolesRepository.isUserAdmin.mockReturnValue(false);`
-    // and the mockRouter will be inserted after the initial mock setups.
-    // Also, `routerEventsSubject` is not defined in the snippet, so it will be added.
-    const routerEventsSubject = { asObservable: () => ({}) }; // Placeholder for routerEventsSubject
-    const mockRouter = {
-      events: routerEventsSubject.asObservable(),
-      url: '/test/route',
-      isActive: vi.fn().mockReturnValue(false),
-      routerState: {
-        root: {}
-      }
-    };
 
     await TestBed.configureTestingModule({
       imports: [AppMenu, RouterModule.forRoot([])],
@@ -59,31 +49,28 @@ describe('AppMenu', () => {
     fixture.detectChanges();
     const menuLabel = component.menuItems[0];
     expect(menuLabel.label).toBe('Menu');
-    
-    const items = menuLabel.items;
-    expect(items?.find(i => i.label === 'Painel')?.visible).toBe(true);
-    expect(items?.find(i => i.label === 'Membros')?.visible).toBe(false);
-    expect(items?.find(i => i.label === 'Patrimônio')?.visible).toBe(false);
-    expect(items?.find(i => i.label === 'Financeiro')?.visible).toBe(false);
+
+    expect(findItemByLabelPart('Painel')?.visible).toBe(true);
+    expect(findItemByLabelPart('Membros')?.visible).toBe(false);
+    expect(findItemByLabelPart('Patrim')?.visible).toBe(false);
+    expect(findItemByLabelPart('Financeiro')?.visible).toBe(false);
   });
 
   it('should show Membros if user is secretary', () => {
     mockUserRolesRepository.isUserSecretary.mockReturnValue(true);
     fixture.detectChanges();
-    
-    const items = component.menuItems[0].items;
-    expect(items?.find(i => i.label === 'Membros')).toBeTruthy();
+
+    expect(findItemByLabelPart('Membros')).toBeTruthy();
   });
 
   it('should show all items if user is admin', () => {
     mockUserRolesRepository.isUserAdmin.mockReturnValue(true);
     fixture.detectChanges();
-    
-    const items = component.menuItems[0].items;
-    expect(items?.find(i => i.label === 'Painel')).toBeTruthy();
-    expect(items?.find(i => i.label === 'Membros')).toBeTruthy();
-    expect(items?.find(i => i.label === 'Patrimônio')).toBeTruthy();
-    expect(items?.find(i => i.label === 'Atendimento Pastoral')).toBeTruthy();
-    expect(items?.find(i => i.label === 'Financeiro')).toBeTruthy();
+
+    expect(findItemByLabelPart('Painel')).toBeTruthy();
+    expect(findItemByLabelPart('Membros')).toBeTruthy();
+    expect(findItemByLabelPart('Patrim')).toBeTruthy();
+    expect(findItemByLabelPart('Atendimento Pastoral')).toBeTruthy();
+    expect(findItemByLabelPart('Financeiro')).toBeTruthy();
   });
 });

@@ -7,21 +7,32 @@ import { PastoralCareCategoriesRepository } from '../../../data/repositories/pas
 import { ExcelService } from '../../../data/services/shared/excel';
 import { DatePipe } from '@angular/common';
 import { signal } from '@angular/core';
-
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import type { PastoralCare } from '../../../domain/models/pastoral-care.model';
+
+function createPastoralCare(): PastoralCare {
+  return {
+    id: '1',
+    created_at: '2026-01-01',
+    type_id: 1,
+    date: '2026-03-16',
+    member_id: 1,
+    pastor: 'Pastor A',
+    description: 'Test Description',
+    members: { name: 'Member Test' },
+    pastoral_care_types: { name: 'Visit' },
+  };
+}
 
 vi.stubGlobal('ResizeObserver', class ResizeObserver {
-  observe = vi.fn();
-  unobserve = vi.fn();
-  disconnect = vi.fn();
+  public observe = vi.fn();
+  public unobserve = vi.fn();
+  public disconnect = vi.fn();
 });
 
 describe('PastoralCareList', () => {
   let component: PastoralCareList;
   let fixture: ComponentFixture<PastoralCareList>;
-
-  const routerEventsSubject = new Subject<any>();
 
   const mockPastoralCareViewModel = {
     findAll: vi.fn().mockResolvedValue(undefined),
@@ -33,17 +44,6 @@ describe('PastoralCareList', () => {
     totalOfPastoralCare: signal(0),
   };
 
-  const mockRouter = {
-    events: routerEventsSubject.asObservable(),
-    url: '/test/route',
-    isActive: vi.fn().mockReturnValue(false),
-    createUrlTree: vi.fn().mockReturnValue({}),
-    serializeUrl: vi.fn().mockReturnValue(''),
-    routerState: {
-      root: {}
-    }
-  };
-
   const mockPastoralCareCategoriesRepository = {
     findAll: vi.fn().mockResolvedValue(undefined),
     categories: signal([]),
@@ -51,7 +51,7 @@ describe('PastoralCareList', () => {
 
   const mockConfirmationService = {
     confirm: vi.fn(),
-    requireConfirmation$: new Subject<any>().asObservable(),
+    requireConfirmation$: new Subject<unknown>().asObservable(),
   };
 
   const mockExcelService = {
@@ -111,7 +111,7 @@ describe('PastoralCareList', () => {
   });
 
   it('should call confirmation service on delete', () => {
-    const care = { id: '1', pastor: 'Pastor A' } as any;
+    const care = createPastoralCare();
     component.openDeletePastoralCare(care);
     expect(mockConfirmationService.confirm).toHaveBeenCalled();
   });
