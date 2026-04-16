@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { environment } from "../../../../environments/environment";
 import type { AuthChangeEvent, AuthTokenResponsePassword, Session, UserResponse } from "@supabase/supabase-js";
 import type { AuthChangesResponse, ILogoutResponse, IResetPasswordResponse, IUserSessionResponse } from "../../../domain/models/auth.model";
 import { injectSupabase } from "../shared/supabase";
@@ -46,11 +47,18 @@ export class AuthenticationService implements IAuthenticationService {
 
   public getSessionFromStorage(): Session | null {
     let session: Session | null = null;
-    const sessionData = localStorage.getItem('sb-mdbzzvilhpogskdpriyu-auth-token');
+    try {
+      const url = new URL(environment.supabaseUrl);
+      const projectId = url.hostname.split('.')[0];
+      const sessionData = localStorage.getItem(`sb-${projectId}-auth-token`);
 
-    if (sessionData) {
-      const parsedSession = JSON.parse(sessionData);
-      session = parsedSession?.currentSession || parsedSession?.session || null;
+      if (sessionData) {
+        const parsedSession = JSON.parse(sessionData);
+        session = parsedSession?.currentSession || parsedSession?.session || null;
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to parse session from storage', JSON.stringify(error));
     }
 
     return session;
