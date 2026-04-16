@@ -40,7 +40,7 @@ export function createFinanceNoteForm(): FormGroup<FinanceNoteFormControl> {
       nonNullable: false,
     }),
     description: new FormControl('', {
-      validators: [Validators.min(3)],
+      validators: [Validators.min(3), Validators.required],
       nonNullable: true,
     }),
   });
