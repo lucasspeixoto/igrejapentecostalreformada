@@ -36,6 +36,7 @@ import { FinanceReportsViewModel } from '../../../view-models/finance-reports/fi
 import { MembersViewModel } from '../../../view-models/members/members.view-model';
 import { FirstAndLastnamePipe } from '../../pipes/first-and-lastname/first-and-lastname.pipe';
 import { PrimengDatePipe } from '../../pipes/primeng-date/primeng-date.pipe';
+import { getSupabaseErrorMessage } from '../../../../utils/messages';
 
 const PRIMENG = [
   TooltipModule,
@@ -255,19 +256,35 @@ export class FinanceNotes implements OnInit {
 
     const userId = this.authenticationViewModel.currentSession()?.user.id as string;
 
+    let result;
+
     if (this.mode() === 'add') {
       const financeNote = this.financeNotesViewModel.generateFinanceNoteAddParameters(transformedFinanceNoteFormData, userId);
-      const { error } = await this.financeNotesViewModel.createFinanceNote(financeNote);
-      if (!error) this.refetchFinanceNotesAndReports();
+      result = await this.financeNotesViewModel.createFinanceNote(financeNote);
     } else if (this.mode() === 'edit') {
       const financeNote = this.financeNotesViewModel.generateFinanceNoteEditParameters(transformedFinanceNoteFormData, userId);
-      const { error } = await this.financeNotesViewModel.editFinanceNote(financeNote);
-      if (!error) this.refetchFinanceNotesAndReports();
+      result = await this.financeNotesViewModel.editFinanceNote(financeNote);
+    }
+
+    if (result?.error) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro ao salvar',
+        detail: getSupabaseErrorMessage(result.error),
+        life: 5000,
+      });
+    } else {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: `Nota ${this.mode() === 'add' ? 'adicionada' : 'editada'} com sucesso!`,
+        life: 3000,
+      });
+      this.refetchFinanceNotesAndReports();
+      this.hideDialog();
     }
 
     this.loadingService.isLoading.set(false);
-
-    this.hideDialog();
   }
 
   public refetchFinanceNotesAndReports(): void {
