@@ -1,6 +1,6 @@
 # Plataforma Igreja Pentecostal Reformada
 
-Uma plataforma de gestão completa para igrejas, desenvolvida com Angular 21, PrimeNG e Supabase.
+Uma plataforma de gestão completa para igrejas.
 
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=for-the-badge&logo=angular)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript)
